@@ -1,0 +1,26 @@
+package fraction;
+
+public class Fraction {
+	public int numerateur;
+	public int denominateur;
+	
+	public Fraction() {
+		numerateur = 0;
+		denominateur = 0;
+	}
+	
+	public String toString() {
+		return numerateur + "/" + denominateur;
+	}
+	
+	public boolean setFraction(int numerateur, int denominateur) {
+		if(denominateur != 0) {
+			this.numerateur = numerateur;
+			this.denominateur = denominateur;
+			return true;
+		}
+		else return false;
+	}
+	
+	
+}

@@ -1,0 +1,16 @@
+package fraction;
+
+public class mainClass {
+
+	public static void main(String[] args) {
+		Fraction f = new Fraction();
+		f.setFraction(3*2,5*2);
+		System.out.println(f);
+		Fraction f2 = new Fraction(2,5);
+		f = f.addition(f2);
+		System.out.println(f);
+		f.setIreductible();
+		System.out.println(f);
+	}
+
+}

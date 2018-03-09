@@ -1,0 +1,12 @@
+package fraction;
+
+public class mainClass {
+
+	public static void main(String[] args) {
+		Fraction f = new Fraction();
+		f = Fraction.UN;
+		System.out.println(f);
+		System.out.println(f.getDouble());
+	}
+
+}

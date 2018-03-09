@@ -1,0 +1,75 @@
+package fraction;
+
+public class Fraction {
+	public int numerateur;
+	public int denominateur;
+	public final static Fraction ZERO = new Fraction(0,1);
+	public final static Fraction UN = new Fraction(1,1);
+	
+	public Fraction() {
+		numerateur = 0;
+		denominateur = 1;
+	}
+	public Fraction(int numerateur, int denominateur) {
+		if(denominateur != 0) {
+			this.numerateur = numerateur;
+			this.denominateur = denominateur;
+		}
+		else {
+			this.numerateur = ZERO.numerateur;
+			this.denominateur = ZERO.denominateur;
+		}
+		
+	}
+	
+	public String toString() {
+		return numerateur + "/" + denominateur;
+	}
+	
+	public boolean setFraction(int numerateur, int denominateur) {
+		if(denominateur != 0) {
+			this.numerateur = numerateur;
+			this.denominateur = denominateur;
+			return true;
+		}
+		else return false;
+	}
+	
+	public int getNumerateur() {
+		return numerateur;
+	}
+	
+	public int getDenominateur() {
+		return denominateur;
+	}
+	
+	public double getDouble() {
+		double d = ((double)numerateur)/((double)denominateur);
+		return d;
+	}
+	
+	public Fraction addition(Fraction f2) {
+		Fraction f3 = new Fraction();
+		f3.setFraction(this.numerateur*f2.denominateur + f2.numerateur*this.denominateur,this.numerateur*f2.denominateur);
+		return f3;
+	}
+	
+	private int pgcd(int i, int j) {
+		int resultat;
+		while((resultat = i%j ) != 0) {
+			System.out.println(i + "%" + j + " = " + resultat);
+			i = j;
+			j = resultat;
+		}
+		System.out.println("pgcd = " + resultat);
+		return resultat;
+	}
+	
+	public void setIreductible() {
+		
+		int reduction = 1;
+		reduction = pgcd(this.numerateur,this.denominateur);
+		this.numerateur /= reduction;
+		this.denominateur /= reduction;
+	}
+}

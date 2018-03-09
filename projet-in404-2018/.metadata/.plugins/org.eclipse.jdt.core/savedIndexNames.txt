@@ -1,0 +1,8 @@
+INDEX VERSION 1.130+/home/user/Bureau/projet-in404-2018/.metadata/.plugins/org.eclipse.jdt.core
+3178274961.index
+2401355864.index
+101321923.index
+2268045572.index
+3645537925.index
+1723154816.index
+3163571840.index

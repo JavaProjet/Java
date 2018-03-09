@@ -1,0 +1,18 @@
+package fraction;
+
+public class mainClass {
+
+	public static void main(String[] args) {
+		Fraction f = new Fraction();
+		f.setFraction(6,10);
+		Fraction f2 = new Fraction(2,5);
+		
+		System.out.println(f + " + " + f2 + " = " + f.addition(f2));
+		
+		f = f.addition(f2);
+		
+		f.setIreductible();
+		System.out.println("sous forme ireductible : " + f);
+	}
+
+}
