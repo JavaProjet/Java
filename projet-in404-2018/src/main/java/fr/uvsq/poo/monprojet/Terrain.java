@@ -11,13 +11,13 @@ public class Terrain {
 	
 	
 	public Terrain(int largeur, int hauteur) {
-		t = new char[largeur][hauteur];
+		t = new char[hauteur][largeur];
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		int i,j;
-		for(i = 0; i < largeur; i++) {
-			for(j = 0; j < hauteur; i++) {
-				t[i][j] = SOL;
+		for(i = 0; i < hauteur; i++) {
+			for(j = 0; j < largeur; j++) {
+				t[i][j] = MUR;
 			}
 		}
 	}
@@ -25,9 +25,9 @@ public class Terrain {
 	public String toString() {
 		String s = "";
 		int i,j;
-		for(i = 0; i < largeur; i++) {
-			for(j = 0; j < hauteur; i++) {
-				s += t[i][j];
+		for(i = 0; i < hauteur; i++) {
+			for(j = 0; j < largeur; j++) {
+				s += t[i][j] + " ";
 			}
 			s += "\n";
 		}
