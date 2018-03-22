@@ -45,5 +45,10 @@ public class Point2D {
 		x -= nombre;
 	}
 
-	
+	public boolean equals(Point2D p) {
+		if(p.getX() == this.x && p.getY() == this.y) {
+			return true;
+		}
+		return false;
+	}
 }

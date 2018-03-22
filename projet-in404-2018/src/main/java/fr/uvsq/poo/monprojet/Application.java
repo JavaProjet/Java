@@ -14,15 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public enum Application {
     APPLICATION;
-
     private static final Logger logger = LogManager.getLogger(Application.class);
-
-    /**
-     * Un exemple de méthode.
-     */
-    public String getGreetings() {
-        return "Hello !";
-    }
 
     /**
      * Cette méthode est destinée à initialiser et lancer l'exécution du programme.
@@ -32,10 +24,10 @@ public enum Application {
     public void run(String[] args) {
         logger.trace("Début du programme");
         
-        Terrain t = new Terrain(10,10);
+        Terrain t = new Terrain(20,20);
+        t.joueur.position.setPosition(5, 2);
         System.out.println(t);
-        
-        
+        t.play();
         
         
         logger.trace("Fin du programme");

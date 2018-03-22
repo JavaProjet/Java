@@ -1,18 +1,49 @@
 package fr.uvsq.poo.monprojet.personnage;
 
+import fr.uvsq.poo.monprojet.Terrain;
 import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public abstract class Personnage {
 	protected char vision; //direction vers laquelle avancer
 	public Point2D position; //position sur le terrain
-	protected Fraction pointDeVie; //points de vie et points de vies max du personnage
+	public Fraction pointDeVie; //points de vie et points de vies max du personnage
+	protected char representation; //caractere representant le personnage sur le terrain
 	
 	public Personnage(int x, int y, int PointDeVie, char vision) {
 		this.setVision(vision);
 		this.pointDeVie = new Fraction(PointDeVie,PointDeVie);
 		position = new Point2D(x,y);
 		
+	}
+	
+	public Personnage() {
+		this.setVision(vision);
+		this.pointDeVie = new Fraction(1,1);
+		position = new Point2D(-1,-1);
+		
+	}
+	
+	public boolean tournerGauche() {
+		if	   (vision == 'N') vision = 'O';
+		else if(vision == 'S') vision = 'E';
+		else if(vision == 'O') vision = 'S';
+		else if(vision == 'E') vision = 'N';
+		else {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean tournerDroite() {
+		if	   (vision == 'N') vision = 'E';
+		else if(vision == 'S') vision = 'O';
+		else if(vision == 'O') vision = 'N';
+		else if(vision == 'E') vision = 'S';
+		else {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean setVision(char direction) {
@@ -27,11 +58,26 @@ public abstract class Personnage {
 		return true;
 	}
 	
+	public String getVision() {
+		if(vision == 'N') return "Nord";
+		if(vision == 'S') return "Sud";
+		if(vision == 'O') return "Ouest";
+		if(vision == 'E') return "Est";
+		else return "erreur, vision inconnu : " + vision;
+	}
+	
 	public void avance() {
-		if(vision == 'O') position.deplacementGauche(1);;
+		if(vision == 'O') position.deplacementGauche(1);
 		if(vision == 'N') position.deplacementHaut(1);
 		if(vision == 'E') position.deplacementDroite(1);
 		if(vision == 'S') position.deplacementBas(1);
+	}
+	
+	public void recule() {
+		if(vision == 'O') position.deplacementGauche(-1);
+		if(vision == 'N') position.deplacementHaut(-1);
+		if(vision == 'E') position.deplacementDroite(-1);
+		if(vision == 'S') position.deplacementBas(-1);
 	}
 	
 	public void setPointDeVie(int PointDeVie) {
@@ -70,5 +116,26 @@ public abstract class Personnage {
 		else {
 			this.setPointDeVie(res);
 		}
+	}
+	
+	public char getRepresentation() {
+		return representation;
+	}
+	
+	public boolean correctPosition(Terrain t,int x, int y) { //si x=-1 et y=-1 la derniere condition est ignoré
+		
+		if(position.getY() > -1 && position.getY() < t.getHauteur()) { // si la position du personnage est incluse dans le terrain en Y
+			if(position.getX() > -1 && position.getX() < t.getLargeur()) { // idem en X
+				if(t.t[position.getX()][position.getY()] == Terrain.SOL ) { //si la position du personnage correspond a un sol dans le terrain
+					if(x == -1 && y == -1) { // si on ignore la condition ci-dessous
+						return true;
+					}
+					else if(position.getX() == x && position.getY() == y) { //si la position du personnage est egale a la position x,y
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
