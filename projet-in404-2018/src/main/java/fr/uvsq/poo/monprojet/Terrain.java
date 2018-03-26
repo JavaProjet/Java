@@ -1,6 +1,7 @@
 package fr.uvsq.poo.monprojet;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
@@ -37,13 +38,7 @@ public class Terrain {
 		int i,j;
 		for(j = hauteur - 1; j >= 0; j--) {
 			for(i = 0; i < largeur; i++) {
-				
-				if(joueur.correctPosition(this,i,j)) {
-					s += joueur.getRepresentation();
-				}
-				else {
-					s += t[i][j];
-				}
+				s += t[i][j];
 				s += " ";
 			}
 			s += "\n";
@@ -59,10 +54,23 @@ public class Terrain {
 		return hauteur;
 	}
 	
-	public boolean addPnj(Pnj p) {
-		if(p.position.getX() == -1 || p.position.getY() == -1) return false;
-		personnage.add(p);
+	public boolean addRandomPnj() {
+		Random r = new Random();
+		int alea = r.nextInt(10) + 2;
+		for(int i = 0; i < alea; i++) {
+			personnage.add(Pnj.spawn(this));
+		}
 		return true;
+	}
+	
+	public boolean correctPosition(int x,int y) { //si la position x,y est dans le terrain
+		
+		if(y > -1 && y < hauteur) { // si la position x,y est incluse dans le terrain en Y
+			if(x > -1 && x < largeur) { // idem en X
+				if(t[x][y] == SOL) 	return true;
+			}
+		}
+		return false;
 	}
 	
 	public void play() {
@@ -71,33 +79,74 @@ public class Terrain {
 		while(s.equals("stop") == false) {
 			s = "";
 			s = entree.nextLine();
-			if(s.equals("1")) {
-				joueur.avance();
-				if(joueur.correctPosition(this,-1,-1) == false)
-					joueur.recule();
+			if(s.equals("z")) {
+				joueur.setVision('N');
+				if(this.correctPosition(joueur.position.getX(), joueur.position.getY() + 1)) {
+					if(t[joueur.position.getX()][joueur.position.getY() + 1] == SOL) {
+						joueur.avance(); //on monte, la case du dessous redevient sol
+						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
+						this.t[joueur.position.getX()][joueur.position.getY() - 1] = SOL;
+					}
+				}
 				System.out.print(this);
 			}
-			else if(s.equals("2")) {
-				joueur.tournerGauche();
+			
+			else if(s.equals("q")) {
+				joueur.setVision('O');
+				if(this.correctPosition(joueur.position.getX() - 1, joueur.position.getY())) {
+					if(t[joueur.position.getX() - 1][joueur.position.getY()] == SOL) {
+						joueur.avance(); //on monte, la case du dessous redevient sol
+						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
+						this.t[joueur.position.getX() + 1][joueur.position.getY()] = SOL;
+					}
+				}
 				System.out.print(this);
 			}
-			else if(s.equals("3")) {
-				joueur.tournerDroite();
+			
+			else if(s.equals("s")) {
+				joueur.setVision('S');
+				if(this.correctPosition(joueur.position.getX(), joueur.position.getY() -1)) {
+					if(t[joueur.position.getX()][joueur.position.getY() - 1] == SOL) {
+						joueur.avance(); //on monte, la case du dessous redevient sol
+						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
+						this.t[joueur.position.getX()][joueur.position.getY() + 1] = SOL;
+					}
+				}
 				System.out.print(this);
 			}
+			
+			else if(s.equals("d")) {
+				joueur.setVision('E');
+				if(this.correctPosition(joueur.position.getX() + 1, joueur.position.getY())) {
+					if(t[joueur.position.getX() + 1][joueur.position.getY()] == SOL) {
+						joueur.avance(); //on monte, la case du dessous redevient sol
+						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
+						this.t[joueur.position.getX() - 1][joueur.position.getY()] = SOL;
+					}
+				}
+				System.out.print(this);
+			}
+			
 			else if(s.equals("help")) {
 				System.out.println("\"commande\".\"informations de la commande\"");
-				System.out.println("1.avancer");
-				System.out.println("2.tourner à gauche");
-				System.out.println("3.tourner à droite");
+				System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
 				System.out.println("info.obtenir des informations sur votre personnage");
 			}
 			else if(s.equals("info")) {
 				System.out.println("points de vies : " + joueur.pointDeVie);
-				System.out.println("vous regardez dans cette direction : " + joueur.getVision());
 				System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 			}
-			else System.out.println("entrez help pour obtenir la liste des commandes");
+			else if(s.equals("damage")) {
+				joueur.setDamage(10);
+			}
+			else if(s.length() == 42) {
+				joueur.regenLife(joueur.pointDeVie.getDenominateur());
+			}
+			else {
+				if(s.equals("stop") == false)
+					System.out.println("> help pour obtenir la liste des commandes\n elle a la reponse à tout ;)");
+			}
+			
 		}
 		entree.close();
 	}

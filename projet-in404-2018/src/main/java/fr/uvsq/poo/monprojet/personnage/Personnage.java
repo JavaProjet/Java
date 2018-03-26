@@ -1,6 +1,5 @@
 package fr.uvsq.poo.monprojet.personnage;
 
-import fr.uvsq.poo.monprojet.Terrain;
 import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
@@ -11,14 +10,14 @@ public abstract class Personnage {
 	protected char representation; //caractere representant le personnage sur le terrain
 	
 	public Personnage(int x, int y, int PointDeVie, char vision) {
-		this.setVision(vision);
+		this.vision = 'N';
 		this.pointDeVie = new Fraction(PointDeVie,PointDeVie);
 		position = new Point2D(x,y);
 		
 	}
 	
 	public Personnage() {
-		this.setVision(vision);
+		vision = 'N';
 		this.pointDeVie = new Fraction(1,1);
 		position = new Point2D(-1,-1);
 		
@@ -80,41 +79,30 @@ public abstract class Personnage {
 		if(vision == 'S') position.deplacementBas(-1);
 	}
 	
-	public void setPointDeVie(int PointDeVie) {
-		pointDeVie.setNumerateur(PointDeVie);
-	}
-	
-	public int getPointDeVie() {
-		return pointDeVie.getNumerateur();
-	}
-	
-	public int getMaxPointDeVie() {
-		return pointDeVie.getDenominateur();
-	}
 	
 	public void setMaxPointDeVie(int newMax) {
 		pointDeVie.setDenominateur(newMax);
 	}
 	
 	public boolean setDamage(int damage) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
-		int res = this.getPointDeVie() - damage;
+		int res = this.pointDeVie.getNumerateur() - damage;
 		if(res <= 0 ) {
-			this.setPointDeVie(0);
+			this.pointDeVie.setNumerateur(0);
 			return false;
 		}
 		else {
-			this.setPointDeVie(res);
+			this.pointDeVie.setNumerateur(res);
 			return true;
 		}
 	}
 	
 	public void regenLife(int points) { //redonne des points de vie au personnage
-		int res = this.getPointDeVie() + points;
-		if(res >= this.getMaxPointDeVie() ) {
-			this.setPointDeVie(this.getMaxPointDeVie());
+		int res = this.pointDeVie.getNumerateur() + points;
+		if(res >= this.pointDeVie.getDenominateur() ) {
+			this.pointDeVie.setNumerateur(this.pointDeVie.getDenominateur());
 		}
 		else {
-			this.setPointDeVie(res);
+			this.pointDeVie.setNumerateur(res);
 		}
 	}
 	
@@ -122,20 +110,4 @@ public abstract class Personnage {
 		return representation;
 	}
 	
-	public boolean correctPosition(Terrain t,int x, int y) { //si x=-1 et y=-1 la derniere condition est ignoré
-		
-		if(position.getY() > -1 && position.getY() < t.getHauteur()) { // si la position du personnage est incluse dans le terrain en Y
-			if(position.getX() > -1 && position.getX() < t.getLargeur()) { // idem en X
-				if(t.t[position.getX()][position.getY()] == Terrain.SOL ) { //si la position du personnage correspond a un sol dans le terrain
-					if(x == -1 && y == -1) { // si on ignore la condition ci-dessous
-						return true;
-					}
-					else if(position.getX() == x && position.getY() == y) { //si la position du personnage est egale a la position x,y
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
 }

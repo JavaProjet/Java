@@ -25,7 +25,7 @@ public enum Application {
         logger.trace("Début du programme");
         
         Terrain t = new Terrain(20,20);
-        t.joueur.position.setPosition(5, 2);
+        t.joueur.initDepart(t);
         System.out.println(t);
         t.play();
         
