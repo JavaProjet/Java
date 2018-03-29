@@ -29,7 +29,6 @@ public enum Application {
         System.out.println(t);
         t.play();
         
-        
         logger.trace("Fin du programme");
     }
 

@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
+import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.personnage.Pj;
 
 public class Terrain {
@@ -131,14 +132,35 @@ public class Terrain {
 				System.out.println("\"commande\".\"informations de la commande\"");
 				System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
 				System.out.println("info.obtenir des informations sur votre personnage");
+				System.out.println("i.utiliser un objet de l'inventaire");
+				System.out.println("r.ramasser un objet");
 			}
 			else if(s.equals("info")) {
 				System.out.println("points de vies : " + joueur.pointDeVie);
 				System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 			}
-			else if(s.equals("damage")) {
-				joueur.setDamage(10);
+			
+			else if(s.equals("i")) {
+				if(joueur.inventory.isEmpty()) {
+					System.out.println("inventaire vide");
+				}
+				else {
+					for(int i = 0; i < joueur.inventory.size(); i++) {
+						System.out.println(i + "." + joueur.inventory.get(i).getNom());
+					}
+					System.out.println("quel objet utiliser ?");
+					s = "";
+					s = entree.nextLine();
+					if(s.charAt(0) >= '0' && s.charAt(0) <= '9' && s.charAt(1) == '\0') {
+						joueur.inventory.get(s.charAt(0) - 48);
+					}
+				}
 			}
+			
+			else if(s.equals("r")) {
+				
+			}
+			
 			else if(s.length() == 42) {
 				joueur.regenLife(joueur.pointDeVie.getDenominateur());
 			}

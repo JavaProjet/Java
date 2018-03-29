@@ -3,8 +3,8 @@ package fr.uvsq.poo.monprojet.personnage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import fr.uvsq.poo.monprojet.Objet;
 import fr.uvsq.poo.monprojet.Terrain;
+import fr.uvsq.poo.monprojet.objets.Objet;
 
 public class Pj extends Personnage{
 	public ArrayList <Objet> inventory;
@@ -35,4 +35,5 @@ public class Pj extends Personnage{
 		}
 		t.t[l][h] = this.representation;
 	}
+	
 }
