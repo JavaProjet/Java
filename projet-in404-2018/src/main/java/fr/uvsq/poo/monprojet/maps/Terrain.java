@@ -1,4 +1,4 @@
-package fr.uvsq.poo.monprojet;
+package fr.uvsq.poo.monprojet.maps;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,16 +14,19 @@ public class Terrain {
 	public ArrayList <Pnj> personnage;
 	public ArrayList <Objet> objets;
 	public Pj joueur;
+	public Porte entree;
+	public Porte sortie;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
 	public static final char SOL = '.';
+	public static final char PORTE = 'P';
 	
 	
-	public Terrain(int largeur, int hauteur) {
+	public Terrain(int largeur, int hauteur, Pj joueur) {
 		personnage = new ArrayList <Pnj> ();
 		objets = new ArrayList <Objet> ();
 		t = new char[largeur][hauteur];
-		joueur = new Pj(0,0,20,'N');
+		this.joueur = joueur;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		int i,j;
@@ -44,6 +47,8 @@ public class Terrain {
 			}
 			s += "\n";
 		}
+		t[entree.p.getX()][entree.p.getY()] = PORTE;
+		t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 		return s;
 	}
 	
@@ -75,6 +80,7 @@ public class Terrain {
 	}
 	
 	public void play() {
+		System.out.println(this);
 		Scanner entree = new Scanner(System.in);
 		String s = "";
 		while(s.equals("stop") == false) {

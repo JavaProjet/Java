@@ -3,6 +3,8 @@ package fr.uvsq.poo.monprojet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.uvsq.poo.monprojet.maps.Generation;
+
 /**
  * Cette classe est le programme principal du projet.
  *
@@ -23,12 +25,8 @@ public enum Application {
      */
     public void run(String[] args) {
         logger.trace("Début du programme");
-        
-        Terrain t = new Terrain(20,20);
-        t.joueur.initDepart(t);
-        System.out.println(t);
-        t.play();
-        
+        Generation g = new Generation();
+        g.carte.get(0).play();
         logger.trace("Fin du programme");
     }
 

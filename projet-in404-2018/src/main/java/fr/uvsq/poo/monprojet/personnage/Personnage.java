@@ -9,11 +9,10 @@ public abstract class Personnage {
 	public Fraction pointDeVie; //points de vie et points de vies max du personnage
 	protected char representation; //caractere representant le personnage sur le terrain
 	
-	public Personnage(int x, int y, int PointDeVie, char vision) {
+	public Personnage(int x, int y, int PointDeVie) {
 		this.vision = 'N';
 		this.pointDeVie = new Fraction(PointDeVie,PointDeVie);
 		position = new Point2D(x,y);
-		
 	}
 	
 	public Personnage() {
