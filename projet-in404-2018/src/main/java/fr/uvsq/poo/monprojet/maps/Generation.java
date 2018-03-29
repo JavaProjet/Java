@@ -29,7 +29,9 @@ public class Generation {
 		t.t[x-1][h] = Terrain.PORTE;
 		t.t[0][h] = Terrain.PORTE;
 		t.entree = new Porte(t,0,h,true);
+		t.entree.t = null;
 		t.sortie = new Porte(t,x-1,h,false);
+		t.sortie.t = null;
 		return t;
 	}
 }

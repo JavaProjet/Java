@@ -47,8 +47,6 @@ public class Terrain {
 			}
 			s += "\n";
 		}
-		t[entree.p.getX()][entree.p.getY()] = PORTE;
-		t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 		return s;
 	}
 	
@@ -93,6 +91,8 @@ public class Terrain {
 						joueur.avance(); //on monte, la case du dessous redevient sol
 						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 						this.t[joueur.position.getX()][joueur.position.getY() - 1] = SOL;
+						t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
+						t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 					}
 				}
 				System.out.print(this);
@@ -105,6 +105,8 @@ public class Terrain {
 						joueur.avance(); //on monte, la case du dessous redevient sol
 						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 						this.t[joueur.position.getX() + 1][joueur.position.getY()] = SOL;
+						t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
+						t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 					}
 				}
 				System.out.print(this);
@@ -117,6 +119,8 @@ public class Terrain {
 						joueur.avance(); //on monte, la case du dessous redevient sol
 						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 						this.t[joueur.position.getX()][joueur.position.getY() + 1] = SOL;
+						t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
+						t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 					}
 				}
 				System.out.print(this);
@@ -129,6 +133,8 @@ public class Terrain {
 						joueur.avance(); //on monte, la case du dessous redevient sol
 						this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 						this.t[joueur.position.getX() - 1][joueur.position.getY()] = SOL;
+						t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
+						t[sortie.p.getX()][sortie.p.getY()] = PORTE;
 					}
 				}
 				System.out.print(this);
