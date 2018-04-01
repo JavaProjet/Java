@@ -30,4 +30,14 @@ public class Pj extends Personnage{
 		t.joueur.position.setPosition(t.sortie.p.getX(), t.sortie.p.getY());
 	}
 	
+	public void addObjet(Objet o) {
+		inventory.add(o);
+	}
+	
+	public void afficherInventaire() {
+		for(int i = 1; i < inventory.size() + 1; i++) {
+			System.out.println(i + "." + inventory.get(i - 1).getNom());
+		}
+	}
+	
 }
