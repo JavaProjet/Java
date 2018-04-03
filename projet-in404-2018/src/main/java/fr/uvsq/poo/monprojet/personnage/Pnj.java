@@ -25,9 +25,21 @@ public class Pnj extends Personnage{
 			h = r1.nextInt(t.getHauteur());
 		}while(t.t[l][h] != Terrain.SOL);
 		p.position.setPosition(l,h);
+		p.setDevant();
 		p.pointDeVie.setFraction(30, 30);
 		t.t[l][h] = p.getRepresentation();
 		t.personnage.add(p);
 		return p;
 	}
+	
+	public static char probaDeplacement() {
+		Random r1 = new Random();
+		int p = r1.nextInt(10);
+		if(p == 0) return 'N';
+		if(p == 1) return 'S';
+		if(p == 2) return 'E';
+		if(p == 3) return 'O';
+		else return 'X';
+	}
+	
 }

@@ -6,6 +6,7 @@ import fr.uvsq.poo.monprojet.maths.point.Point2D;
 public abstract class Personnage {
 	protected char vision; //direction vers laquelle avancer
 	public Point2D position; //position sur le terrain
+	public Point2D devantLui; //position devant lui, depend de sa vision
 	public Fraction pointDeVie; //points de vie et points de vies max du personnage
 	protected char representation; //caractere representant le personnage sur le terrain
 	
@@ -19,29 +20,8 @@ public abstract class Personnage {
 		vision = 'N';
 		this.pointDeVie = new Fraction(1,1);
 		position = new Point2D(-1,-1);
+		devantLui = new Point2D(-1,-1);
 		
-	}
-	
-	public boolean tournerGauche() {
-		if	   (vision == 'N') vision = 'O';
-		else if(vision == 'S') vision = 'E';
-		else if(vision == 'O') vision = 'S';
-		else if(vision == 'E') vision = 'N';
-		else {
-			return false;
-		}
-		return true;
-	}
-	
-	public boolean tournerDroite() {
-		if	   (vision == 'N') vision = 'E';
-		else if(vision == 'S') vision = 'O';
-		else if(vision == 'O') vision = 'N';
-		else if(vision == 'E') vision = 'S';
-		else {
-			return false;
-		}
-		return true;
 	}
 	
 	public boolean setVision(char direction) {
@@ -53,7 +33,16 @@ public abstract class Personnage {
 			return false;
 		}
 		vision = direction;
+		this.setDevant();
 		return true;
+	}
+	
+	protected void setDevant() {
+		devantLui.setPosition(position.getX(), position.getY());
+		if(vision == 'N') devantLui.deplacementHaut(1);
+		if(vision == 'S') devantLui.deplacementBas(1);
+		if(vision == 'O') devantLui.deplacementGauche(1);
+		if(vision == 'E') devantLui.deplacementDroite(1);
 	}
 	
 	public String getVision() {
@@ -69,15 +58,8 @@ public abstract class Personnage {
 		if(vision == 'N') position.deplacementHaut(1);
 		if(vision == 'E') position.deplacementDroite(1);
 		if(vision == 'S') position.deplacementBas(1);
+		this.setDevant();
 	}
-	
-	public void recule() {
-		if(vision == 'O') position.deplacementGauche(-1);
-		if(vision == 'N') position.deplacementHaut(-1);
-		if(vision == 'E') position.deplacementDroite(-1);
-		if(vision == 'S') position.deplacementBas(-1);
-	}
-	
 	
 	public void setMaxPointDeVie(int newMax) {
 		pointDeVie.setDenominateur(newMax);

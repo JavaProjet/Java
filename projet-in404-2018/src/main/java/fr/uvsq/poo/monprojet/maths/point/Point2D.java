@@ -29,6 +29,10 @@ public class Point2D {
 		return y;
 	}
 	
+	public String toString() {
+		return ("position : " + x + "," + y + "\n");
+	}
+	
 	public void deplacementHaut(int nombre) {
 		y += nombre;
 	}

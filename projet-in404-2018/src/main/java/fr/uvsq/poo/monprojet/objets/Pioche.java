@@ -10,8 +10,6 @@ public class Pioche extends Objet{
 		super("Pioche",'T');
 	}
 	
-	
-	
 	public static Pioche spawn(Terrain t, int max) {
 		Random r1 = new Random();
 		Pioche p = new Pioche();
@@ -24,5 +22,18 @@ public class Pioche extends Objet{
 		t.t[l][h] = p.getRepresentation();
 		t.objets.add(p);
 		return p;
+	}
+	
+	public void use(Terrain t) {
+		super.use(t);
+		
+		if(t.correctPosition(t.joueur.devantLui.getX(), t.joueur.devantLui.getY()))
+			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.MUR) {
+				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
+				System.out.println(t);
+			}
+			else {
+				System.out.println("Il n'y a pas de mur à casser devant vous");
+			}
 	}
 }

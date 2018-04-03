@@ -23,11 +23,13 @@ public class Pj extends Personnage{
 	public void initEntree(Terrain t) {
 		t.t[t.entree.p.getX()][t.entree.p.getY()] = this.representation;
 		t.joueur.position.setPosition(t.entree.p.getX(), t.entree.p.getY());
+		t.joueur.setDevant();
 	}
 	
 	public void initSortie(Terrain t) {
 		t.t[t.sortie.p.getX()][t.sortie.p.getY()] = this.representation;
 		t.joueur.position.setPosition(t.sortie.p.getX(), t.sortie.p.getY());
+		t.joueur.setDevant();
 	}
 	
 	public void addObjet(Objet o) {
