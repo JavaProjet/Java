@@ -21,11 +21,7 @@ public class Potion extends Objet {
 	public void use(Terrain t) {
 		super.use(t);
 		t.joueur.regenLife(nombreRegen);
-		for(int i = 0; i < t.joueur.inventory.size(); i++) {
-			if(t.joueur.inventory.get(i) == this) {
-				t.joueur.inventory.remove(i);
-			}
-		}
+		t.joueur.inventory.remove(this);
 		System.out.println("vos points de vies ont été régénérés");
 	}
 	
