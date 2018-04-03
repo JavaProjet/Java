@@ -19,12 +19,15 @@ public class Pnj extends Personnage{
 	public static Pnj spawn(Terrain t) {
 		Pnj p = new Pnj();
 		Random r1 = new Random();
-		int l = r1.nextInt(t.getLargeur());
-		int h = r1.nextInt(t.getHauteur());
-		if(t.t[l][h] == Terrain.SOL) {
-			p.position.setPosition(l,h);
-			p.pointDeVie.setFraction(100, 100);
-		}
+		int l,h;
+		do{
+			l = r1.nextInt(t.getLargeur());
+			h = r1.nextInt(t.getHauteur());
+		}while(t.t[l][h] != Terrain.SOL);
+		p.position.setPosition(l,h);
+		p.pointDeVie.setFraction(30, 30);
+		t.t[l][h] = p.getRepresentation();
+		t.personnage.add(p);
 		return p;
 	}
 }

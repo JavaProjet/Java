@@ -40,13 +40,17 @@ public class Generation {
 		int y = r1.nextInt(21) + 7; //min = 7 max = 27
 		int x = r1.nextInt(30) + 15;
 		t = new Terrain(x,y, joueur);
-		int h = r1.nextInt(y);
+		// ajout des portes d'entrées et sorties
+		int h = r1.nextInt(y - 2) + 1;
 		t.t[x-1][h] = Terrain.PORTE;
 		t.t[0][h] = Terrain.PORTE;
 		t.entree = new Porte(t,0,h);
 		t.entree.t = null;
 		t.sortie = new Porte(t,x-1,h);
 		t.sortie.t = null;
+		//ajout aléatoire des pnj/objets
+		t.addRandomPnj();
+		//##//
 		return t;
 	}
 }

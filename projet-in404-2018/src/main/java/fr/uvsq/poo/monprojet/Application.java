@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.maps.Generation;
+import fr.uvsq.poo.monprojet.objets.Potion;
 
 /**
  * Cette classe est le programme principal du projet.
@@ -26,7 +27,18 @@ public enum Application {
     public void run(String[] args) {
         logger.trace("Début du programme");
         Generation g = new Generation();
+        
+        //ajout d'une potion aléatoire sur le terrain 0 pour la tester
+        
+        Potion.spawn(g.carte.get(0), 12);
+        
+        
+        //
+        
         g.carte.get(0).play();
+        
+       
+        
         logger.trace("Fin du programme");
     }
 

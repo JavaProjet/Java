@@ -1,6 +1,8 @@
 package fr.uvsq.poo.monprojet.objets;
 
-import fr.uvsq.poo.monprojet.personnage.Pj;
+import java.util.Random;
+
+import fr.uvsq.poo.monprojet.maps.Terrain;
 
 public class Potion extends Objet {
 	
@@ -8,19 +10,36 @@ public class Potion extends Objet {
 	
 	public Potion() {
 		super();
+		nombreRegen = 0;
 	}
 	
-	public Potion(String NomObjet,char CaractereDeRepresentation,int x, int y, int nombreRegen) {
-		super(NomObjet,CaractereDeRepresentation,x,y);
+	public Potion(int nombreRegen) {
+		super("Potion de soin (+" + nombreRegen + " PV)",'6');
+		this.nombreRegen = nombreRegen;
 	}
 	
-	public void use(Pj p) {
-		super.use(p);
-		p.regenLife(nombreRegen);
-		for(int i = 0; i < p.inventory.size(); i++) {
-			if(p.inventory.get(i) == this) {
-				p.inventory.remove(i);
+	public void use(Terrain t) {
+		super.use(t);
+		t.joueur.regenLife(nombreRegen);
+		for(int i = 0; i < t.joueur.inventory.size(); i++) {
+			if(t.joueur.inventory.get(i) == this) {
+				t.joueur.inventory.remove(i);
 			}
 		}
+		System.out.println("vos points de vies ont été régénérés");
+	}
+	
+	public static Potion spawn(Terrain t, int max) {
+		Random r1 = new Random();
+		Potion p = new Potion(r1.nextInt(max) + 1);
+		int l,h;
+		do{
+			l = r1.nextInt(t.getLargeur());
+			h = r1.nextInt(t.getHauteur());
+		}while(t.t[l][h] != Terrain.SOL);
+		p.position.setPosition(l,h);
+		t.t[l][h] = p.getRepresentation();
+		t.objets.add(p);
+		return p;
 	}
 }
