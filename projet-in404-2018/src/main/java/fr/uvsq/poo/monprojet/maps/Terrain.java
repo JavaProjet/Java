@@ -38,8 +38,13 @@ public class Terrain {
 		}
 	}
 	
+	private static void clearScreen() {  
+	    System.out.print("\033[H\033[2J");  
+	    System.out.flush();  
+	}
+	
 	public String toString() {
-		System.out.println("\n\n");
+		Terrain.clearScreen();
 		String s = "";
 		int i,j;
 		for(j = hauteur - 1; j >= 0; j--) {
@@ -146,7 +151,7 @@ public class Terrain {
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
-				this.t[j.position.getX()+1][j.position.getY()] = SOL;
+				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
 		System.out.print(this);
@@ -164,7 +169,7 @@ public class Terrain {
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
-				this.t[j.position.getX()-1][j.position.getY()] = SOL;
+				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
 		System.out.print(this);
@@ -183,7 +188,7 @@ public class Terrain {
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()+1] = SOL;
+				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
 		System.out.print(this);
@@ -202,7 +207,7 @@ public class Terrain {
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()-1] = SOL;
+				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
 		System.out.print(this);

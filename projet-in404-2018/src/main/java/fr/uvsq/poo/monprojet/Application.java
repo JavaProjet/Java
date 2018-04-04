@@ -19,6 +19,8 @@ public enum Application {
     APPLICATION;
     private static final Logger logger = LogManager.getLogger(Application.class);
 
+    
+    
     /**
      * Cette méthode est destinée à initialiser et lancer l'exécution du programme.
      *

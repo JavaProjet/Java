@@ -11,13 +11,13 @@ public class Pj extends Personnage{
 	public Pj(int x, int y, int PointDeVie) {
 		super(x,y,PointDeVie);
 		inventory = new ArrayList <Objet> ();
-		representation = 'i';
+		representation = '>';
 	}
 	
 	public Pj() {
 		super();
 		inventory = new ArrayList <Objet> ();
-		representation = 'i';	
+		representation = '>';	
 	}
 	
 	public void initEntree(Terrain t) {
@@ -40,6 +40,19 @@ public class Pj extends Personnage{
 		for(int i = 1; i < inventory.size() + 1; i++) {
 			System.out.println(i + "." + inventory.get(i - 1).getNom());
 		}
+	}
+	
+	public boolean setVision(char direction) {
+		boolean v = super.setVision(direction);
+		
+		if(direction == 'N') this.representation = '^';
+		if(direction == 'S') this.representation = 'v';
+		if(direction == 'O') this.representation = '<';
+		if(direction == 'E') this.representation = '>';
+		
+		
+		
+		return v;
 	}
 	
 }
