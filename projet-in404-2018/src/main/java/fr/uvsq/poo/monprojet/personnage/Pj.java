@@ -42,17 +42,12 @@ public class Pj extends Personnage{
 		}
 	}
 	
-	public boolean setVision(char direction) {
-		boolean v = super.setVision(direction);
-		
+	public void setVision(char direction) {
+		super.setVision(direction);
 		if(direction == 'N') this.representation = '^';
 		if(direction == 'S') this.representation = 'v';
 		if(direction == 'O') this.representation = '<';
 		if(direction == 'E') this.representation = '>';
-		
-		
-		
-		return v;
 	}
 	
 }

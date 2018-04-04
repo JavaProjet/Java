@@ -24,17 +24,13 @@ public abstract class Personnage {
 		
 	}
 	
-	public boolean setVision(char direction) {
+	public void setVision(char direction) {
 		if	   (direction == 'N');
 		else if(direction == 'S');
 		else if(direction == 'O');
 		else if(direction == 'E');
-		else {
-			return false;
-		}
 		vision = direction;
 		this.setDevant();
-		return true;
 	}
 	
 	protected void setDevant() {

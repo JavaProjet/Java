@@ -17,6 +17,7 @@ public class Terrain {
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
+	private boolean sombre = false;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
 	public static final char SOL = '.';
@@ -38,13 +39,18 @@ public class Terrain {
 		}
 	}
 	
-	private static void clearScreen() {  
+	private static void clearScreen() {   //pour le terminal linux
 	    System.out.print("\033[H\033[2J");  
 	    System.out.flush();  
 	}
 	
 	public String toString() {
 		Terrain.clearScreen();
+		if(sombre) return this.toString2();
+		else return this.toString1();
+	}
+	
+	public String toString1() {
 		String s = "";
 		int i,j;
 		for(j = hauteur - 1; j >= 0; j--) {
@@ -54,6 +60,30 @@ public class Terrain {
 			}
 			s += "\n";
 		}
+		return s;
+	}
+	
+	public String toString2() {
+		int distance = 3;
+		String s = "";
+		int i,j,i2,j2;
+		int k,l;
+		
+		i = joueur.position.getX() - distance; i2 = joueur.position.getX() + distance + 1;
+		j = joueur.position.getY() - distance; j2 = joueur.position.getY() + distance + 1;
+		
+		if(i < 0) i = 0; if(j < 0) j = 0;
+		if(i2 > largeur) i2 = largeur; if(j2 > hauteur) j2 = hauteur;
+		
+		
+		for(l = j2 - 1; l >= j; l--) {
+			for(k = i; k < i2; k++) {
+				s += t[k][l];
+				s += " ";
+			}
+			s += "\n";
+		}
+		
 		return s;
 	}
 	
@@ -129,6 +159,7 @@ public class Terrain {
 			case "i" 	: 	this.inventaire(entree);						break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
+			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
 			default 	: 	if(s.equals("stop") == false)
 							System.out.println("> help pour obtenir la liste des commandes\n elle a la reponse à tout ;)");
 																			break;	
@@ -141,6 +172,7 @@ public class Terrain {
 	
 	private void deplacementGauche(Personnage j, boolean accesPorte) {
 		j.setVision('O');
+		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
 			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
 				j.avance();
@@ -159,6 +191,7 @@ public class Terrain {
 	
 	private void deplacementDroite(Personnage j, boolean accesPorte) {
 		j.setVision('E');
+		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
 			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
 				j.avance();
@@ -177,6 +210,7 @@ public class Terrain {
 	
 	private void deplacementBas(Personnage j, boolean accesPorte) {
 		j.setVision('S');
+		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
 			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
 				j.avance();
@@ -196,6 +230,7 @@ public class Terrain {
 	
 	private void deplacementHaut(Personnage j, boolean accesPorte) {
 		j.setVision('N');
+		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
 			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
 				j.avance();
