@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.objets.Potion;
+import fr.uvsq.poo.monprojet.objets.Teleporteur;
 
 /**
  * Cette classe est le programme principal du projet.
@@ -33,7 +34,7 @@ public enum Application {
         //ajout d'une potion aléatoire sur le terrain 0 pour la tester
         
         Potion.spawn(g.carte.get(0), 12);
-        
+        Teleporteur.spawn(g.carte.get(0));
         
         //
         

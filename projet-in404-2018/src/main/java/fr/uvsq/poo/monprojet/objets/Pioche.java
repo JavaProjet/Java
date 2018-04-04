@@ -10,7 +10,7 @@ public class Pioche extends Objet{
 		super("Pioche",'T');
 	}
 	
-	public static Pioche spawn(Terrain t, int max) {
+	public static Pioche spawn(Terrain t) {
 		Random r1 = new Random();
 		Pioche p = new Pioche();
 		int l,h;

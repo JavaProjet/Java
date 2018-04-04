@@ -26,7 +26,7 @@ public class Pnj extends Personnage{
 		}while(t.t[l][h] != Terrain.SOL);
 		p.position.setPosition(l,h);
 		p.setDevant();
-		p.pointDeVie.setFraction(30, 30);
+		p.pointDeVie.setFraction(2, 2); //30
 		t.t[l][h] = p.getRepresentation();
 		t.personnage.add(p);
 		return p;
@@ -40,6 +40,17 @@ public class Pnj extends Personnage{
 		if(p == 2) return 'E';
 		if(p == 3) return 'O';
 		else return 'X';
+	}
+	
+	public boolean setDamage(int damage, Terrain t) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
+		boolean vivant = (super.setDamage(damage));
+		
+		if(vivant == false) {
+			t.t[position.getX()][position.getY()] = Terrain.SOL;
+			t.personnage.remove(this);
+		}
+		
+		return vivant;
 	}
 	
 }

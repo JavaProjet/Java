@@ -122,10 +122,10 @@ public class Terrain {
 		System.out.println(this);
 		changerTerrain = false;
 		Scanner entree = new Scanner(System.in);
-		String s = "";
+		String s = new String();
 		while(s.equals("stop") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
 			s = "";
-			s = entree.nextLine();
+			s += entree.nextLine();
 			this.action(s,entree);
 		}
 		
@@ -140,23 +140,33 @@ public class Terrain {
 	}
 	
 	private void action(String s, Scanner entree) {
-		
+		boolean vivant = true;
 		switch(s) {
 			case "z"	: 	tour(); this.deplacementHaut(joueur,true); 		break;
 			case "q" 	: 	tour(); this.deplacementGauche(joueur,true); 	break;
 			case "s"	: 	tour(); this.deplacementBas(joueur,true);		break;
 			case "d" 	: 	tour(); this.deplacementDroite(joueur,true);	break;
+			case "a"	:	for(int i = 0; i < personnage.size(); i++) {
+								if(personnage.get(i).position.equals(joueur.devantLui)) {
+									vivant = personnage.get(i).setDamage(1,this);
+									System.out.println(this);
+									if(vivant)System.out.println("le personnage possède " + personnage.get(i).pointDeVie + " PV");
+									else System.out.println("le personnage est mort ");
+								}
+							}
+																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
 							System.out.println("info.obtenir des informations sur votre personnage");
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
+							System.out.println("a.donner un coup de poing");
 																			break;
 			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 							System.out.println("vous regardez vers le " + joueur.getVision());
 																			break;
-			case "i" 	: 	this.inventaire(entree);						break;
+			case "i" 	:	tour(); this.inventaire(entree);				break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
 			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
@@ -178,8 +188,8 @@ public class Terrain {
 				j.avance();
 				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 				this.t[j.position.getX()+1][j.position.getY()] = SOL;
-				t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
-				t[sortie.p.getX()][sortie.p.getY()] = PORTE;
+				t[entree.position.getX()][entree.position.getY()] = PORTE;
+				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
@@ -197,8 +207,8 @@ public class Terrain {
 				j.avance();
 				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 				this.t[j.position.getX()-1][j.position.getY()] = SOL;
-				t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
-				t[sortie.p.getX()][sortie.p.getY()] = PORTE;
+				t[entree.position.getX()][entree.position.getY()] = PORTE;
+				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
@@ -216,8 +226,8 @@ public class Terrain {
 				j.avance();
 				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 				this.t[j.position.getX()][j.position.getY()+1] = SOL;
-				t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
-				t[sortie.p.getX()][sortie.p.getY()] = PORTE;
+				t[entree.position.getX()][entree.position.getY()] = PORTE;
+				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
 				
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
@@ -236,8 +246,8 @@ public class Terrain {
 				j.avance();
 				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 				this.t[j.position.getX()][j.position.getY()-1] = SOL;
-				t[this.entree.p.getX()][this.entree.p.getY()] = PORTE;
-				t[sortie.p.getX()][sortie.p.getY()] = PORTE;
+				t[entree.position.getX()][entree.position.getY()] = PORTE;
+				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
 				
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
@@ -258,7 +268,7 @@ public class Terrain {
 			joueur.afficherInventaire();
 			System.out.println("quel objet utiliser ? (entrer und numéro pour utiliser, ou autre chose pour ne rien utiliser)");
 			s = "";
-			s = entree.nextLine();
+			s += entree.nextLine();
 			int val;
 			for(val = 0; val < s.length(); val++) {
 				if(s.charAt(val) < '0' || s.charAt(val) > '9') estEntier = false;
@@ -274,7 +284,7 @@ public class Terrain {
 	private boolean ramasser() {
 		int i;
 		for(i = 0; i < objets.size(); i++) {
-			if(objets.get(i).position.getX() == joueur.devantLui.getX() && objets.get(i).position.getY() == joueur.devantLui.getY()) {
+			if(objets.get(i).position.equals(joueur.devantLui)) {
 				joueur.inventory.add(objets.get(i));
 				this.t[joueur.devantLui.getX()][joueur.devantLui.getY()] = Terrain.SOL;
 				System.out.print(this);
@@ -288,7 +298,7 @@ public class Terrain {
 	}
 	
 	private void playNew() {
-		if(this.entree.p.getX() == joueur.devantLui.getX() && this.entree.p.getY() == joueur.devantLui.getY()) {
+		if(this.entree.position.equals(joueur.devantLui)) {
 			if (this.entree.autorisation == true) {
 				joueur.initSortie(this.entree.t);
 				this.entree.t.play();
@@ -298,7 +308,7 @@ public class Terrain {
 				this.play();
 			}
 		}
-		else if(this.sortie.p.getX() == joueur.devantLui.getX() && this.sortie.p.getY() == joueur.devantLui.getY()) {
+		else if(this.sortie.position.equals(joueur.devantLui)) {
 			if (this.sortie.autorisation == true) {
 				joueur.initEntree(this.sortie.t);
 				this.sortie.t.play();
