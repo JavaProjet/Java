@@ -40,9 +40,11 @@ public class Teleporteur extends Objet{
 			s += entry.nextLine();
 			if(s.length() > 0) {
 				if(s.charAt(0) == '-') {
-					for(int j = 1; j < s.length(); j++) {
-						if(s.charAt(j) < '0' || s.charAt(j) > '9') estEntier = false;
-					}
+					if(s.length() > 1)
+						for(int j = 1; j < s.length(); j++) {
+							if(s.charAt(j) < '0' || s.charAt(j) > '9') estEntier = false;
+						}
+					else estEntier = false;
 				}
 				else {
 					for(int j = 0; j < s.length(); j++) {

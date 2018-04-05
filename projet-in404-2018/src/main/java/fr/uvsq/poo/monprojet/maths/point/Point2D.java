@@ -55,4 +55,9 @@ public class Point2D {
 		}
 		return false;
 	}
+	
+	public void setPosition(Point2D p) {
+		this.setX(p.getX());
+		this.setY(p.getY());
+	}
 }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.maps.Generation;
+import fr.uvsq.poo.monprojet.objets.Pioche;
 import fr.uvsq.poo.monprojet.objets.Potion;
 import fr.uvsq.poo.monprojet.objets.Teleporteur;
 
@@ -35,7 +36,7 @@ public enum Application {
         
         Potion.spawn(g.carte.get(0), 12);
         Teleporteur.spawn(g.carte.get(0));
-        
+        Pioche.spawn(g.carte.get(0));
         //
         
         g.carte.get(0).play();

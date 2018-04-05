@@ -1,7 +1,6 @@
 package fr.uvsq.poo.monprojet.maps;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
@@ -63,11 +62,12 @@ public class Terrain {
 		return s;
 	}
 	
+	
+	
 	public String toString2() {
-		int distance = 3;
+		int distance = 4;
 		String s = "";
 		int i,j,i2,j2;
-		int k,l;
 		
 		i = joueur.position.getX() - distance; i2 = joueur.position.getX() + distance + 1;
 		j = joueur.position.getY() - distance; j2 = joueur.position.getY() + distance + 1;
@@ -75,10 +75,11 @@ public class Terrain {
 		if(i < 0) i = 0; if(j < 0) j = 0;
 		if(i2 > largeur) i2 = largeur; if(j2 > hauteur) j2 = hauteur;
 		
-		
-		for(l = j2 - 1; l >= j; l--) {
-			for(k = i; k < i2; k++) {
-				s += t[k][l];
+		int a,b;
+		for(b = hauteur - 1; b >= 0; b--) {
+			for(a = 0; a < largeur; a++) {
+				if(a >= i && a < i2 && b >= j && b < j2) s += t[a][b];
+				else s += " ";
 				s += " ";
 			}
 			s += "\n";
@@ -93,15 +94,6 @@ public class Terrain {
 	
 	public int getHauteur() {
 		return hauteur;
-	}
-	
-	public boolean addRandomPnj() {
-		Random r = new Random();
-		int alea = r.nextInt(3) + 1;
-		for(int i = 0; i < alea; i++) {
-			Pnj.spawn(this);
-		}
-		return true;
 	}
 	
 	public boolean correctPosition(int x,int y) { //si la position x,y est dans le terrain
@@ -266,7 +258,7 @@ public class Terrain {
 		else {
 			boolean estEntier = true;
 			joueur.afficherInventaire();
-			System.out.println("quel objet utiliser ? (entrer und numéro pour utiliser, ou autre chose pour ne rien utiliser)");
+			System.out.println("quel objet utiliser ? (entrer un numéro pour utiliser, ou autre chose pour ne rien utiliser)");
 			s = "";
 			s += entree.nextLine();
 			int val;
