@@ -1,6 +1,8 @@
 package fr.uvsq.poo.monprojet.maps;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
@@ -16,6 +18,7 @@ public class Terrain {
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
+	private int lastUse = 0;
 	private boolean sombre = false;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
@@ -44,6 +47,7 @@ public class Terrain {
 	}
 	
 	public String toString() {
+		System.out.println("\n\n");
 		Terrain.clearScreen();
 		if(sombre) return this.toString2();
 		else return this.toString1();
@@ -117,7 +121,12 @@ public class Terrain {
 		String s = new String();
 		while(s.equals("stop") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
 			s = "";
-			s += entree.nextLine();
+			try {
+				s += entree.nextLine();
+			} catch (NoSuchElementException e) {
+				System.out.println("Standard Input not defined");
+				System.exit(1);
+			}
 			this.action(s,entree);
 		}
 		
@@ -153,17 +162,21 @@ public class Terrain {
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
 							System.out.println("a.donner un coup de poing");
+							System.out.println("f.raccourci vers un Nième objet de l'inventaire (1 au départ, puis se souvient de votre derniere sélection vide ou non)");
 																			break;
 			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
-							System.out.println("vous regardez vers le " + joueur.getVision());
+							System.out.println("vous possédez " + joueur.getMonnaie() + " rubis");
 																			break;
 			case "i" 	:	tour(); this.inventaire(entree);				break;
+			case "f"	:	if(lastUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
+								joueur.inventory.get(lastUse).use(this);
+																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
 			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
 			default 	: 	if(s.equals("stop") == false)
-							System.out.println("> help pour obtenir la liste des commandes\n elle a la reponse à tout ;)");
+								System.out.println("> help pour obtenir la liste des commandes\n elle a la reponse à tout ;)");
 																			break;	
 		}
 		
@@ -251,25 +264,23 @@ public class Terrain {
 	}
 	
 	private void inventaire(Scanner entree) {
-		String s = new String();
 		if(joueur.inventory.isEmpty()) {
 			System.out.println("inventaire vide");
 		}
 		else {
-			boolean estEntier = true;
 			joueur.afficherInventaire();
-			System.out.println("quel objet utiliser ? (entrer un numéro pour utiliser, ou autre chose pour ne rien utiliser)");
-			s = "";
-			s += entree.nextLine();
+			System.out.println("quel objet utiliser ? (entrer un numéro pour utiliser, sinon une commande du jeu");
 			int val;
-			for(val = 0; val < s.length(); val++) {
-				if(s.charAt(val) < '0' || s.charAt(val) > '9') estEntier = false;
-			}
-			val = 0;
-			if(estEntier) val = Integer.valueOf(s).intValue();
-			if(val > 0 && val <= joueur.inventory.size()) {
-				joueur.inventory.get(val - 1).use(this);
-			}
+			try {
+				val = entree.nextInt(); val--;
+				if(val > -1 && val < joueur.inventory.size()) {
+					joueur.inventory.get(val).use(this);
+					lastUse = val;
+				}
+				else System.out.println("valeur incorrect");
+				entree.nextLine();
+			} 
+			catch (InputMismatchException e) {}
 		}
 	}
 	
@@ -290,20 +301,20 @@ public class Terrain {
 	}
 	
 	private void playNew() {
-		if(this.entree.position.equals(joueur.devantLui)) {
-			if (this.entree.autorisation == true) {
-				joueur.initSortie(this.entree.t);
-				this.entree.t.play();
+		if(this.sortie.position.equals(joueur.devantLui)) {
+			if (this.sortie.autorisation == true) {
+				joueur.initEntree(this.sortie.t);
+				this.sortie.t.play();
 			}
 			else {
 				this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 				this.play();
 			}
 		}
-		else if(this.sortie.position.equals(joueur.devantLui)) {
-			if (this.sortie.autorisation == true) {
-				joueur.initEntree(this.sortie.t);
-				this.sortie.t.play();
+		else if(this.entree.position.equals(joueur.devantLui)) {
+			if (this.entree.autorisation == true) {
+				joueur.initSortie(this.entree.t);
+				this.entree.t.play();
 			}
 			else {
 				this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();

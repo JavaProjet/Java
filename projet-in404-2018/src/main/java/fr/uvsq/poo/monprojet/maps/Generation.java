@@ -41,7 +41,9 @@ public class Generation {
 		}
 	}
 	
-	private void contourCase(Point2D p, Terrain t, ArrayList <Point2D> posMur) {
+	
+	//enregistre dans la liste chaque case qui est un sol la ou on pose un mur
+	private void contourCase(Point2D p, Terrain t, ArrayList <Point2D> posMur) { 
 		int x,y;
 		
 		x = p.getX() + 1;
@@ -70,7 +72,7 @@ public class Generation {
 	}
 	
 	
-	private void addMur(Terrain t,int surface) {
+	private void addMur(Terrain t,int surface) { // 20% de la carte qui est du sol devient du mur
 		surface /= 5;
 		Random r = new Random();
 		ArrayList <Point2D> posMur = new ArrayList <Point2D> ();
@@ -78,15 +80,16 @@ public class Generation {
 		int j2;
 		Point2D p = new Point2D(0,0);
 		while(i < surface) {
-			do {
+			do { // on pose un mur au hazard au sol
 				p.setPosition(r.nextInt(t.getLargeur()), r.nextInt(t.getHauteur()));
 			}while(t.t[p.getX()][p.getY()] != Terrain.SOL);
 			
 			t.t[p.getX()][p.getY()] = Terrain.MUR;
 			i++;
-			this.contourCase(p, t, posMur);
+			this.contourCase(p, t, posMur); // chaque cote de ce mur est enregistré
 			j2 = r.nextInt(6);
-			for(j = 0; j <= j2 && i < surface; j++) {
+			for(j = 0; j <= j2 && i < surface; j++) { 
+				//parmis les positions de la liste une est choisit pour un mur et on actualise la liste
 				p.setPosition(posMur.get(r.nextInt(posMur.size())));
 				t.t[p.getX()][p.getY()] = Terrain.MUR;
 				this.contourCase(p, t, posMur);

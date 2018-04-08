@@ -6,8 +6,11 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 
 public class Pioche extends Objet{
 	
+	private int durability = 100;
+	
 	public Pioche() {
 		super("Pioche",'T');
+		
 	}
 	
 	public static Pioche spawn(Terrain t) {
@@ -30,10 +33,16 @@ public class Pioche extends Objet{
 		if(t.correctPosition(t.joueur.devantLui.getX(), t.joueur.devantLui.getY()))
 			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.MUR) {
 				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
+				Argent.Spawn(t, t.joueur.devantLui.getX(), t.joueur.devantLui.getY());
+				durability--;
 				System.out.println(t);
 			}
 			else {
 				System.out.println("Il n'y a pas de mur à casser devant vous");
 			}
+		if(durability == 0) {
+			System.out.println("votre pioche s'est cassé");
+			t.joueur.inventory.remove(this);
+		}
 	}
 }

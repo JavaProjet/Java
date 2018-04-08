@@ -14,18 +14,15 @@ public class Arme extends Objet{
 	}
 	
 	public void use(Terrain t) {
-		
 		for(int i = 0; i < t.personnage.size(); i++) {
 			if(t.personnage.get(i).position.equals(t.joueur.devantLui)) {
 				t.personnage.get(i).setDamage(damage);
+				durability--;
 			}
 		}
-		
-		durability--;
 		if(durability == 0) {
+			System.out.println("votre arme s'est cassé");
 			t.joueur.inventory.remove(this);
 		}
 	}
-	
-	
 }

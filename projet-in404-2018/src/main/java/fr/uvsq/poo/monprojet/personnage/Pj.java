@@ -7,11 +7,13 @@ import fr.uvsq.poo.monprojet.objets.Objet;
 
 public class Pj extends Personnage{
 	public ArrayList <Objet> inventory;
+	private int monnaie;
 	
 	public Pj(int x, int y, int PointDeVie) {
 		super(x,y,PointDeVie);
 		inventory = new ArrayList <Objet> ();
 		representation = '>';
+		monnaie = 0;
 	}
 	
 	public Pj() {
@@ -48,6 +50,21 @@ public class Pj extends Personnage{
 		if(direction == 'S') this.representation = 'v';
 		if(direction == 'O') this.representation = '<';
 		if(direction == 'E') this.representation = '>';
+	}
+
+	public void addMonnaie(int valeur) {
+		monnaie += valeur;
+	}
+	
+	public void payer(int valeur) {
+		monnaie -= valeur;
+		if(monnaie < 0 ) {
+			monnaie = 0;
+		}
+	}
+
+	public int getMonnaie() {
+		return monnaie;
 	}
 	
 }
