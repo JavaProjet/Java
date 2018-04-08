@@ -18,7 +18,7 @@ public class Terrain {
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
-	private int lastUse = 0;
+	private int rapidUse = 0;
 	private boolean sombre = false;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
@@ -162,15 +162,18 @@ public class Terrain {
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
 							System.out.println("a.donner un coup de poing");
-							System.out.println("f.raccourci vers un Nième objet de l'inventaire (1 au départ, puis se souvient de votre derniere sélection vide ou non)");
+							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
+							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
 																			break;
 			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 							System.out.println("vous possédez " + joueur.getMonnaie() + " rubis");
 																			break;
-			case "i" 	:	tour(); this.inventaire(entree);				break;
-			case "f"	:	if(lastUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
-								joueur.inventory.get(lastUse).use(this);
+			case "i" 	:	tour(); this.inventaire(entree,s);				break;
+			case "u" 	:	this.inventaire(entree,s);						break;
+			case "e"	:	tour();
+							if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
+								joueur.inventory.get(rapidUse).use(this);
 																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
@@ -263,19 +266,19 @@ public class Terrain {
 		System.out.print(this);
 	}
 	
-	private void inventaire(Scanner entree) {
+	private void inventaire(Scanner entree, String s) {
 		if(joueur.inventory.isEmpty()) {
 			System.out.println("inventaire vide");
 		}
 		else {
 			joueur.afficherInventaire();
-			System.out.println("quel objet utiliser ? (entrer un numéro pour utiliser, sinon une commande du jeu");
+			System.out.println("entrez le numéro de l'objet correspondant, ou une commande du jeu pour annuler");
 			int val;
 			try {
 				val = entree.nextInt(); val--;
 				if(val > -1 && val < joueur.inventory.size()) {
-					joueur.inventory.get(val).use(this);
-					lastUse = val;
+					if(s.equalsIgnoreCase("i"))joueur.inventory.get(val).use(this);
+					if(s.equalsIgnoreCase("u"))rapidUse = val;
 				}
 				else System.out.println("valeur incorrect");
 				entree.nextLine();

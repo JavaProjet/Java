@@ -3,6 +3,7 @@ package fr.uvsq.poo.monprojet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.objets.Pioche;
 import fr.uvsq.poo.monprojet.objets.Potion;
@@ -39,6 +40,7 @@ public enum Application {
         Pioche.spawn(g.carte.get(0));
         //
         
+        //Cinematic.introduction();
         g.carte.get(0).play();
         
        

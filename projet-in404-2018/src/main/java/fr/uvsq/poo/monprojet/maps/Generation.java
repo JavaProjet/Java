@@ -11,17 +11,23 @@ public class Generation {
 	private static final int nombreCarte = 20;
 	public ArrayList <Terrain> carte;
 	public Pj joueur;
-	private static final int nbGeneration = 2;
 	
 	public Generation() {
 		carte = new ArrayList <Terrain> ();
 		joueur = new Pj();
 		Random r = new Random();
-		for(int i = 0; i < nombreCarte; i++)
-			switch(r.nextInt(nbGeneration)) {
-				case 0 : carte.add(this.generation1());
-				case 1 : carte.add(this.generationL());
+		int last = 0;
+		for(int i = 0; i < nombreCarte; i++) {
+			if(last == 0 || last == 3)
+				last = r.nextInt(2);
+			else  last = r.nextInt(2) + 2;
+			switch(last) {
+				case 0 : carte.add(this.generation1H());
+				case 1 : carte.add(this.generationL2());
+				case 2 : carte.add(this.generation1V());
+				case 3 : carte.add(this.generationL());
 			}
+		}
 		
 		this.connection();
 		
@@ -106,7 +112,30 @@ public class Generation {
 		}
 	}
 	
-	private Terrain generation1() {
+	private Terrain generation1H() {
+		Terrain t;
+		Random r1 = new Random();
+		int x = r1.nextInt(21) + 7; //min = 7 max = 27
+		int y = r1.nextInt(30) + 15;
+		t = new Terrain(x,y, joueur);
+		// ajout des portes d'entrées et sorties
+		int h = r1.nextInt(x - 2) + 1;
+		int h2 = r1.nextInt(x - 2) + 1;
+		t.t[h][0] = Terrain.PORTE;
+		t.t[h2][y - 1] = Terrain.PORTE;
+		t.entree = new Porte(t,h,0);
+		t.entree.t = null;
+		t.sortie = new Porte(t,h2,y - 1);
+		t.sortie.t = null;
+		
+		//ajout aléatoire des pnj/objets
+		addMur(t,(t.getHauteur() * t.getLargeur()));
+		addRandomPnj(t);
+		//##//
+		return t;
+	}
+	
+	private Terrain generation1V() {
 		Terrain t;
 		Random r1 = new Random();
 		int y = r1.nextInt(21) + 7; //min = 7 max = 27
@@ -136,23 +165,56 @@ public class Generation {
 		int y = r1.nextInt(22) + 10;
 		t = new Terrain(x,y, joueur);
 		int i,j;
-		int xt = r1.nextInt(t.getLargeur() * 60 / 100) + (t.getLargeur() * 20 / 100);
-		int yt = r1.nextInt(t.getHauteur() * 60 / 100) + (t.getHauteur() * 20 / 100);
-		int surface = t.getHauteur() * t.getLargeur() - xt*yt;
+		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
+		int yt = r1.nextInt(y * 60 / 100) + (y * 20 / 100);
+		int surface = y * x - xt * yt;
 		
 		for(i = 0; i < xt; i++) {
-			for(j = t.getHauteur() - yt - 1; j < t.getHauteur(); j++) {
+			for(j = y - yt - 1; j < y; j++) {
 				t.t[i][j] = Terrain.VIDE;
 			}
 		}
 		// ajout des portes d'entrées et sorties
-		int h = r1.nextInt(t.getLargeur() - xt) + xt;
-		int h2 = r1.nextInt(t.getHauteur() - yt);
+		int h = r1.nextInt(x - 1 - xt) + xt;
+		int h2 = r1.nextInt(y - 1 - yt);
 		t.t[0][h2] = Terrain.PORTE;
-		t.t[h][t.getHauteur() - 1] = Terrain.PORTE;
+		t.t[h][y - 1] = Terrain.PORTE;
 		t.entree = new Porte(t,0,h2);
 		t.entree.t = null;
-		t.sortie = new Porte(t,h,t.getHauteur() - 1);
+		t.sortie = new Porte(t,h,y - 1);
+		t.sortie.t = null;
+		
+		//ajout aléatoire des pnj/objets
+		addMur(t,surface);
+		addRandomPnj(t);
+		//##//
+		return t;
+	}
+	
+	private Terrain generationL2() {
+		Terrain t;
+		Random r1 = new Random();
+		int x = r1.nextInt(22) + 10;
+		int y = r1.nextInt(22) + 10;
+		t = new Terrain(x,y, joueur);
+		int i,j;
+		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
+		int yt = r1.nextInt(y * 60 / 100) + (y * 20 / 100);
+		int surface = y * x - xt * yt;
+		
+		for(i = x - xt - 1; i < x; i++) {
+			for(j = 0; j < yt; j++) {
+				t.t[i][j] = Terrain.VIDE;
+			}
+		}
+		// ajout des portes d'entrées et sorties
+		int h = r1.nextInt(x - 1 - xt);
+		int h2 = r1.nextInt(y - 1 - yt) + yt;
+		t.t[x - 1][h2] = Terrain.PORTE;
+		t.t[h][0] = Terrain.PORTE;
+		t.entree = new Porte(t,h,0);
+		t.entree.t = null;
+		t.sortie = new Porte(t,x - 1, h2);
 		t.sortie.t = null;
 		
 		//ajout aléatoire des pnj/objets
