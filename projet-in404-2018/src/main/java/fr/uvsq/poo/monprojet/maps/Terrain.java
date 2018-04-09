@@ -50,10 +50,12 @@ public class Terrain {
 	}
 	
 	public String toString() {
+		String info = new String();
+		info = joueur.pointDeVie + "\n";
 		System.out.println("\n\n");
 		Terrain.clearScreen();
-		if(sombre) return this.toString2();
-		else return this.toString1();
+		if(sombre) return this.toString2() + info;
+		else return this.toString1() + info;
 	}
 	
 	public String toString1() {
@@ -344,5 +346,4 @@ public class Terrain {
 			if(vision == 'O') this.deplacementDroite(monstres.get(i),false);
 		}
 	}
-	
 }

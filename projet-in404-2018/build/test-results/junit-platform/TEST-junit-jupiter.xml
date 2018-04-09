@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="JUnit Jupiter" tests="0" skipped="0" failures="0" errors="0" time="0.042" hostname="debian" timestamp="2018-04-09T21:15:47">
+<testsuite name="JUnit Jupiter" tests="0" skipped="0" failures="0" errors="0" time="0.04" hostname="debian" timestamp="2018-04-09T22:38:06">
 <properties>
 <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
 <property name="file.encoding" value="UTF-8"/>

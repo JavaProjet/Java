@@ -20,14 +20,16 @@ public class Generation {
 		Random r = new Random();
 		int last = 0;
 		for(i = 0; i < nombreCarte; i++) {
+			System.out.println(last);
 			if(last == 0 || last == 3)
 				last = r.nextInt(2);
 			else  last = r.nextInt(2) + 2;
+			System.out.println(last);
 			switch(last) {
-				case 0 : carte.add(this.generation1H());
-				case 1 : carte.add(this.generationL());
-				case 2 : carte.add(this.generation1V());
-				case 3 : carte.add(this.generationL2());
+				case 0 : carte.add(this.generation1H()); break;
+				case 1 : carte.add(this.generationL());  break;
+				case 2 : carte.add(this.generation1V()); break;
+				case 3 : carte.add(this.generationL2()); break;
 			}
 		}
 		
@@ -147,13 +149,14 @@ public class Generation {
 	
 	private Terrain generation1V() {
 		Terrain t;
-		Random r1 = new Random();
-		int x = r1.nextInt(30) + 15;
-		int y = r1.nextInt(21) + 7; //min = 7 max = 27
+		Random r = new Random();
+		int x = r.nextInt(30) + 15;
+		int y = r.nextInt(21) + 7; //min = 7 max = 27
+		System.out.println("x : " + x + ", y : " + y);
 		t = new Terrain(x,y, joueur);
 		// ajout des portes d'entrées et sorties
-		int h = r1.nextInt(y - 2) + 1;
-		int h2 = r1.nextInt(y - 2) + 1;
+		int h = r.nextInt(y - 2) + 1;
+		int h2 = r.nextInt(y - 2) + 1;
 		t.t[0][h] = Terrain.PORTE;
 		t.t[x-1][h2] = Terrain.PORTE;
 		t.entree = new Porte(t,0,h);

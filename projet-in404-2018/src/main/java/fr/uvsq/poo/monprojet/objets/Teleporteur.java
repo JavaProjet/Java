@@ -1,5 +1,6 @@
 package fr.uvsq.poo.monprojet.objets;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 public class Teleporteur extends Objet{
 	
 	public Teleporteur() {
-		super("Teleporteur", '~');
+		super("Teleporteur", '%');
 	}
 	
 	public static Teleporteur spawn(Terrain t) {
@@ -27,36 +28,22 @@ public class Teleporteur extends Objet{
 	
 	public void use(Terrain t) {
 		super.use(t);
-		boolean estEntier;
 		String s = new String();
 		@SuppressWarnings("resource")
 		Scanner entry = new Scanner(System.in);
 		int val[] = new int[2];
 		for(int i = 0; i < 2; i++) {
-			estEntier = true;
 			if(i == 0)	System.out.print("deplacement en x : ");
 			else 		System.out.print("deplacement en y : ");
-			s = "";
-			s += entry.nextLine();
-			if(s.length() > 0) {
-				if(s.charAt(0) == '-') {
-					if(s.length() > 1)
-						for(int j = 1; j < s.length(); j++) {
-							if(s.charAt(j) < '0' || s.charAt(j) > '9') estEntier = false;
-						}
-					else estEntier = false;
-				}
-				else {
-					for(int j = 0; j < s.length(); j++) {
-						if(s.charAt(j) < '0' || s.charAt(j) > '9') estEntier = false;
-					}
-				}
+			
+			try {
+				val[i] = entry.nextInt();
 			}
-			else estEntier = false;
-			val[i] = 0;
-			if(estEntier) val[i] = Integer.valueOf(s).intValue();
+			catch(InputMismatchException e) {
+				System.out.println("invalid entry, number set to 0");
+				val[i] = 0;
+			}
 		}
-		
 		val[0] += t.joueur.position.getX();
 		val[1] += t.joueur.position.getY();
 		s = "";
@@ -71,7 +58,6 @@ public class Teleporteur extends Objet{
 		t.t[t.entree.position.getX()][t.entree.position.getY()] = Terrain.PORTE;
 		t.t[t.sortie.position.getX()][t.sortie.position.getY()] = Terrain.PORTE;
 		System.out.println(t + s);
-		
 		//entry.close();
 	}
 }

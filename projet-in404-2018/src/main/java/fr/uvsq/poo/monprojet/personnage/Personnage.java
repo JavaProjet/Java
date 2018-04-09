@@ -1,8 +1,6 @@
 package fr.uvsq.poo.monprojet.personnage;
 
 import java.util.Random;
-
-import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
@@ -74,10 +72,6 @@ public abstract class Personnage {
 		else {
 			this.pointDeVie.setNumerateur(res);
 			dead = true;
-		}
-		if(this.getClass() == Pj.class) {
-			Cinematic.sleep(1);
-			System.out.println("vous avez perdu " + damage + " PV");
 		}
 		return dead;
 	}

@@ -15,15 +15,15 @@ public class Monstre extends Personnage{
 		this.CasseMur = CasseMur;
 		if(this.CasseMur) {
 			this.pointDeVie.setFraction(12 * niveau, 12 * niveau);
-			damage = 3 * niveau * 2; 
+			damage = 6 * niveau; 
 			representation = '@';
-			distance = 3;
+			distance = 4;
 		}
 		else {
 			this.pointDeVie.setFraction(10 * niveau, 10 * niveau);
-			damage = 2 * niveau * 2;
+			damage = 4 * niveau;
 			representation = 'G';
-			distance = 4;
+			distance = 3;
 		}
 		distance += niveau;
 		
@@ -44,7 +44,7 @@ public class Monstre extends Personnage{
 		int i, i2, j, j2;
 		i = this.position.getX() - distance;
 		i2 = this.position.getX() + distance;
-		j = this.position.getY() - 1;
+		j = this.position.getY() - 3;
 		j2 = this.position.getY() + distance;
 		boolean x = false, y = false;
 		Point2D p = new Point2D(0,0);
@@ -110,6 +110,7 @@ public class Monstre extends Personnage{
 		Random r = new Random();
 		boolean casseMur = (r.nextInt(100)%2 == 0);
 		niveau -= r.nextInt(3);
+		if(niveau < 1) niveau = 1;
 		Monstre m = new Monstre(casseMur,niveau);
 		int l,h;
 		do{
