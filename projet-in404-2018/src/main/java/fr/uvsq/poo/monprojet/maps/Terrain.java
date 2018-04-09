@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
 import fr.uvsq.poo.monprojet.objets.Objet;
+import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Personnage;
 import fr.uvsq.poo.monprojet.personnage.Pj;
 
@@ -14,12 +15,13 @@ public class Terrain {
 	public char[][] t;
 	private int largeur,hauteur;
 	public ArrayList <Pnj> personnage;
+	public ArrayList <Monstre> monstres;
 	public ArrayList <Objet> objets;
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
 	private int rapidUse = 0;
-	private boolean sombre = false;
+	private boolean sombre = true;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
 	public static final char SOL = '.';
@@ -29,6 +31,7 @@ public class Terrain {
 	public Terrain(int largeur, int hauteur, Pj joueur) {
 		personnage = new ArrayList <Pnj> ();
 		objets = new ArrayList <Objet> ();
+		monstres = new ArrayList <Monstre> ();
 		t = new char[largeur][hauteur];
 		this.joueur = joueur;
 		this.largeur = largeur;
@@ -141,29 +144,31 @@ public class Terrain {
 	}
 	
 	private void action(String s, Scanner entree) {
-		boolean vivant = true;
 		switch(s) {
-			case "z"	: 	tour(); this.deplacementHaut(joueur,true); 		break;
-			case "q" 	: 	tour(); this.deplacementGauche(joueur,true); 	break;
-			case "s"	: 	tour(); this.deplacementBas(joueur,true);		break;
-			case "d" 	: 	tour(); this.deplacementDroite(joueur,true);	break;
-			case "a"	:	for(int i = 0; i < personnage.size(); i++) {
-								if(personnage.get(i).position.equals(joueur.devantLui)) {
-									vivant = personnage.get(i).setDamage(1,this);
-									System.out.println(this);
-									if(vivant)System.out.println("le personnage possède " + personnage.get(i).pointDeVie + " PV");
-									else System.out.println("le personnage est mort ");
-								}
-							}
+			case "z"	: 	tour(); this.deplacementHaut(joueur,true); 		
+							System.out.print(this);
+																			break;
+			case "q" 	: 	tour(); this.deplacementGauche(joueur,true);
+							System.out.print(this);
+																			break;
+			case "s"	: 	tour(); this.deplacementBas(joueur,true);		
+							System.out.print(this);
+																			break;
+			case "d" 	: 	tour(); this.deplacementDroite(joueur,true);	
+							System.out.print(this);
+																			break;
+			case "a"	:	
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
 							System.out.println("info.obtenir des informations sur votre personnage");
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
-							System.out.println("a.donner un coup de poing");
+							System.out.println("a.aucune donnée");
 							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
+							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t~ : Téléporteur\n@/G : Monstres\t6 : Potion\t"
+											 + "* : Rubis\n");
 																			break;
 			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
@@ -179,7 +184,7 @@ public class Terrain {
 			case "-d"	: 	joueur.setDamage(10); 							break;
 			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
 			default 	: 	if(s.equals("stop") == false)
-								System.out.println("> help pour obtenir la liste des commandes\n elle a la reponse à tout ;)");
+								System.out.println("> help pour obtenir la liste des commandes\n elle a la réponse à tout ;)");
 																			break;	
 		}
 		
@@ -204,7 +209,6 @@ public class Terrain {
 				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
-		System.out.print(this);
 	}
 	
 	private void deplacementDroite(Personnage j, boolean accesPorte) {
@@ -223,7 +227,6 @@ public class Terrain {
 				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
-		System.out.print(this);
 	}
 	
 	private void deplacementBas(Personnage j, boolean accesPorte) {
@@ -243,7 +246,6 @@ public class Terrain {
 				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
-		System.out.print(this);
 	}
 	
 	private void deplacementHaut(Personnage j, boolean accesPorte) {
@@ -263,7 +265,6 @@ public class Terrain {
 				this.t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
-		System.out.print(this);
 	}
 	
 	private void inventaire(Scanner entree, String s) {
@@ -329,10 +330,18 @@ public class Terrain {
 	public void tour() {
 		int i;
 		for(i = 0; i < personnage.size(); i++) {
-			if(Pnj.probaDeplacement() == 'N') this.deplacementHaut(personnage.get(i),false);
-			if(Pnj.probaDeplacement() == 'S') this.deplacementBas(personnage.get(i),false);
-			if(Pnj.probaDeplacement() == 'E') this.deplacementGauche(personnage.get(i),false);
-			if(Pnj.probaDeplacement() == 'O') this.deplacementDroite(personnage.get(i),false);
+			char vision = Personnage.probaDeplacement(10);
+			if(vision == 'N') this.deplacementHaut(personnage.get(i),false);
+			if(vision == 'S') this.deplacementBas(personnage.get(i),false);
+			if(vision == 'E') this.deplacementGauche(personnage.get(i),false);
+			if(vision == 'O') this.deplacementDroite(personnage.get(i),false);
+		}
+		for(i = 0; i < monstres.size(); i++) {
+			char vision = monstres.get(i).radar(this);
+			if(vision == 'N') this.deplacementHaut(monstres.get(i),false);
+			if(vision == 'S') this.deplacementBas(monstres.get(i),false);
+			if(vision == 'E') this.deplacementGauche(monstres.get(i),false);
+			if(vision == 'O') this.deplacementDroite(monstres.get(i),false);
 		}
 	}
 	

@@ -15,7 +15,7 @@ public class Cinematic {
 		return chaine + newChar + chaine2;
 	}
 	
-	private static void sleep(double secondes) {
+	public static void sleep(double secondes) {
 		try {
 			Thread.sleep((long) (secondes * 1000.0));
 		} catch (InterruptedException e) {
@@ -41,7 +41,7 @@ public class Cinematic {
 		System.out.println("\nMalheureusement, personne à ce jour ne l'a trouvé et on dit de cette objet que ce n'est qu'une légende et qu'il serait gardé par une tribut qui vit dans l'ombre");
 		sleep(10);
 		clearScreen();
-		sleep(10);
+		sleep(2);
 		System.out.println("Mais un jour, vous tombez sur une grotte mystérieuse, son entrée avait une forme non naturel.");
 		sleep(10);
 		System.out.println("\nalors vous vous decidez à l'explorer, et partez à l'aventure");

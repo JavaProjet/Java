@@ -1,5 +1,8 @@
 package fr.uvsq.poo.monprojet.personnage;
 
+import java.util.Random;
+
+import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
@@ -63,14 +66,20 @@ public abstract class Personnage {
 	
 	public boolean setDamage(int damage) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
 		int res = this.pointDeVie.getNumerateur() - damage;
+		boolean dead;
 		if(res <= 0 ) {
 			this.pointDeVie.setNumerateur(0);
-			return false;
+			dead = false;
 		}
 		else {
 			this.pointDeVie.setNumerateur(res);
-			return true;
+			dead = true;
 		}
+		if(this.getClass() == Pj.class) {
+			Cinematic.sleep(1);
+			System.out.println("vous avez perdu " + damage + " PV");
+		}
+		return dead;
 	}
 	
 	public void regenLife(int points) { //redonne des points de vie au personnage
@@ -85,6 +94,16 @@ public abstract class Personnage {
 	
 	public char getRepresentation() {
 		return representation;
+	}
+	
+	public static char probaDeplacement(int prob) {
+		Random r1 = new Random();
+		int p = r1.nextInt(prob);
+		if(p == 0) return 'N';
+		if(p == 1) return 'S';
+		if(p == 2) return 'E';
+		if(p == 3) return 'O';
+		else return 'X';
 	}
 	
 }

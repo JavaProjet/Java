@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
+import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Pj;
 import fr.uvsq.poo.monprojet.personnage.Pnj;
 
@@ -11,21 +12,22 @@ public class Generation {
 	private static final int nombreCarte = 20;
 	public ArrayList <Terrain> carte;
 	public Pj joueur;
+	private int i;
 	
 	public Generation() {
 		carte = new ArrayList <Terrain> ();
 		joueur = new Pj();
 		Random r = new Random();
 		int last = 0;
-		for(int i = 0; i < nombreCarte; i++) {
+		for(i = 0; i < nombreCarte; i++) {
 			if(last == 0 || last == 3)
 				last = r.nextInt(2);
 			else  last = r.nextInt(2) + 2;
 			switch(last) {
 				case 0 : carte.add(this.generation1H());
-				case 1 : carte.add(this.generationL2());
+				case 1 : carte.add(this.generationL());
 				case 2 : carte.add(this.generation1V());
-				case 3 : carte.add(this.generationL());
+				case 3 : carte.add(this.generationL2());
 			}
 		}
 		
@@ -93,7 +95,7 @@ public class Generation {
 			t.t[p.getX()][p.getY()] = Terrain.MUR;
 			i++;
 			this.contourCase(p, t, posMur); // chaque cote de ce mur est enregistré
-			j2 = r.nextInt(6);
+			j2 = r.nextInt(3);
 			for(j = 0; j <= j2 && i < surface; j++) { 
 				//parmis les positions de la liste une est choisit pour un mur et on actualise la liste
 				p.setPosition(posMur.get(r.nextInt(posMur.size())));
@@ -106,9 +108,16 @@ public class Generation {
 	
 	public void addRandomPnj(Terrain t) {
 		Random r = new Random();
-		int alea = r.nextInt(3) + 1;
+		int alea = r.nextInt(4) + 1;
 		for(int i = 0; i < alea; i++) {
 			Pnj.spawn(t);
+		}
+	}
+	
+	public void addRandomMonstre(Terrain t, int niveau,int surface) {
+		surface = 1 * surface / 100;
+		for(int i = 0; i < surface; i++) {
+			Monstre.spawn(t,niveau);
 		}
 	}
 	
@@ -131,6 +140,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
 		addRandomPnj(t);
+		addRandomMonstre(t,i/4 + 1,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
@@ -138,8 +148,8 @@ public class Generation {
 	private Terrain generation1V() {
 		Terrain t;
 		Random r1 = new Random();
-		int y = r1.nextInt(21) + 7; //min = 7 max = 27
 		int x = r1.nextInt(30) + 15;
+		int y = r1.nextInt(21) + 7; //min = 7 max = 27
 		t = new Terrain(x,y, joueur);
 		// ajout des portes d'entrées et sorties
 		int h = r1.nextInt(y - 2) + 1;
@@ -154,6 +164,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
 		addRandomPnj(t);
+		addRandomMonstre(t,i/4 + 1,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
@@ -161,8 +172,8 @@ public class Generation {
 	private Terrain generationL() {
 		Terrain t;
 		Random r1 = new Random();
-		int x = r1.nextInt(22) + 10;
-		int y = r1.nextInt(22) + 10;
+		int x = r1.nextInt(20) + 10;
+		int y = r1.nextInt(20) + 10;
 		t = new Terrain(x,y, joueur);
 		int i,j;
 		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
@@ -187,6 +198,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t);
+		addRandomMonstre(t,i/4 + 1,surface);
 		//##//
 		return t;
 	}
@@ -194,8 +206,8 @@ public class Generation {
 	private Terrain generationL2() {
 		Terrain t;
 		Random r1 = new Random();
-		int x = r1.nextInt(22) + 10;
-		int y = r1.nextInt(22) + 10;
+		int x = r1.nextInt(20) + 10;
+		int y = r1.nextInt(20) + 10;
 		t = new Terrain(x,y, joueur);
 		int i,j;
 		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
@@ -220,6 +232,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t);
+		addRandomMonstre(t,i/4 + 1,surface);
 		//##//
 		return t;
 	}
