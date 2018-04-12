@@ -181,6 +181,7 @@ public class Terrain {
 			case "e"	:	tour();
 							if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
 								joueur.inventory.get(rapidUse).use(this);
+							System.out.println(this);
 																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
@@ -339,11 +340,11 @@ public class Terrain {
 			if(vision == 'O') this.deplacementDroite(personnage.get(i),false);
 		}
 		for(i = 0; i < monstres.size(); i++) {
-			char vision = monstres.get(i).radar(this);
+			char vision = monstres.get(i).radar();
 			if(vision == 'N') this.deplacementHaut(monstres.get(i),false);
 			if(vision == 'S') this.deplacementBas(monstres.get(i),false);
-			if(vision == 'E') this.deplacementGauche(monstres.get(i),false);
-			if(vision == 'O') this.deplacementDroite(monstres.get(i),false);
+			if(vision == 'E') this.deplacementDroite(monstres.get(i),false);
+			if(vision == 'O') this.deplacementGauche(monstres.get(i),false);
 		}
 	}
 }

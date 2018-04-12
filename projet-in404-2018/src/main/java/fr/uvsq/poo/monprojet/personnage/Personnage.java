@@ -64,16 +64,14 @@ public abstract class Personnage {
 	
 	public boolean setDamage(int damage) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
 		int res = this.pointDeVie.getNumerateur() - damage;
-		boolean dead;
 		if(res <= 0 ) {
 			this.pointDeVie.setNumerateur(0);
-			dead = false;
+			return false;
 		}
 		else {
 			this.pointDeVie.setNumerateur(res);
-			dead = true;
+			return true;
 		}
-		return dead;
 	}
 	
 	public void regenLife(int points) { //redonne des points de vie au personnage

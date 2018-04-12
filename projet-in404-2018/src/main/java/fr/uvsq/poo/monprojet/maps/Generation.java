@@ -20,16 +20,15 @@ public class Generation {
 		Random r = new Random();
 		int last = 0;
 		for(i = 0; i < nombreCarte; i++) {
-			System.out.println(last);
-			if(last == 0 || last == 3)
-				last = r.nextInt(2);
-			else  last = r.nextInt(2) + 2;
-			System.out.println(last);
+			if(last == 0 || last == 4 || last == 2)
+				last = r.nextInt(2); //3
+			else  last = r.nextInt(2) + 3;
 			switch(last) {
 				case 0 : carte.add(this.generation1H()); break;
 				case 1 : carte.add(this.generationL());  break;
-				case 2 : carte.add(this.generation1V()); break;
-				case 3 : carte.add(this.generationL2()); break;
+				case 2 : carte.add(this.generation3());  break;
+				case 3 : carte.add(this.generation1V()); break;
+				case 4 : carte.add(this.generationL2()); break;
 			}
 		}
 		
@@ -126,8 +125,8 @@ public class Generation {
 	private Terrain generation1H() {
 		Terrain t;
 		Random r1 = new Random();
-		int x = r1.nextInt(21) + 7; //min = 7 max = 27
-		int y = r1.nextInt(30) + 15;
+		int x = r1.nextInt(1) + 5; //min = 7 max = 27
+		int y = r1.nextInt(1) + 5;
 		t = new Terrain(x,y, joueur);
 		// ajout des portes d'entrées et sorties
 		int h = r1.nextInt(x - 2) + 1;
@@ -152,7 +151,6 @@ public class Generation {
 		Random r = new Random();
 		int x = r.nextInt(30) + 15;
 		int y = r.nextInt(21) + 7; //min = 7 max = 27
-		System.out.println("x : " + x + ", y : " + y);
 		t = new Terrain(x,y, joueur);
 		// ajout des portes d'entrées et sorties
 		int h = r.nextInt(y - 2) + 1;
@@ -201,7 +199,8 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t);
-		addRandomMonstre(t,i/4 + 1,surface);
+
+		addRandomMonstre(t,this.i/4 + 1,surface);
 		//##//
 		return t;
 	}
@@ -235,9 +234,84 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t);
-		addRandomMonstre(t,i/4 + 1,surface);
+		addRandomMonstre(t,this.i/4 + 1,surface);
 		//##//
 		return t;
 	}
+	
+	private Terrain generation3() {
+		Terrain t;
+		Random r1 = new Random();
+		int x = 40;
+		int i,j,nombrevidedebut,rx,ry,Y;
+		int y1 = r1.nextInt(8) + 7; //moitier haute de la carte
+		int y2 = r1.nextInt(8) + 7; //moitier basse de la carte
+		
+		Y = y1 + y2 + 3;
+		t = new Terrain(x,Y, joueur);//init avec le sol 
+		
+		nombrevidedebut = r1.nextInt(3)+1;
+		i = 0;
+		while (i<nombrevidedebut) {//initialise les vides du terrain haut
+			rx = r1.nextInt(40);
+			ry = r1.nextInt(y1);
+			if (rx < 10 || rx > 30) {
+				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
+				i++;
+			}
+			else if (ry >= (y1 / 2)) {
+				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
+				i++;
+			}
+		}
+		
+		//t.t[i][j] = Terrain.VIDE;
+		for (i = 0; i < y1; i++) {
+			for(j = 0; j < x; j++) {
+				if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+					t.t[j][i + y2 + 3] = Terrain.VIDE;
+				}	
+				if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+					t.t[j][i + y2 + 3] = Terrain.VIDE;
+					
+					
+				}
+				if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+					t.t[j][i + y2 + 3] = Terrain.VIDE;
+				}
+			}
+		}
+		for (i = 0; i < y1; i++) {
+			for(j = 0; j < x;j ++) {
+				if (t.t[j][i-1] == Terrain.VIDE  ) {
+					t.t[j][i] = Terrain.VIDE;
+				}
+				if (t.t[j-1][i-1] == Terrain.VIDE  ) {
+					t.t[j][i] = Terrain.VIDE;
+				}
+				if (t.t[j+1][i-1] == Terrain.VIDE  ) {
+					t.t[j][i] = Terrain.VIDE;
+				}
+			}
+		}
+		// ajout des portes d'entrées et sorties
+		int h = r1.nextInt(3) + y2;
+		int h2 = r1.nextInt(3) + y2;
+		t.t[0][h] = Terrain.PORTE;
+		t.t[x-1][h2] = Terrain.PORTE;
+		t.entree = new Porte(t,0,h);
+		t.entree.t = null;
+		t.sortie = new Porte(t,x-1,h2);
+		t.sortie.t = null;
+		
+		//ajout aléatoire des pnj/objets
+		addMur(t,(t.getHauteur() * t.getLargeur()));
+		addRandomPnj(t);
+		System.out.println("niveau : " + (i/4) + " i:" + this.i);
+		addRandomMonstre(t,this.i/4 + 1,(t.getHauteur() * t.getLargeur()));
+		//##//
+		return t;
+	}
+	
 	
 }

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
+import fr.uvsq.poo.monprojet.objets.Arme;
 import fr.uvsq.poo.monprojet.objets.Pioche;
 import fr.uvsq.poo.monprojet.objets.Potion;
 import fr.uvsq.poo.monprojet.objets.Teleporteur;
@@ -38,6 +39,7 @@ public enum Application {
         Potion.spawn(g.carte.get(0), 12);
         Teleporteur.spawn(g.carte.get(0));
         Pioche.spawn(g.carte.get(0));
+        Arme.spawn(g.carte.get(0), "Excalibur", '!', 10);
         //
         
         //Cinematic.introduction();
