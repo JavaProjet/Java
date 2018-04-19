@@ -1,6 +1,8 @@
 package fr.uvsq.poo.monprojet.personnage;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.objets.Objet;
