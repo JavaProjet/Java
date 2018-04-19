@@ -159,7 +159,7 @@ public class Terrain {
 			case "d" 	: 	tour(); this.deplacementDroite(joueur,true);	
 							System.out.print(this);
 																			break;
-			case "a"	:	
+			case "a"	:	tour(); joueur.discuss(this);
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
