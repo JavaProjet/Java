@@ -23,15 +23,16 @@ public enum Application {
     APPLICATION;
     private static final Logger logger = LogManager.getLogger(Application.class);
 
-    
-    
-    /**
-     * Cette méthode est destinée à initialiser et lancer l'exécution du programme.
-     *
-     * @param args les paramètres de la ligne de commande du shell
-     */
     public void run(String[] args) {
         logger.trace("Début du programme");
+        Fenetre F = new Fenetre();
+		boolean go = false;
+		
+		do{
+			go = F.getGo();
+		}
+		while (go==false);
+        
         Generation g = new Generation();
         
         //ajout d'une potion aléatoire sur le terrain 0 pour la tester
