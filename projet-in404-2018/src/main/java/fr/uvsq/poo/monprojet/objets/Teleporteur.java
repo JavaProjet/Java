@@ -8,8 +8,11 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 
 public class Teleporteur extends Objet{
 	
+	private int durability;
+	
 	public Teleporteur() {
 		super("Teleporteur", '%');
+		durability = 10;
 	}
 	
 	public static Teleporteur spawn(Terrain t) {
@@ -29,6 +32,7 @@ public class Teleporteur extends Objet{
 	public void use(Terrain t) {
 		super.use(t);
 		String s = new String();
+		if(durability == 0) s += "utilisez une pile pour le recharger";
 		@SuppressWarnings("resource")
 		Scanner entry = new Scanner(System.in);
 		int val[] = new int[2];
@@ -50,6 +54,7 @@ public class Teleporteur extends Objet{
 		if(t.correctPosition(val[0], val[1])) {
 			if(t.t[val[0]][val[1]] == Terrain.SOL) {
 				s += "\n*téléportation*";
+				durability--;
 				t.t[t.joueur.position.getX()][t.joueur.position.getY()] = Terrain.SOL;
 				t.joueur.position.setPosition(val[0],val[1]);
 				t.t[t.joueur.position.getX()][t.joueur.position.getY()] = t.joueur.getRepresentation();
@@ -60,4 +65,10 @@ public class Teleporteur extends Objet{
 		System.out.println(t + s);
 		//entry.close();
 	}
+	
+	public void recharge() {
+		durability += 10;
+		if(durability > 10) durability = 10;
+	}
+	
 }

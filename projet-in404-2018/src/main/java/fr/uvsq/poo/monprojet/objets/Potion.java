@@ -25,9 +25,9 @@ public class Potion extends Objet {
 		System.out.println("vos points de vies ont été régénérés");
 	}
 	
-	public static Potion spawn(Terrain t, int max) {
+	public static Potion spawn(Terrain t, int PV) {
 		Random r1 = new Random();
-		Potion p = new Potion(r1.nextInt(max) + 1);
+		Potion p = new Potion(PV);
 		int l,h;
 		do{
 			l = r1.nextInt(t.getLargeur());

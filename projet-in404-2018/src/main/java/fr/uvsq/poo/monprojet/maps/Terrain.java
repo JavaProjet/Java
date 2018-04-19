@@ -170,8 +170,8 @@ public class Terrain {
 							System.out.println("a.aucune donnée");
 							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
-							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t~ : Téléporteur\n@/G : Monstres\t6 : Potion\t"
-											 + "* : Rubis\n");
+							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
+											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur)\n");
 																			break;
 			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
@@ -276,7 +276,7 @@ public class Terrain {
 		}
 		else {
 			joueur.afficherInventaire();
-			System.out.println("entrez le numéro de l'objet correspondant, ou une commande du jeu pour annuler");
+			System.out.println("entrez le numéro de l'objet correspondant, ou une commande du jeu pour continuer");
 			int val;
 			try {
 				val = entree.nextInt(); val--;

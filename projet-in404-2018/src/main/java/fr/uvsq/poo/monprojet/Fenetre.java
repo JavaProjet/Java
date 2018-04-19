@@ -2,11 +2,6 @@ package fr.uvsq.poo.monprojet;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.net.URL;
-import java.io.IOException;
 
 
 public class Fenetre implements ActionListener{

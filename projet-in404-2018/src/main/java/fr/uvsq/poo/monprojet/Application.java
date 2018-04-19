@@ -7,7 +7,6 @@ import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.objets.Arme;
 import fr.uvsq.poo.monprojet.objets.Pioche;
-import fr.uvsq.poo.monprojet.objets.Potion;
 import fr.uvsq.poo.monprojet.objets.Teleporteur;
 
 /**
@@ -31,16 +30,15 @@ public enum Application {
 	do{
 		go = F.getGo();
 	}
-	while (go==false);
+	while (go == false);
         
         Generation g = new Generation();
         
         //ajout d'une potion aléatoire sur le terrain 0 pour la tester
         
-        Potion.spawn(g.carte.get(1), 12);
-        Teleporteur.spawn(g.carte.get(1));
-        Pioche.spawn(g.carte.get(1));
-        Arme.spawn(g.carte.get(1), "Excalibur", '!', 10);
+        Teleporteur.spawn(g.carte.get(2));
+        Pioche.spawn(g.carte.get(0));
+        Arme.spawn(g.carte.get(1), "Epée en bois", '!', 2);
         //
         
         //Cinematic.introduction();
@@ -49,6 +47,7 @@ public enum Application {
        
         
         logger.trace("Fin du programme");
+        System.exit(0);
     }
 
     /**

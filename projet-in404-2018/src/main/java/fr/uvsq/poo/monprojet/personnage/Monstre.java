@@ -4,6 +4,8 @@ import java.util.Random;
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
+import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Potion;
 
 public class Monstre extends Personnage{
 	private int damage;
@@ -32,22 +34,32 @@ public class Monstre extends Personnage{
 	}
 	
 	public int attaque() {
-		if(t.correctPosition(this.devantLui.getX(), this.devantLui.getY())) {
-			if(t.joueur.position.equals(devantLui)) {
-				t.joueur.setDamage(damage);
-				return damage;
-			}
+		if(t.joueur.position.equals(devantLui)) { //le monstre attaque le joueur s'il est devant lui
+			t.joueur.setDamage(damage);
+			return damage;
 		}
-		return 0;
+		else { // sinon il regarde s'il est autour de lui pour l'attaquer au tour prochain
+			char vision = this.vision;
+			this.setVision('N');
+			if(t.joueur.position.equals(devantLui)) return 1;
+			this.setVision('S');
+			if(t.joueur.position.equals(devantLui)) return 1;
+			this.setVision('O');
+			if(t.joueur.position.equals(devantLui)) return 1;
+			this.setVision('S');
+			if(t.joueur.position.equals(devantLui)) return 1;
+			this.vision = vision;
+			return 0;
+		}
 	}
 	
 	public char radar() {
-		if(attaque() > 0) return 'X';
+		if(attaque() > 0) return 'X'; //sinon il regarde si le joueur est dans son champs de vision et se deplace vers lui
 		int i, i2, j, j2;
-		i = this.position.getX() - distance;
-		i2 = this.position.getX() + distance;
-		j = this.position.getY() - distance;
-		j2 = this.position.getY() + distance;
+		i = this.position.getX() - distance; if(this.vision == 'E') i += distance - 1;
+		i2 = this.position.getX() + distance;if(this.vision == 'O') i2 -= distance + 1;
+		j = this.position.getY() - distance; if(this.vision == 'N') j += distance - 1;
+		j2 = this.position.getY() + distance;if(this.vision == 'S') j2 -= distance + 1;
 		int k = i,l = j;
 		boolean x = false, y = false;
 		Point2D p = new Point2D(0,0);
@@ -84,13 +96,23 @@ public class Monstre extends Personnage{
 	private char mouvementX(boolean x) {
 		if(x) {
 			setVision('O');
-			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'O';
+				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
+					return 'X';
+				}
+			}
 		}
 		if(!x) {
 			setVision('E');
-			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'E';
+				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
+					return 'X';
+				}
+			}
 		}
 		return 'X';
 	}
@@ -98,13 +120,23 @@ public class Monstre extends Personnage{
 	private char mouvementY(boolean x) {
 		if(x) {
 			setVision('S');
-			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'S';
+				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
+					return 'X';
+				}
+			}
 		}
 		if(!x) {
 			setVision('N');
-			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'N';
+				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
+					return 'X';
+				}
+			}
 		}
 		return 'X';
 	}
@@ -131,9 +163,14 @@ public class Monstre extends Personnage{
 	
 	private void drop() {
 		Random r = new Random();
-		if((r.nextInt(100)+1)%2 == 0) {
+		int val = ( r.nextInt(12 * 100) + 1 ) % 12;
+		if(val > -1 && val < 3)
 			Argent.Spawn(t, this.position.getX(), this.position.getY(), this.pointDeVie.getDenominateur()/2);
-		}
+		else if(val == 3)
+			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2));
+		else if(val > 3 && val < 6)
+			Potion.spawn(t,this.pointDeVie.getDenominateur()/2);
+		else ;
 	}
 	
 	public boolean setDamage(int damage) { //si le monstre meurt un drop de rubis peut apparaitre
