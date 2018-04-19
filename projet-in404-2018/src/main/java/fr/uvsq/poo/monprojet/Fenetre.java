@@ -20,7 +20,6 @@ public class Fenetre implements ActionListener{
 	public ImageIcon icone = new ImageIcon("pic.jpg");
 	
 	public Fenetre(){
-		
 		fond.setSize(10,10);
 		jouer.addActionListener(this);
 		charger.addActionListener(this);
