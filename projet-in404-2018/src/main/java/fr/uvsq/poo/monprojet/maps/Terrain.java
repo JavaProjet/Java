@@ -13,6 +13,7 @@ import fr.uvsq.poo.monprojet.personnage.Pj;
 
 public class Terrain {
 	public char[][] t;
+	public int numero;
 	private int largeur,hauteur;
 	public ArrayList <Pnj> personnage;
 	public ArrayList <Monstre> monstres;
@@ -147,19 +148,19 @@ public class Terrain {
 	
 	private void action(String s, Scanner entree) {
 		switch(s) {
-			case "z"	: 	tour(); this.deplacementHaut(joueur,true); 		
+			case "z"	: 	this.deplacementHaut(joueur,true); tour();		
 							System.out.print(this);
 																			break;
-			case "q" 	: 	tour(); this.deplacementGauche(joueur,true);
+			case "q" 	: 	this.deplacementGauche(joueur,true); tour();
 							System.out.print(this);
 																			break;
-			case "s"	: 	tour(); this.deplacementBas(joueur,true);		
+			case "s"	: 	this.deplacementBas(joueur,true); tour();	
 							System.out.print(this);
 																			break;
-			case "d" 	: 	tour(); this.deplacementDroite(joueur,true);	
+			case "d" 	: 	this.deplacementDroite(joueur,true); tour();	
 							System.out.print(this);
 																			break;
-			case "a"	:	tour(); joueur.discuss(this);
+			case "a"	:	joueur.discuss(this); tour();
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
@@ -176,12 +177,11 @@ public class Terrain {
 							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 							System.out.println("vous possédez " + joueur.getMonnaie() + " rubis");
 																			break;
-			case "i" 	:	tour(); this.inventaire(entree,s);				break;
+			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;
-			case "e"	:	tour();
-							if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
+			case "e"	:	if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
 								joueur.inventory.get(rapidUse).use(this);
-							System.out.println(this);
+							tour(); System.out.println(this);
 																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-d"	: 	joueur.setDamage(10); 							break;
@@ -332,12 +332,14 @@ public class Terrain {
 	
 	public void tour() {
 		int i;
-		for(i = 0; i < personnage.size(); i++) {
-			char vision = Personnage.probaDeplacement(10);
-			if(vision == 'N') this.deplacementHaut(personnage.get(i),false);
-			if(vision == 'S') this.deplacementBas(personnage.get(i),false);
-			if(vision == 'E') this.deplacementGauche(personnage.get(i),false);
-			if(vision == 'O') this.deplacementDroite(personnage.get(i),false);
+		if(this.numero != 0) {
+			for(i = 0; i < personnage.size(); i++) {
+				char vision = Personnage.probaDeplacement(10);
+				if(vision == 'N') this.deplacementHaut(personnage.get(i),false);
+				if(vision == 'S') this.deplacementBas(personnage.get(i),false);
+				if(vision == 'E') this.deplacementGauche(personnage.get(i),false);
+				if(vision == 'O') this.deplacementDroite(personnage.get(i),false);
+			}
 		}
 		for(i = 0; i < monstres.size(); i++) {
 			char vision = monstres.get(i).radar();

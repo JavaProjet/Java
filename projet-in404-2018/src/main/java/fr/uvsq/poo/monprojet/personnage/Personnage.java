@@ -12,7 +12,7 @@ public abstract class Personnage {
 	protected char representation; //caractere representant le personnage sur le terrain
 	
 	public Personnage(int x, int y, int PointDeVie) {
-		this.vision = 'N';
+		this.vision = 'E';
 		this.pointDeVie = new Fraction(PointDeVie,PointDeVie);
 		position = new Point2D(x,y);
 	}
@@ -86,6 +86,10 @@ public abstract class Personnage {
 	
 	public char getRepresentation() {
 		return representation;
+	}
+	
+	public void setRepresentation(char representation) {
+		this.representation = representation;
 	}
 	
 	public static char probaDeplacement(int prob) {

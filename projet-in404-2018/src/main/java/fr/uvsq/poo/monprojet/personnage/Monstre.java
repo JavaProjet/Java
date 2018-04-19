@@ -59,51 +59,38 @@ public class Monstre extends Personnage{
 						p.setY(l - this.position.getY()); if(p.getY() < 0) {y = true; p.setY(p.getY()*-1);}
 					}
 				}k++;
-			}
-			l++; k = i;
+			}l++; k = i;
 		}
 		char vision;
 		if(p.getX() != 0 || p.getY() != 0) {
 			if(p.getX() > p.getY()) {
 				if((vision = mouvementX(x)) == 'X') {
-					if((vision = mouvementY(y)) == 'X') {
-						return Personnage.probaDeplacement(4);
-					}
-					else {
-						return vision;
-					}
+					if((vision = mouvementY(y)) == 'X') return Personnage.probaDeplacement(4);
+					else return vision;
 				}
-				else {
-					return vision;
-				}
+				else return vision;
 			}
 			else {
 				if((vision = mouvementY(y)) == 'X') {
-					if((vision = mouvementX(x)) == 'X') {
-						return Personnage.probaDeplacement(4);
-					}
-					else {
-						return vision;
-					}
+					if((vision = mouvementX(x)) == 'X') return Personnage.probaDeplacement(4);
+					else return vision;
 				}
-				else {
-					return vision;
-				}
+				else return vision;
 			}
 		}
-		else {
-			return Personnage.probaDeplacement(4);
-		}	
+		else return Personnage.probaDeplacement(4);	
 	}
 	
 	private char mouvementX(boolean x) {
 		if(x) {
 			setVision('O');
-			if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'O';
+			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'O';
 		}
 		if(!x) {
 			setVision('E');
-			if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'E';
+			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'E';
 		}
 		return 'X';
 	}
@@ -111,11 +98,13 @@ public class Monstre extends Personnage{
 	private char mouvementY(boolean x) {
 		if(x) {
 			setVision('S');
-			if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'S';
+			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'S';
 		}
 		if(!x) {
 			setVision('N');
-			if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'N';
+			if(t.correctPosition(devantLui.getX(), devantLui.getY()))
+				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'N';
 		}
 		return 'X';
 	}

@@ -18,22 +18,28 @@ public class Generation {
 		carte = new ArrayList <Terrain> ();
 		joueur = new Pj();
 		Random r = new Random();
+		carte.add(this.generationD());
 		int last = 0;
 		for(i = 0; i < nombreCarte; i++) {
-			if(last == 0 || last == 4 || last == 2)
+			if(last == 0 || last == 4 || last == 2) {
 				last = r.nextInt(3); //3
-			else  last = r.nextInt(2) + 3;
-			switch(last) {
-				case 0 : carte.add(this.generation1H()); break;
-				case 1 : carte.add(this.generationL());  break;
-				case 2 : carte.add(this.generation3());  break;
-				case 3 : carte.add(this.generation1V()); break;
-				case 4 : carte.add(this.generationL2()); break;
+				switch(last) {
+					case 0 : carte.add(this.generation1H()); break;
+					case 1 : carte.add(this.generationL());  break;
+					case 2 : carte.add(this.generation3());  break;
+				}
 			}
+			else { 
+				last = r.nextInt(2);
+				switch(last) {
+					case 0 : carte.add(this.generation1V()); break;
+					case 1 : carte.add(this.generationL2()); break;
+				}
+			}
+			
+				
 		}
-		
 		this.connection();
-		
 		joueur.initEntree(carte.get(0));
 		joueur.pointDeVie.setFraction(20, 20);
 	}
@@ -42,7 +48,10 @@ public class Generation {
 		int i;
 		carte.get(0).entree.autorisation = false;
 		carte.get(nombreCarte - 1).sortie.autorisation = false;
+		carte.get(nombreCarte - 1).numero = nombreCarte - 1;
+		carte.get(0).numero = 0;
 		for(i = 1; i < nombreCarte - 1; i++) {
+			carte.get(i).numero = i;
 			carte.get(i - 1).sortie.t = carte.get(i);
 			carte.get(i).entree.t = carte.get(i - 1);
 			carte.get(i).sortie.t = carte.get(i + 1);
@@ -133,10 +142,8 @@ public class Generation {
 		int h2 = r1.nextInt(x - 2) + 1;
 		t.t[h][0] = Terrain.PORTE;
 		t.t[h2][y - 1] = Terrain.PORTE;
-		t.entree = new Porte(t,h,0);
-		t.entree.t = null;
-		t.sortie = new Porte(t,h2,y - 1);
-		t.sortie.t = null;
+		t.entree = new Porte(null,h,0);
+		t.sortie = new Porte(null,h2,y - 1);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
@@ -157,10 +164,8 @@ public class Generation {
 		int h2 = r.nextInt(y - 2) + 1;
 		t.t[0][h] = Terrain.PORTE;
 		t.t[x-1][h2] = Terrain.PORTE;
-		t.entree = new Porte(t,0,h);
-		t.entree.t = null;
-		t.sortie = new Porte(t,x-1,h2);
-		t.sortie.t = null;
+		t.entree = new Porte(null,0,h);
+		t.sortie = new Porte(null,x-1,h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
@@ -191,10 +196,8 @@ public class Generation {
 		int h2 = r1.nextInt(y - 1 - yt);
 		t.t[0][h2] = Terrain.PORTE;
 		t.t[h][y - 1] = Terrain.PORTE;
-		t.entree = new Porte(t,0,h2);
-		t.entree.t = null;
-		t.sortie = new Porte(t,h,y - 1);
-		t.sortie.t = null;
+		t.entree = new Porte(null,0,h2);
+		t.sortie = new Porte(null,h,y - 1);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
@@ -226,10 +229,8 @@ public class Generation {
 		int h2 = r1.nextInt(y - 1 - yt) + yt;
 		t.t[x - 1][h2] = Terrain.PORTE;
 		t.t[h][0] = Terrain.PORTE;
-		t.entree = new Porte(t,h,0);
-		t.entree.t = null;
-		t.sortie = new Porte(t,x - 1, h2);
-		t.sortie.t = null;
+		t.entree = new Porte(null,h,0);
+		t.sortie = new Porte(null,x - 1, h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
@@ -240,30 +241,36 @@ public class Generation {
 	}
 	private Terrain generationD() {
 		Terrain t;	
-		int i,j,x,y;
-		x=19;y=15;
+		int x = 19,y = 15;
 		t = new Terrain(x,y, joueur);
-	
 		char [][] tab = 
-			{
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},	
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'#','#','#','.','.','#','#','#','.','.','#','#','#','#','.','.','#','#','#'},
-					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
-					{'#','#','.','.','#','#','#','.','.','#','#','#','#','#','#','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
-					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'}
-					
-			};
-		t.t=tab;
+			{	{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','.','.','.','.','.','.'},
+				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','#','.','.','.','.','.'},
+				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'},
+				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'}};
+		t.t = tab;
+		t.entree = new Porte(null,x-1,7);
+		t.sortie = new Porte(null,x-1,7);
+		Pnj.spawn(t);
+		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = Terrain.SOL;
+		t.personnage.get(0).position.setPosition(15, 14);
+		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = 'V';
+		t.personnage.get(0).setRepresentation('V');
 		return t;
 	}
 
@@ -362,10 +369,8 @@ public class Generation {
 		int h2 = r1.nextInt(3) + y2;
 		t.t[0][h] = Terrain.PORTE;
 		t.t[x-1][h2] = Terrain.PORTE;
-		t.entree = new Porte(t,0,h);
-		t.entree.t = null;
-		t.sortie = new Porte(t,x-1,h2);
-		t.sortie.t = null;
+		t.entree = new Porte(null,0,h);
+		t.sortie = new Porte(null,x-1,h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(surface));

@@ -1,5 +1,7 @@
 package fr.uvsq.poo.monprojet.intro;
 
+import fr.uvsq.poo.monprojet.maps.Terrain;
+
 public class Cinematic {
 	private static String changeChar(String s, int i, char newChar) {
 		String chaine = "";
@@ -81,6 +83,10 @@ public class Cinematic {
 		sleep(2);	
 		System.out.println("Mais ce caillou heurte votre tête vous assommant...\n\n vous vous reveillez dans une salle.");
 		sleep(4);
+	}
+	
+	public static void cinematicVieux(Terrain t) {
+		
 	}
 	
 }

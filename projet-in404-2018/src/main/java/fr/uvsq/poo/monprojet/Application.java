@@ -37,10 +37,10 @@ public enum Application {
         
         //ajout d'une potion aléatoire sur le terrain 0 pour la tester
         
-        Potion.spawn(g.carte.get(0), 12);
-        Teleporteur.spawn(g.carte.get(0));
-        Pioche.spawn(g.carte.get(0));
-        Arme.spawn(g.carte.get(0), "Excalibur", '!', 10);
+        Potion.spawn(g.carte.get(1), 12);
+        Teleporteur.spawn(g.carte.get(1));
+        Pioche.spawn(g.carte.get(1));
+        Arme.spawn(g.carte.get(1), "Excalibur", '!', 10);
         //
         
         //Cinematic.introduction();
