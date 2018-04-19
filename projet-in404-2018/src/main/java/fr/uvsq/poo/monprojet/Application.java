@@ -26,12 +26,12 @@ public enum Application {
     public void run(String[] args) {
         logger.trace("Début du programme");
         Fenetre F = new Fenetre();
-		boolean go = false;
-		
-		do{
-			go = F.getGo();
-		}
-		while (go==false);
+        boolean go = false;
+
+	do{
+		go = F.getGo();
+	}
+	while (go==false);
         
         Generation g = new Generation();
         
