@@ -34,20 +34,20 @@ public class Cinematic {
 		int k = 40;
 		clearScreen();
 		sleep(2);
-		System.out.println("Vous êtes à la recherche d'un trésor");
-		sleep(10);
-		System.out.println("\nun trésor d'une valeur inestimable, on raconte qu'il permet de se téléporter, mais...");
-		sleep(10);
-		System.out.println("\nMalheureusement, personne à ce jour ne l'a trouvé et on dit de cette objet que ce n'est qu'une légende et qu'il serait gardé par une tribut qui vit dans l'ombre");
-		sleep(10);
+		System.out.println("Vous etes à la recherche d'un tresor");
+		sleep(3);
+		System.out.println("\nun tresor d'une valeur inestimable, on raconte qu'il permet de se teleporter, mais...");
+		sleep(3);
+		System.out.println("\nMalheureusement, personne à ce jour ne l'a trouve et on dit de cette objet que ce n'est qu'une legende et qu'il serait garde par une tribut qui vit dans l'ombre");
+		sleep(3);
 		clearScreen();
 		sleep(2);
-		System.out.println("Mais un jour, vous tombez sur une grotte mystérieuse, son entrée avait une forme non naturel.");
-		sleep(10);
+		System.out.println("Mais un jour, vous tombez sur une grotte mysterieuse, son entree avait une forme etrange.");
+		sleep(3);
 		System.out.println("\nalors vous vous decidez à l'explorer, et partez à l'aventure");
-		sleep(10);
-		System.out.println("\nc'est ainsi que vous entrez dans cette mystérieuse grotte...");
-		sleep(10);
+		sleep(3);
+		System.out.println("\nc'est ainsi que vous entrez dans cette mysterieuse grotte...");
+		sleep(3);
 		clearScreen();
 		sleep(2);
 		for(int i = 0; i < 10; i++) {
@@ -78,9 +78,9 @@ public class Cinematic {
 		}
 		sleep(1);
 		clearScreen();
-		sleep(3);	
-		System.out.println("Mais ce caillou parraissant innocent heurte votre tête vous assommant...\n\n vous vous reveillez dans une salle.");
-		sleep(10);
+		sleep(2);	
+		System.out.println("Mais ce caillou heurte votre tête vous assommant...\n\n vous vous reveillez dans une salle.");
+		sleep(4);
 	}
 	
 }
