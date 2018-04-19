@@ -64,7 +64,7 @@ public class Pj extends Personnage{
 			int py = T.personnage.get(j).position.getY();
 			if(py == y+1 || py == y-1|| px == x+1 || px == x-1){
 				Random r = new Random();
-				int rand = r.nextInt(2);
+				int rand = r.nextInt(4);
 				if(rand == 0){
 					System.out.println("Bonjour aventurier !");
 					System.out.println("1- Bonjour (Partir)");
@@ -82,6 +82,38 @@ public class Pj extends Personnage{
 					if(reponse == 2){
 						System.out.println("Tu as raison, reste sur tes gardes. Certains peuvent même casser la roche pour t'attaquer.");
 						System.out.println("Si tu as besoin de te soigner, tu pourras trouver des fioles medicinales par ici");
+					}
+				}
+				if(rand == 2){
+					System.out.println("Que fais - tu par ici?");
+					System.out.println("1- Ignorer ce personnage");
+					System.out.println("2- J'ai trouve cette grotte par hasard, je suis a la recherche d'un tresor");
+					System.out.println("3- Je me suis reveille a quelques pas d'ici");
+					int reponse = discute.nextInt();
+					if(reponse == 2){
+						System.out.println("Ah! Le teleporteur c'est ça? Tu es tombe au bon endroit...");
+						System.out.println("Malheureusement, je crois bien que ce soit qu'une legende");
+					}
+					if(reponse == 3){
+						System.out.println("Tu as croise des monstres?");
+						System.out.println("1- Oui je me suis echappe");
+						System.out.println("2- Non, il y a des monstres par ici?");
+						reponse = discute.nextInt();
+						if(reponse == 1) System.out.println("Fais attention, tu peux trouver de quoi te defendre par endroits.");
+						if(reponse == 2) System.out.println("Oui ça grouille de monstres, tu peux trouver de quoi te defendre par endroits.");
+					}
+				}
+				if(rand == 3){
+					System.out.println("Qui etes-vous?");
+					System.out.println("1- Ignorer ce personnage");
+					System.out.println("2- Je me suis aventure dans cette grotte..");
+					int reponse = discute.nextInt();
+					if(reponse == 2){
+						System.out.println("Que cherches -tu?");
+						System.out.println("1- Je cherche un tresor");
+						System.out.println("2- Rien... Je rentre chez moi");
+						reponse = discute.nextInt();
+						if(reponse == 1) System.out.println("Ah, certains croient toujours a cette vieille legende...");
 					}
 				}
 				test =1;
