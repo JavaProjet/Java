@@ -238,7 +238,35 @@ public class Generation {
 		//##//
 		return t;
 	}
+	private Terrain generationD() {
+		Terrain t;	
+		int i,j,x,y;
+		x=19;y=15;
+		t = new Terrain(x,y, joueur);
 	
+		char [][] tab = 
+			{
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},	
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'#','#','#','.','.','#','#','#','.','.','#','#','#','#','.','.','#','#','#'},
+					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+					{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+					{'#','#','.','.','#','#','#','.','.','#','#','#','#','#','#','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'},
+					{'.','.','.','.','.','#','.','.','.','.','.','#','.','.','.','.','.','#','#'}
+					
+			};
+		t.t=tab;
+		return t;
+	}
+
 	private Terrain generation3() {
 		Terrain t;
 		Random r1 = new Random();
@@ -247,10 +275,11 @@ public class Generation {
 		int y1 = r1.nextInt(8) + 7; //moitier haute de la carte
 		int y2 = r1.nextInt(8) + 7; //moitier basse de la carte
 		
+		
 		Y = y1 + y2 + 3;
 		t = new Terrain(x,Y, joueur);//init avec le sol 
-		
-		nombrevidedebut = r1.nextInt(3)+2;
+		int surface = t.getHauteur() * t.getLargeur();
+		nombrevidedebut = r1.nextInt(4)+2;
 		i = 0;
 		while (i<nombrevidedebut) {//initialise les vides du terrain haut
 			rx = r1.nextInt(40);
@@ -258,24 +287,26 @@ public class Generation {
 			if (rx < 10 || rx > 30) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
 				i++;
+				surface--;
 			}
 			else if (ry >= (y1 / 2)) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
 				i++;
+				surface--;
 			}
 			
 		}
 		i = 0;
 		while (i<nombrevidedebut) {//initialise les vides du terrain bas
 			rx = r1.nextInt(40);
-			ry = r1.nextInt(y1);
-			if (rx < 10 || rx > 30) {
+			ry = r1.nextInt(y2);
+			if (rx < 10|| rx > 30) {
 				t.t[rx][ry ] = Terrain.VIDE ;
-				i++;
+				i++;surface--;
 			}
 			else if (ry <= (y2 / 2)) {
 				t.t[rx][ry] = Terrain.VIDE ;
-				i++;
+				i++;surface--;
 			}
 			
 		}
@@ -284,38 +315,43 @@ public class Generation {
 		for (i = 0; i < y1; i++) {
 			for(j = 0; j < x; j++) {
 				
-					if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+					if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {//verifie la case du bas
 						t.t[j][i + y2 + 3] = Terrain.VIDE;
+						surface--;
 					}	
-					if(t.correctPosition(j-1, i - 1 + y2 + 3)) {
+					if(t.correctPosition(j-1, i - 1 + y2 + 3)) {//celle du bas a gauche
 						if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
 							t.t[j][i + y2 + 3] = Terrain.VIDE;
-								}
+							
+						}
 					}
-					if(t.correctPosition(j+1, i - 1 + y2 + 3)) {
+					if(t.correctPosition(j+1, i - 1 + y2 + 3)) {//celle de bas a droite
 						if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
 							t.t[j][i + y2 + 3] = Terrain.VIDE;
-						}
+													}
 					}
 				
 			}
 		}
 		int k;
-		for (k=0;k<y1;k++) {	
-			for (i = 0; i < y1; i++) {//boucle du bas 
-				for(j = 0; j < x-1;j ++) {
+		for (k=0;k<y2;k++) {	
+			for (i = 0; i < y2; i++) {//boucle du bas 
+				for(j = 0; j < x;j ++) {
 					
 					if (t.t[j][i+1] == Terrain.VIDE  ) {
 						t.t[j][i] = Terrain.VIDE;
+						surface--;
 					}
 					if(t.correctPosition(j-1, i + 1 )) {
 						if (t.t[j-1][i+1] == Terrain.VIDE  ) {
 							t.t[j][i] = Terrain.VIDE;
+							
 						}
 					}
 					if(t.correctPosition(j+1, i + 1)) {
 						if (t.t[j+1][i+1] == Terrain.VIDE  ) {
 							t.t[j][i] = Terrain.VIDE;
+							
 						}
 					}
 				}
@@ -332,7 +368,7 @@ public class Generation {
 		t.sortie.t = null;
 		
 		//ajout aléatoire des pnj/objets
-		addMur(t,(t.getHauteur() * t.getLargeur()));
+		addMur(t,(surface));
 		addRandomPnj(t);
 		System.out.println("niveau : " + (i/4) + " i:" + this.i);
 		addRandomMonstre(t,this.i/4 + 1,(t.getHauteur() * t.getLargeur()));
