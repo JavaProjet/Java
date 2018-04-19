@@ -21,7 +21,7 @@ public class Generation {
 		int last = 0;
 		for(i = 0; i < nombreCarte; i++) {
 			if(last == 0 || last == 4 || last == 2)
-				last = r.nextInt(2); //3
+				last = r.nextInt(3); //3
 			else  last = r.nextInt(2) + 3;
 			switch(last) {
 				case 0 : carte.add(this.generation1H()); break;
@@ -250,7 +250,7 @@ public class Generation {
 		Y = y1 + y2 + 3;
 		t = new Terrain(x,Y, joueur);//init avec le sol 
 		
-		nombrevidedebut = r1.nextInt(3)+1;
+		nombrevidedebut = r1.nextInt(3)+2;
 		i = 0;
 		while (i<nombrevidedebut) {//initialise les vides du terrain haut
 			rx = r1.nextInt(40);
@@ -263,34 +263,61 @@ public class Generation {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
 				i++;
 			}
+			
+		}
+		i = 0;
+		while (i<nombrevidedebut) {//initialise les vides du terrain bas
+			rx = r1.nextInt(40);
+			ry = r1.nextInt(y1);
+			if (rx < 10 || rx > 30) {
+				t.t[rx][ry ] = Terrain.VIDE ;
+				i++;
+			}
+			else if (ry <= (y2 / 2)) {
+				t.t[rx][ry] = Terrain.VIDE ;
+				i++;
+			}
+			
 		}
 		
 		//t.t[i][j] = Terrain.VIDE;
 		for (i = 0; i < y1; i++) {
 			for(j = 0; j < x; j++) {
-				if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-					t.t[j][i + y2 + 3] = Terrain.VIDE;
-				}	
-				if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-					t.t[j][i + y2 + 3] = Terrain.VIDE;
-					
-					
-				}
-				if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-					t.t[j][i + y2 + 3] = Terrain.VIDE;
-				}
+				
+					if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+						t.t[j][i + y2 + 3] = Terrain.VIDE;
+					}	
+					if(t.correctPosition(j-1, i - 1 + y2 + 3)) {
+						if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+							t.t[j][i + y2 + 3] = Terrain.VIDE;
+								}
+					}
+					if(t.correctPosition(j+1, i - 1 + y2 + 3)) {
+						if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+							t.t[j][i + y2 + 3] = Terrain.VIDE;
+						}
+					}
+				
 			}
 		}
-		for (i = 0; i < y1; i++) {
-			for(j = 0; j < x;j ++) {
-				if (t.t[j][i-1] == Terrain.VIDE  ) {
-					t.t[j][i] = Terrain.VIDE;
-				}
-				if (t.t[j-1][i-1] == Terrain.VIDE  ) {
-					t.t[j][i] = Terrain.VIDE;
-				}
-				if (t.t[j+1][i-1] == Terrain.VIDE  ) {
-					t.t[j][i] = Terrain.VIDE;
+		int k;
+		for (k=0;k<y1;k++) {	
+			for (i = 0; i < y1; i++) {//boucle du bas 
+				for(j = 0; j < x-1;j ++) {
+					
+					if (t.t[j][i+1] == Terrain.VIDE  ) {
+						t.t[j][i] = Terrain.VIDE;
+					}
+					if(t.correctPosition(j-1, i + 1 )) {
+						if (t.t[j-1][i+1] == Terrain.VIDE  ) {
+							t.t[j][i] = Terrain.VIDE;
+						}
+					}
+					if(t.correctPosition(j+1, i + 1)) {
+						if (t.t[j+1][i+1] == Terrain.VIDE  ) {
+							t.t[j][i] = Terrain.VIDE;
+						}
+					}
 				}
 			}
 		}
