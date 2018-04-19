@@ -1,8 +1,7 @@
 package fr.uvsq.poo.monprojet.objets;
 
-import java.util.Random;
-
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public class Potion extends Objet {
 	
@@ -22,19 +21,13 @@ public class Potion extends Objet {
 		super.use(t);
 		t.joueur.regenLife(nombreRegen);
 		t.joueur.inventory.remove(this);
-		System.out.println("vos points de vies ont été régénérés");
+		System.out.println(t + "vos points de vies ont été régénérés");
 	}
 	
-	public static Potion spawn(Terrain t, int PV) {
-		Random r1 = new Random();
+	public static Potion spawn(Terrain t, int PV, Point2D position) {
 		Potion p = new Potion(PV);
-		int l,h;
-		do{
-			l = r1.nextInt(t.getLargeur());
-			h = r1.nextInt(t.getHauteur());
-		}while(t.t[l][h] != Terrain.SOL);
-		p.position.setPosition(l,h);
-		t.t[l][h] = p.getRepresentation();
+		p.position.setPosition(position);
+		t.t[position.getX()][position.getY()] = p.getRepresentation();
 		t.objets.add(p);
 		return p;
 	}

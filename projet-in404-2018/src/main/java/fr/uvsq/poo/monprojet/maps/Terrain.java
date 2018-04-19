@@ -173,18 +173,16 @@ public class Terrain {
 							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
 											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur)\n");
 																			break;
-			case "info" : 	System.out.println("points de vies : " + joueur.pointDeVie);
-							System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
+			case "info" :   System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
 							System.out.println("vous possédez " + joueur.getMonnaie() + " rubis");
 																			break;
 			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;
 			case "e"	:	if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
 								joueur.inventory.get(rapidUse).use(this);
-							tour(); System.out.println(this);
+							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
-			case "-d"	: 	joueur.setDamage(10); 							break;
 			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
 			default 	: 	if(s.equals("stop") == false)
 								System.out.println("> help pour obtenir la liste des commandes\n elle a la réponse à tout ;)");

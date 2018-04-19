@@ -3,6 +3,7 @@ package fr.uvsq.poo.monprojet.objets;
 import java.util.Random;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public class Argent extends Objet{
 	private int valeur;
@@ -16,13 +17,13 @@ public class Argent extends Objet{
 		return '*';
 	}
 	
-	public static void Spawn(Terrain t, int x, int y, int valeur) {
+	public static void spawn(Terrain t, Point2D position, int valeur) {
 		Random r = new Random();
 		if(r.nextInt(100) < 40) {
 			Argent a = new Argent(valeur);
-			a.position.setPosition(x, y);
+			a.position.setPosition(position);
 			t.objets.add(a);
-			t.t[x][y] = a.getRepresentation();
+			t.t[position.getX()][position.getY()] = a.getRepresentation();
 		}
 	}
 	

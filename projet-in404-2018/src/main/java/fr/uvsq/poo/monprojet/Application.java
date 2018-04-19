@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
+import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Arme;
 import fr.uvsq.poo.monprojet.objets.Pioche;
 import fr.uvsq.poo.monprojet.objets.Teleporteur;
@@ -37,8 +38,8 @@ public enum Application {
         //ajout d'une potion aléatoire sur le terrain 0 pour la tester
         
         Teleporteur.spawn(g.carte.get(2));
-        Pioche.spawn(g.carte.get(0));
-        Arme.spawn(g.carte.get(1), "Epée en bois", '!', 2);
+        Pioche.spawn(g.carte.get(0),new Point2D(13,14));
+        Arme.spawn(g.carte.get(0), "Epée en bois", '!', 2,new Point2D(10,14));
         //
         
         //Cinematic.introduction();

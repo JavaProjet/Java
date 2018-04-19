@@ -5,6 +5,7 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Pile;
 import fr.uvsq.poo.monprojet.objets.Potion;
 
 public class Monstre extends Personnage{
@@ -46,7 +47,7 @@ public class Monstre extends Personnage{
 			if(t.joueur.position.equals(devantLui)) return 1;
 			this.setVision('O');
 			if(t.joueur.position.equals(devantLui)) return 1;
-			this.setVision('S');
+			this.setVision('E');
 			if(t.joueur.position.equals(devantLui)) return 1;
 			this.vision = vision;
 			return 0;
@@ -77,14 +78,18 @@ public class Monstre extends Personnage{
 		if(p.getX() != 0 || p.getY() != 0) {
 			if(p.getX() > p.getY()) {
 				if((vision = mouvementX(x)) == 'X') {
+					if(vision == '#') return 'X';
 					if((vision = mouvementY(y)) == 'X') return Personnage.probaDeplacement(4);
+					else if(vision == '#') return 'X';
 					else return vision;
 				}
 				else return vision;
 			}
 			else {
 				if((vision = mouvementY(y)) == 'X') {
+					if(vision == '#') return 'X';
 					if((vision = mouvementX(x)) == 'X') return Personnage.probaDeplacement(4);
+					else if(vision == '#') return 'X';
 					else return vision;
 				}
 				else return vision;
@@ -100,7 +105,7 @@ public class Monstre extends Personnage{
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'O';
 				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
-					return 'X';
+					return '#';
 				}
 			}
 		}
@@ -110,7 +115,7 @@ public class Monstre extends Personnage{
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'E';
 				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
-					return 'X';
+					return '#';
 				}
 			}
 		}
@@ -124,7 +129,7 @@ public class Monstre extends Personnage{
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'S';
 				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
-					return 'X';
+					return '#';
 				}
 			}
 		}
@@ -134,7 +139,7 @@ public class Monstre extends Personnage{
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'N';
 				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
-					return 'X';
+					return '#';
 				}
 			}
 		}
@@ -163,13 +168,15 @@ public class Monstre extends Personnage{
 	
 	private void drop() {
 		Random r = new Random();
-		int val = ( r.nextInt(12 * 100) + 1 ) % 12;
-		if(val > -1 && val < 3)
-			Argent.Spawn(t, this.position.getX(), this.position.getY(), this.pointDeVie.getDenominateur()/2);
-		else if(val == 3)
-			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2));
-		else if(val > 3 && val < 6)
-			Potion.spawn(t,this.pointDeVie.getDenominateur()/2);
+		int val = ( r.nextInt(12 * 100) + 1 ) % 14;
+		if(val > -1 && val < 4)
+			Argent.spawn(t, this.position, this.pointDeVie.getDenominateur()/2);
+		else if(val == 4)
+			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2),this.position);
+		else if(val > 4 && val < 7)
+			Potion.spawn(t,this.pointDeVie.getDenominateur()/2,this.position);
+		else if(val == 7)
+			Pile.spawn(t,this.position);
 		else ;
 	}
 	

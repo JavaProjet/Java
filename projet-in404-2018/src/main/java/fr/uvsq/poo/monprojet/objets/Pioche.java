@@ -3,6 +3,7 @@ package fr.uvsq.poo.monprojet.objets;
 import java.util.Random;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public class Pioche extends Objet{
 	
@@ -27,21 +28,28 @@ public class Pioche extends Objet{
 		return p;
 	}
 	
+	public static Pioche spawn(Terrain t,Point2D position) {
+		Pioche p = new Pioche();
+		p.position.setPosition(position);
+		t.t[position.getX()][position.getY()] = p.getRepresentation();
+		t.objets.add(p);
+		return p;
+	}
+	
 	public void use(Terrain t) {
 		super.use(t);
-		
 		if(t.correctPosition(t.joueur.devantLui.getX(), t.joueur.devantLui.getY()))
 			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.MUR) {
 				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
-				Argent.Spawn(t, t.joueur.devantLui.getX(), t.joueur.devantLui.getY(),1);
+				Argent.spawn(t, t.joueur.devantLui, 1);
 				durability--;
 				System.out.println(t);
 			}
 			else {
-				System.out.println("Il n'y a pas de mur à casser devant vous");
+				System.out.println(t + "Il n'y a pas de mur à casser devant vous");
 			}
 		if(durability == 0) {
-			System.out.println("votre pioche s'est cassé");
+			System.out.println(t + "votre pioche s'est cassé");
 			t.joueur.inventory.remove(this);
 		}
 	}
