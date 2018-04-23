@@ -9,7 +9,7 @@ public class Argent extends Objet{
 	private int valeur;
 	
 	public Argent(int valeur) {
-		super("Rubis d'une valeur de " + valeur + ". utilisez le pour mettre dans votre porte monnaie",'*');
+		super("Rubis d'une valeur de " + valeur,'*');
 		this.valeur = valeur;
 	}
 	
@@ -31,6 +31,10 @@ public class Argent extends Objet{
 		super.use(t);
 		t.joueur.addMonnaie(valeur);
 		t.joueur.inventory.remove(this);
-		System.out.println("vos rubis ont été importés dans votre porte monnaie");
+		System.out.println("ils ont été importés dans votre porte monnaie");
+	}
+	
+	public int getMonnaie() {
+		return valeur;
 	}
 }

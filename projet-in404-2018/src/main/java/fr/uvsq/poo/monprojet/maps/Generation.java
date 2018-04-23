@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
+import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Pioche;
+import fr.uvsq.poo.monprojet.objets.Teleporteur;
+import fr.uvsq.poo.monprojet.personnage.Marchand;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Pj;
 import fr.uvsq.poo.monprojet.personnage.Pnj;
@@ -40,8 +44,10 @@ public class Generation {
 				
 		}
 		this.connection();
-		joueur.initEntree(carte.get(0));
+		joueur.position.setPosition(0, 14); 
+		carte.get(0).t[0][14] = joueur.getRepresentation();
 		joueur.pointDeVie.setFraction(20, 20);
+		Teleporteur.spawn(this.carte.get(2));
 	}
 	
 	private void connection() {
@@ -131,7 +137,11 @@ public class Generation {
 		}
 	}
 	
-	private Terrain generation1H() {
+	private void addMarchand(Terrain t) {
+		if(i%2 == 1)t.vendeur = Marchand.spawn(t);
+	}
+	
+	private Terrain generation1V() {
 		Terrain t;
 		Random r1 = new Random();
 		int x = r1.nextInt(10) + 10;
@@ -147,13 +157,13 @@ public class Generation {
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
-		addRandomPnj(t);
+		addRandomPnj(t); addMarchand(t);
 		addRandomMonstre(t,i/4,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
 	
-	private Terrain generation1V() {
+	private Terrain generation1H() {
 		Terrain t;
 		Random r = new Random();
 		int x = r.nextInt(30) + 15;
@@ -169,7 +179,7 @@ public class Generation {
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
-		addRandomPnj(t);
+		addRandomPnj(t); addMarchand(t);
 		addRandomMonstre(t,i/4,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
@@ -202,7 +212,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t);
-
+		addMarchand(t);
 		addRandomMonstre(t,this.i/4,surface);
 		//##//
 		return t;
@@ -234,7 +244,7 @@ public class Generation {
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
-		addRandomPnj(t);
+		addRandomPnj(t); if(i%2 == 0)addMarchand(t);
 		addRandomMonstre(t,this.i/4,surface);
 		//##//
 		return t;
@@ -271,6 +281,8 @@ public class Generation {
 		t.personnage.get(0).position.setPosition(15, 14);
 		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = 'V';
 		t.personnage.get(0).setRepresentation('V');
+		Pioche.spawn(t,new Point2D(13,14));
+        Arme.spawn(t, "Epée en bois", '!', 2,new Point2D(10,14));
 		return t;
 	}
 
@@ -375,6 +387,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,(surface));
 		addRandomPnj(t);
+		addMarchand(t);
 		addRandomMonstre(t,this.i/4,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;

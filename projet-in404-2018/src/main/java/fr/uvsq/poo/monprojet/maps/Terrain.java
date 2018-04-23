@@ -6,7 +6,9 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
+import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Objet;
+import fr.uvsq.poo.monprojet.personnage.Marchand;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Personnage;
 import fr.uvsq.poo.monprojet.personnage.Pj;
@@ -18,6 +20,7 @@ public class Terrain {
 	public ArrayList <Pnj> personnage;
 	public ArrayList <Monstre> monstres;
 	public ArrayList <Objet> objets;
+	public Marchand vendeur;
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
@@ -129,7 +132,8 @@ public class Terrain {
 			s = "";
 			try {
 				s += entree.nextLine();
-			} catch (NoSuchElementException e) {
+			}
+			catch (NoSuchElementException e) {
 				System.out.println("Standard Input not defined");
 				System.exit(1);
 			}
@@ -148,16 +152,16 @@ public class Terrain {
 	
 	private void action(String s, Scanner entree) {
 		switch(s) {
-			case "z"	: 	this.deplacementHaut(joueur,true); tour();		
+			case "z"	: 	this.deplacement(joueur,true,'N'); tour();		
 							System.out.print(this);
 																			break;
-			case "q" 	: 	this.deplacementGauche(joueur,true); tour();
+			case "q" 	: 	this.deplacement(joueur,true,'O'); tour();
 							System.out.print(this);
 																			break;
-			case "s"	: 	this.deplacementBas(joueur,true); tour();	
+			case "s"	: 	this.deplacement(joueur,true,'S'); tour();	
 							System.out.print(this);
 																			break;
-			case "d" 	: 	this.deplacementDroite(joueur,true); tour();	
+			case "d" 	: 	this.deplacement(joueur,true,'E'); tour();	
 							System.out.print(this);
 																			break;
 			case "a"	:	joueur.discuss(this); tour();
@@ -167,7 +171,7 @@ public class Terrain {
 							System.out.println("info.obtenir des informations sur votre personnage");
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
-							System.out.println("a.aucune donnée");
+							System.out.println("a.discuter avec un pnj ou un marchand");
 							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
 							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
@@ -185,7 +189,7 @@ public class Terrain {
 			case "r" 	: 	this.ramasser();								break;
 			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
 			default 	: 	if(s.equals("stop") == false)
-								System.out.println("> help pour obtenir la liste des commandes\n elle a la réponse à tout ;)");
+								System.out.println("entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
 		}
 		
@@ -194,78 +198,24 @@ public class Terrain {
 		}
 	}
 	
-	private void deplacementGauche(Personnage j, boolean accesPorte) {
-		j.setVision('O');
-		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
+	private void deplacement(Personnage j, boolean accesPorte,char vision) {
+		j.setVision(vision);
+		if(correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
 			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
+				t[j.position.getX()][j.position.getY()] = SOL;
 				j.avance();
-				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-				this.t[j.position.getX()+1][j.position.getY()] = SOL;
-				t[entree.position.getX()][entree.position.getY()] = PORTE;
-				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
 			}
 			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
 				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()] = SOL;
+				t[j.position.getX()][j.position.getY()] = SOL;
 			}
 		}
-	}
-	
-	private void deplacementDroite(Personnage j, boolean accesPorte) {
-		j.setVision('E');
-		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
-			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
-				j.avance();
-				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-				this.t[j.position.getX()-1][j.position.getY()] = SOL;
-				t[entree.position.getX()][entree.position.getY()] = PORTE;
-				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
-			}
-			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
-				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()] = SOL;
-			}
+		t[entree.position.getX()][entree.position.getY()] = PORTE;
+		t[sortie.position.getX()][sortie.position.getY()] = PORTE;
+		if(changerTerrain == false) {
+			t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
 		}
-	}
-	
-	private void deplacementBas(Personnage j, boolean accesPorte) {
-		j.setVision('S');
-		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
-			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
-				j.avance();
-				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-				this.t[j.position.getX()][j.position.getY()+1] = SOL;
-				t[entree.position.getX()][entree.position.getY()] = PORTE;
-				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
-				
-			}
-			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
-				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()] = SOL;
-			}
-		}
-	}
-	
-	private void deplacementHaut(Personnage j, boolean accesPorte) {
-		j.setVision('N');
-		this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-		if(this.correctPosition(j.devantLui.getX(), j.devantLui.getY())) {
-			if(t[j.devantLui.getX()][j.devantLui.getY()] == SOL) {
-				j.avance();
-				this.t[j.position.getX()][j.position.getY()] = j.getRepresentation();
-				this.t[j.position.getX()][j.position.getY()-1] = SOL;
-				t[entree.position.getX()][entree.position.getY()] = PORTE;
-				t[sortie.position.getX()][sortie.position.getY()] = PORTE;
-				
-			}
-			else if(t[j.devantLui.getX()][j.devantLui.getY()] == PORTE && accesPorte) {
-				changerTerrain = true;
-				this.t[j.position.getX()][j.position.getY()] = SOL;
-			}
-		}
+		if(j.getClass() != Pj.class)t[j.position.getX()][j.position.getY()] = j.getRepresentation();
 	}
 	
 	private void inventaire(Scanner entree, String s) {
@@ -297,6 +247,7 @@ public class Terrain {
 				this.t[joueur.devantLui.getX()][joueur.devantLui.getY()] = Terrain.SOL;
 				System.out.print(this);
 				System.out.println("vous avez ramassé : " + objets.get(i).getNom());
+				if(objets.get(i).getClass() == Argent.class) this.joueur.inventory.get(this.joueur.inventory.size() - 1).use(this);
 				objets.remove(i);
 				return true;
 			}
@@ -333,18 +284,14 @@ public class Terrain {
 		if(this.numero != 0) {
 			for(i = 0; i < personnage.size(); i++) {
 				char vision = Personnage.probaDeplacement(10);
-				if(vision == 'N') this.deplacementHaut(personnage.get(i),false);
-				if(vision == 'S') this.deplacementBas(personnage.get(i),false);
-				if(vision == 'E') this.deplacementGauche(personnage.get(i),false);
-				if(vision == 'O') this.deplacementDroite(personnage.get(i),false);
+				if(vision == 'N' || vision == 'S' || vision == 'E' || vision == 'O')
+					this.deplacement(personnage.get(i),false,vision);
 			}
 		}
 		for(i = 0; i < monstres.size(); i++) {
 			char vision = monstres.get(i).radar();
-			if(vision == 'N') this.deplacementHaut(monstres.get(i),false);
-			if(vision == 'S') this.deplacementBas(monstres.get(i),false);
-			if(vision == 'E') this.deplacementDroite(monstres.get(i),false);
-			if(vision == 'O') this.deplacementGauche(monstres.get(i),false);
+			if(vision == 'N' || vision == 'S' || vision == 'E' || vision == 'O')
+				this.deplacement(monstres.get(i),false,vision);
 		}
 	}
 }
