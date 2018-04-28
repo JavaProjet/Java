@@ -24,8 +24,7 @@ public class Terrain {
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
-	private int rapidUse = 0;
-	private boolean sombre = true;
+	private boolean sombre = false;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
 	public static final char SOL = '.';
@@ -182,8 +181,8 @@ public class Terrain {
 																			break;
 			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;
-			case "e"	:	if(rapidUse < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
-								joueur.inventory.get(rapidUse).use(this);
+			case "e"	:	if(joueur.getRapidUse() < joueur.inventory.size() && joueur.inventory.isEmpty() == false)
+								joueur.inventory.get(joueur.getRapidUse()).use(this);
 							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
@@ -230,7 +229,7 @@ public class Terrain {
 				val = entree.nextInt(); val--;
 				if(val > -1 && val < joueur.inventory.size()) {
 					if(s.equalsIgnoreCase("i"))joueur.inventory.get(val).use(this);
-					if(s.equalsIgnoreCase("u"))rapidUse = val;
+					if(s.equalsIgnoreCase("u"))joueur.setRapidUse(val);
 				}
 				else System.out.println("valeur incorrect");
 				entree.nextLine();

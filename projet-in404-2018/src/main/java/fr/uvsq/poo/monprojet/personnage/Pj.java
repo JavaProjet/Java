@@ -8,6 +8,7 @@ import fr.uvsq.poo.monprojet.objets.Objet;
 public class Pj extends Personnage {
 	public ArrayList <Objet> inventory;
 	private int monnaie;
+	private int rapidUse = 0;
 	
 	public Pj(int x, int y, int PointDeVie) {
 		super(x,y,PointDeVie);
@@ -69,6 +70,14 @@ public class Pj extends Personnage {
 
 	public int getMonnaie() {
 		return monnaie;
+	}
+	
+	public void setRapidUse(int rapidUse) {
+		this.rapidUse = rapidUse;
+	}
+
+	public int getRapidUse() {
+		return rapidUse;
 	}
 	
 }

@@ -172,7 +172,7 @@ public class Monstre extends Personnage{
 		if(val > -1 && val < 4)
 			Argent.spawn(t, this.position, this.pointDeVie.getDenominateur()/2);
 		else if(val == 4)
-			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2),this.position);
+			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2) + 1,this.position);
 		else if(val > 4 && val < 7)
 			Potion.spawn(t,this.pointDeVie.getDenominateur()/2,this.position);
 		else if(val == 7)

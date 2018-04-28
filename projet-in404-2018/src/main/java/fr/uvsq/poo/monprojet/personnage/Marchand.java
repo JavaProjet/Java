@@ -26,7 +26,6 @@ public class Marchand extends Personnage{
 		p.setDevant();
 		p.pointDeVie.setFraction(10, 10);
 		t.t[l][h] = p.getRepresentation();
-		t.vendeur = p;
 		return p;
 	}
 	

@@ -24,39 +24,38 @@ public class Generation {
 		Random r = new Random();
 		carte.add(this.generationD());
 		int last = 0;
-		for(i = 0; i < nombreCarte; i++) {
+		for(i = 0; i < nombreCarte - 1; i++) {
 			if(last == 0 || last == 4 || last == 2) {
-				last = r.nextInt(3); //3
-				switch(last) {
-					case 0 : carte.add(this.generation1V()); break;
-					case 1 : carte.add(this.generationL());  break;
-					case 2 : carte.add(this.generation3());  break;
-				}
+				last = r.nextInt(3);
+				if		(last == 0)	carte.add(this.generation1H());
+				else if	(last == 1)	carte.add(this.generationL());
+				else 				carte.add(this.generation3());
 			}
 			else { 
-				last = r.nextInt(2);
-				switch(last) {
-					case 0 : carte.add(this.generation1H()); break;
-					case 1 : carte.add(this.generationL2()); break;
-				}
-			}
-			
-				
+				last = r.nextInt(2) + 3;
+				if(last == 3)	carte.add(this.generation1V());
+				else 			carte.add(this.generationL2());
+			}	
 		}
+		if(last == 3 || last == 1) carte.add(this.generationL2());
+		else {
+			last = r.nextInt(2);
+			if(last == 0)	carte.add(this.generation1H());
+			else 			carte.add(this.generation3());
+		}
+		carte.add(this.generationF());
 		this.connection();
-		joueur.position.setPosition(0, 14); 
-		carte.get(0).t[0][14] = joueur.getRepresentation();
-		joueur.pointDeVie.setFraction(20, 20);
+		joueur.pointDeVie.setFraction(20000, 20);
 		Teleporteur.spawn(this.carte.get(2));
 	}
 	
 	private void connection() {
 		int i;
 		carte.get(0).entree.autorisation = false;
-		carte.get(nombreCarte - 1).sortie.autorisation = false;
-		carte.get(nombreCarte - 1).numero = nombreCarte - 1;
+		carte.get(nombreCarte).sortie.autorisation = false;
+		carte.get(nombreCarte).numero = nombreCarte;
 		carte.get(0).numero = 0;
-		for(i = 1; i < nombreCarte - 1; i++) {
+		for(i = 1; i < nombreCarte; i++) {
 			carte.get(i).numero = i;
 			carte.get(i - 1).sortie.t = carte.get(i);
 			carte.get(i).entree.t = carte.get(i - 1);
@@ -272,7 +271,7 @@ public class Generation {
 				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
 				{'.','.','.','.','.','.','.','.','.','#','.','.','.','.','.'},
 				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'},
-				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'}};
+				{'#','#','#','#','#','#','.','P','.','#','#','#','#','#','#'}};
 		t.t = tab;
 		t.entree = new Porte(null,x-1,7);
 		t.sortie = new Porte(null,x-1,7);
@@ -282,10 +281,44 @@ public class Generation {
 		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = 'V';
 		t.personnage.get(0).setRepresentation('V');
 		Pioche.spawn(t,new Point2D(13,14));
-        Arme.spawn(t, "Epée en bois", '!', 2,new Point2D(10,14));
+        Arme.spawn(t, "Epée en bois", '!', 1,new Point2D(7,14));
+        joueur.position.setPosition(0, 14); 
+        t.t[0][14] = joueur.getRepresentation();
 		return t;
 	}
-
+	
+	private Terrain generationF() {
+		Terrain t;	
+		int x = 19,y = 15;
+		t = new Terrain(x,y, joueur);
+		char [][] tab = {
+				{'.','.','.','.','.','#','.','P','.','#','.','.','.','.','.'},
+				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','#','#','#','.','.','.','.','.','.','.','#','#','#','.'},
+				{'.','.','.','.','.','.','.','.','.','.','.','.','.','.','.'},
+				{'.','.','.','.','#','#','.','.','.','#','#','.','.','.','.'},
+				{'.','.','.','.','#','.','.','.','.','.','#','.','.','.','.'},
+				{'.','.','.','.','#','.','#','.','#','.','#','.','.','.','.'}};
+		t.t = tab;
+		t.entree = new Porte(null,0,7);
+		t.sortie = new Porte(null,0,7);
+		
+		return t;
+	}
+	
+	
 	private Terrain generation3() {
 		Terrain t;
 		Random r1 = new Random();
