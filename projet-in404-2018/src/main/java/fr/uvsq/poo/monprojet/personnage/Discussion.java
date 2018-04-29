@@ -110,4 +110,48 @@ public interface Discussion {
 			}
 		}
 	}
+	public static void discuss2(Terrain T) throws InputMismatchException {
+		@SuppressWarnings("resource")
+		Scanner discute = new Scanner(System.in);
+		Random r = new Random();
+		int rand = -1; rand = r.nextInt(3);
+		if(rand == 0){
+			System.out.println("Bonjour aventurier ! Comment es-tu arrivé jusqu'ici ?");
+			System.out.println("1- (Partir)");
+			System.out.println("2- J'ai traversé de nombreuses salles et on m'a poursuivi, je suis arrivé ici par hasard..");
+			int reponse = -1; reponse = discute.nextInt();
+			if(reponse == 2){
+				System.out.println("La route est difficile tu sais, et il te reste à découvrir beaucoup de choses.");
+			}
+		}
+		if(rand == 1){
+			System.out.println("Hé! aventurier ! Que fais-tu par ici ?");
+			System.out.println("1- (Partir)");
+			System.out.println("2- Je suis à la recherche du téléporteur");
+			int reponse = -1; reponse = discute.nextInt();
+			if(reponse == 2){
+				System.out.println("Ah ! Puisque tu es arrivé jusque là je peux t'en dire plus..");
+				System.out.println(".. les gens qui se trouvent à l'entrée de la grotte ne veulent jamais rien dire là dessus..");
+				System.out.println(".. en même temps ils ne savent rien non plus !");
+				System.out.println("Le téléporteur existe bien mais il est protégé par des gardiens assez... redoutables?");
+			}
+		}
+		if(rand == 2){
+			System.out.println("Tu cherches le téléporteur?");
+			System.out.println("1- Ignorer ce personnage");
+			System.out.println("2- Non, qu'est ce que c'est?");
+			System.out.println("3- Oui! vous savez quelque chose?");
+			int reponse = -1; reponse = discute.nextInt();
+			if(reponse == 2){
+				System.out.println("Ah! Le téléporteur te permet de te déplacer dans la grotte comme tu le souhaite..");
+				System.out.println("Il a des pouvoirs assez fantastique !");
+			}
+			if(reponse == 3){
+				System.out.println("Le téléporteur existe bien mais il est protégé par des gardiens assez redoutables");
+				System.out.println("Tu le trouvera sûrement à quelques pas d'ici");
+			}
+		}
+	}
 }
+
+
