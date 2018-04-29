@@ -97,7 +97,7 @@ public class Pj extends Personnage {
 	private void levelUp() {
 		level = level + 1;
 		experience.setNumerateur(0);
-		experience.setDenominateur(level * 100);
+		experience.setDenominateur(level * 50);
 		pointDeVie.setDenominateur(pointDeVie.getDenominateur() + 10);
 		pointDeVie.setNumerateur(pointDeVie.getDenominateur());
 	}

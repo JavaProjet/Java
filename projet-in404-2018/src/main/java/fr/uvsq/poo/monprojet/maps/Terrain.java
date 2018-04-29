@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
+import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.personnage.Marchand;
@@ -140,8 +141,7 @@ public class Terrain {
 		}
 		
 		if(joueur.pointDeVie.getNumerateur() == 0) {
-			System.out.println("Game Over");
-			//System.exit(0);
+			Cinematic.gameOver();
 		}
 		else if(changerTerrain) {
 			this.playNew();

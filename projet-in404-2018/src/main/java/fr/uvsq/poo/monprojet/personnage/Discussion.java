@@ -47,7 +47,8 @@ public interface Discussion {
 			t.sortie.autorisation = true;
 		}
 		else {
-			System.out.println("je ne peut rien faire pour toi et tu ne peut rien faire non plus pour moi non plus je suis aveugle, alors prends la porte, et aussi, si\nce n'est pas déjà fais prends la pioche et l'épée");
+			System.out.println("je ne peut rien faire pour toi et tu ne peut rien faire non plus pour moi je suis aveugle,\n"
+							 + " alors prends la porte, et aussi, si ce n'est pas déjà fais prends la pioche et l'épée");
 		}
 		
 	}
