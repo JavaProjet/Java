@@ -45,13 +45,14 @@ public class Generation {
 		}
 		carte.add(this.generationF());
 		this.connection();
-		joueur.pointDeVie.setFraction(20000, 20);
+		joueur.pointDeVie.setFraction(20, 20);
 		Teleporteur.spawn(this.carte.get(2));
 	}
 	
 	private void connection() {
 		int i;
 		carte.get(0).entree.autorisation = false;
+		carte.get(0).sortie.autorisation = false;
 		carte.get(nombreCarte).sortie.autorisation = false;
 		carte.get(nombreCarte).numero = nombreCarte;
 		carte.get(0).numero = 0;

@@ -41,7 +41,8 @@ public class Pioche extends Objet{
 		if(t.correctPosition(t.joueur.devantLui.getX(), t.joueur.devantLui.getY()))
 			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.MUR) {
 				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
-				Argent.spawn(t, t.joueur.devantLui, 1);
+				Random r = new Random();
+				Argent.spawn(t, t.joueur.devantLui, r.nextInt(5) + 1);
 				durability--;
 				System.out.println(t);
 			}

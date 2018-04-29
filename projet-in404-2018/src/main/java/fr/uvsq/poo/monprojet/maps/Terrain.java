@@ -24,7 +24,7 @@ public class Terrain {
 	public Pj joueur;
 	public Porte entree;
 	public Porte sortie;
-	private boolean sombre = false;
+	private boolean sombre = true;
 	public static final char MUR = '#';
 	public static final char VIDE = ' ';
 	public static final char SOL = '.';
@@ -54,7 +54,7 @@ public class Terrain {
 	
 	public String toString() {
 		String info = new String();
-		info = joueur.pointDeVie + "\n";
+		info = "PV : " + joueur.pointDeVie + "\t" + "Rubis : " + joueur.getMonnaie() + "\t" + "XP : " + joueur.experience + "\n\n";
 		System.out.println("\n\n");
 		Terrain.clearScreen();
 		if(sombre) return this.toString2() + info;
@@ -163,7 +163,7 @@ public class Terrain {
 			case "d" 	: 	this.deplacement(joueur,true,'E'); tour();	
 							System.out.print(this);
 																			break;
-			case "a"	:	joueur.discuss(this); tour();
+			case "a"	:	joueur.discuss(this);
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
@@ -175,9 +175,6 @@ public class Terrain {
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
 							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
 											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur)\n");
-																			break;
-			case "info" :   System.out.println("position : " + (joueur.position.getX() + 1) + "," + (joueur.position.getY() + 1));
-							System.out.println("vous possédez " + joueur.getMonnaie() + " rubis");
 																			break;
 			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;

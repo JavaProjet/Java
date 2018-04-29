@@ -14,7 +14,7 @@ public class Arme extends Objet{
 		super(description,representation);
 		this.damage = 4 * niveau;
 		super.nomObjet +=" damages:" + damage;
-		durability = 10 * niveau;
+		durability = 20 * niveau;
 	}
 	
 	public void use(Terrain t) {

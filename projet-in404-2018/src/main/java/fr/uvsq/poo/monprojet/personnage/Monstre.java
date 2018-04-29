@@ -170,7 +170,7 @@ public class Monstre extends Personnage{
 		Random r = new Random();
 		int val = ( r.nextInt(12 * 100) + 1 ) % 14;
 		if(val > -1 && val < 4)
-			Argent.spawn(t, this.position, this.pointDeVie.getDenominateur()/2);
+			Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
 		else if(val == 4)
 			Arme.spawn(t,"Epée en fer", '!', ((CasseMur == true)? distance - 3 : distance - 2) + 1,this.position);
 		else if(val > 4 && val < 7)
@@ -178,6 +178,7 @@ public class Monstre extends Personnage{
 		else if(val == 7)
 			Pile.spawn(t,this.position);
 		else ;
+		t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 10);
 	}
 	
 	public boolean setDamage(int damage) { //si le monstre meurt un drop de rubis peut apparaitre

@@ -3,24 +3,30 @@ package fr.uvsq.poo.monprojet.personnage;
 import java.util.ArrayList;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.objets.Objet;
 
 public class Pj extends Personnage {
 	public ArrayList <Objet> inventory;
 	private int monnaie;
 	private int rapidUse = 0;
+	public Fraction experience;
+	private int level = 1;
 	
 	public Pj(int x, int y, int PointDeVie) {
 		super(x,y,PointDeVie);
 		inventory = new ArrayList <Objet> ();
 		representation = '>';
 		monnaie = 0;
+		experience = new Fraction(0,100);
 	}
 	
 	public Pj() {
 		super();
 		inventory = new ArrayList <Objet> ();
 		representation = '>';	
+		monnaie = 0;
+		experience = new Fraction(0,100);
 	}
 	
 	public void initEntree(Terrain t) {
@@ -78,6 +84,22 @@ public class Pj extends Personnage {
 
 	public int getRapidUse() {
 		return rapidUse;
+	}
+	
+	public void addXP(int valeur) {
+		experience.setNumerateur(experience.getNumerateur() + valeur);
+		int ret = experience.getDenominateur() - experience.getNumerateur();
+		if(ret <= 0) {
+			levelUp();
+		}
+	}
+	
+	private void levelUp() {
+		level = level + 1;
+		experience.setNumerateur(0);
+		experience.setDenominateur(level * 100);
+		pointDeVie.setDenominateur(pointDeVie.getDenominateur() + 10);
+		pointDeVie.setNumerateur(pointDeVie.getDenominateur());
 	}
 	
 }
