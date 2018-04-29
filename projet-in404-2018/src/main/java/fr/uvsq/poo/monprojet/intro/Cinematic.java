@@ -45,7 +45,7 @@ public interface Cinematic {
 		line.nextLine();
 		clearScreen();
 		sleep(1);
-		System.out.println("Mais un jour, vous tombez sur une grotte mysterieuse, son entrée avait une forme étrange.");
+ 		System.out.println("Mais un jour, vous tombez sur une grotte mysterieuse, son entrée avait une forme étrange.");
 		sleep(3);
 		System.out.println("\nalors vous vous decidez à l'explorer, et partez à l'aventure");
 		sleep(3);
@@ -89,9 +89,9 @@ public interface Cinematic {
 	public static void gameOver() {
 		String s1 = " _____   ______   ____ ____   ______       _______              ______   _______   \n";
 		String s2 = "|  ___| | [  ] | |  _ | _  | |  ____|     |  ___  | | |    | | |  ____| |  ___  |  \n";
-		String s3 = "| |  _  |  __  | | | |_| | | | |__|       | |   | | \\ \\    / / | |__|   |  _____|\n";
-		String s4 = "| |_| | | |  | | | |     | | | |____      | |___| |  \\ \\__/ /  | |____  | | \\ \\\n";
-		String s5 = "|_____| |_|  |_| |_|     |_| |______|     |_______|   \\____/   |______| |_|  \\_\\ \n";
+		String s3 = "| |  _  |  __  | | | |_| | | | |__|       | |   | | \ \    / / | |__|   |  _____|  \n";
+		String s4 = "| |_| | | |  | | | |     | | | |____      | |___| |  \ \__/ /  | |____  | |\\ \\   \n";
+		String s5 = "|_____| |_|  |_| |_|     |_| |______|     |_______|   \____/   |______| |_| \\_\\   \n";
 		System.out.println( s1 + s2 + s3 + s4 + s5);
 	}
 	
