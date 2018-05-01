@@ -1,19 +1,81 @@
 package fr.uvsq.poo.monprojet.personnage;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.Scanner;
+
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Objet;
+import fr.uvsq.poo.monprojet.objets.Pile;
+import fr.uvsq.poo.monprojet.objets.Pioche;
+import fr.uvsq.poo.monprojet.objets.Potion;
 
 public class Marchand extends Personnage{
-	ArrayList <Objet> vente;
-	ArrayList <Boolean> infini;
+	private ArrayList <Objet> vente;
+	private ArrayList <Integer> prix;
 	
 	public Marchand() {
 		super();
+		vente = new ArrayList <Objet> ();
+		prix = new ArrayList <Integer> ();
 		representation = 'M';
 	}
 	
+	private static void addObjetVente(Terrain t, Marchand m) {
+		addVente(m,new Pile(),25);
+		addVente(m,new Flash(),15);
+		addVente(m,new Potion((t.numero / 4) * 10),25);
+		addVente(m,new Pioche(),60);
+		Random r = new Random();
+		int valeurAleatoire = 0;
+		valeurAleatoire = r.nextInt(2) + 1;
+		addVente(m,new Arme("épée en bois", valeurAleatoire), 20);
+		valeurAleatoire = r.nextInt(2) + 3;
+		addVente(m,new Arme("épée en Fer", valeurAleatoire), 40);
+		valeurAleatoire = r.nextInt(2) + 5;
+		addVente(m,new Arme("épée en Or", valeurAleatoire), 60);
+		valeurAleatoire = r.nextInt(2) + 10;
+		addVente(m,new Arme("épée en Diamand", valeurAleatoire), 120);
+		valeurAleatoire = r.nextInt(2) + 7;
+		addVente(m,new Arme("épée en Rubis", valeurAleatoire), 80);
+	}
+	
+	private static void addVente(Marchand m,Objet o, int prix) {
+		m.vente.add(o);
+		m.prix.add(prix);
+	}
+	
+	public String affiche_vente() {
+		String s = "Bonjour !\nVoici ce que j'ai à vendre, que souhaite - tu m'acheter ?";
+		for(int i = 0; i < vente.size(); i++) {
+			s += (i + 1) + ". " + vente.get(i).getNom() + "   prix : " + prix.get(i) + "\n"; 
+		}
+		
+		return s;
+	}
+	
+	public void transaction(Pj joueur) {
+		@SuppressWarnings("resource")
+		Scanner entree = new Scanner(System.in);
+		int val = 0;
+		try {
+			val = entree.nextInt(); val--;
+			if(val > -1 && val < vente.size()) {
+				if(joueur.getMonnaie() >= prix.get(val)) {
+					joueur.inventory.add(vente.get(val).clone());
+					joueur.payer(prix.get(val));
+				}
+				else System.out.println("vous n'avez pas assez d'argent, revenez plus tard avec au moins " + prix.get(val) + " rubis.");
+			}
+			else System.out.println("valeur incorrect");
+			entree.nextLine();
+		} 
+		catch (InputMismatchException e) {}
+	}
+
 	public static Marchand spawn(Terrain t) {
 		Marchand p = new Marchand();
 		Random r1 = new Random();
@@ -26,8 +88,7 @@ public class Marchand extends Personnage{
 		p.setDevant();
 		p.pointDeVie.setFraction(10, 10);
 		t.t[l][h] = p.getRepresentation();
+		addObjetVente(t,p);
 		return p;
 	}
-	
-	
 }

@@ -71,4 +71,10 @@ public class Teleporteur extends Objet{
 		if(durability > 10) durability = 10;
 	}
 	
+	public Teleporteur clone() {
+		Teleporteur t = new Teleporteur();
+		t.durability = durability;
+		return t;
+	}
+	
 }

@@ -26,4 +26,8 @@ public class Pile extends Objet{
 		t.objets.add(a);
 		t.t[position.getX()][position.getY()] = a.getRepresentation();
 	}
+	
+	public Pile clone() {
+		return new Pile();
+	}
 }

@@ -10,10 +10,10 @@ public class Arme extends Objet{
 	public int damage;
 	public int durability;
 	
-	public Arme(String description, char representation, int niveau) {
-		super(description,representation);
+	public Arme(String description, int niveau) {
+		super(description,'!');
 		this.damage = 4 * niveau;
-		super.nomObjet +=" damages:" + damage;
+		super.nomObjet +=" damages : " + damage;
 		durability = 20 * niveau;
 	}
 	
@@ -34,9 +34,9 @@ public class Arme extends Objet{
 		}
 	}
 	
-	public static Arme spawn(Terrain t,String description, char representation, int niveau) {
+	public static Arme spawn(Terrain t,String description, int niveau) {
 		Random r1 = new Random();
-		Arme a = new Arme(description,representation,niveau);
+		Arme a = new Arme(description, niveau);
 		int l,h;
 		do{
 			l = r1.nextInt(t.getLargeur());
@@ -48,11 +48,17 @@ public class Arme extends Objet{
 		return a;
 	}
 	
-	public static Arme spawn(Terrain t,String description, char representation, int niveau, Point2D position) {
-		Arme a = new Arme(description,representation,niveau);
+	public static Arme spawn(Terrain t,String description, int niveau, Point2D position) {
+		Arme a = new Arme(description,niveau);
 		a.position.setPosition(position);
 		t.t[position.getX()][position.getY()] = a.getRepresentation();
 		t.objets.add(a);
+		return a;
+	}
+	
+	public Arme clone() {
+		Arme a = new Arme(nomObjet, damage / 4);
+		a.durability = durability;
 		return a;
 	}
 }

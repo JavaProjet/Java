@@ -5,10 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
-import fr.uvsq.poo.monprojet.maths.point.Point2D;
-import fr.uvsq.poo.monprojet.objets.Arme;
-import fr.uvsq.poo.monprojet.objets.Pioche;
-import fr.uvsq.poo.monprojet.objets.Teleporteur;
 
 /**
  * Cette classe est le programme principal du projet.

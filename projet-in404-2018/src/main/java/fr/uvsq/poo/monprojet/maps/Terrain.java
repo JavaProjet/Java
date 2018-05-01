@@ -141,6 +141,8 @@ public class Terrain {
 		}
 		
 		if(joueur.pointDeVie.getNumerateur() == 0) {
+			t[joueur.position.getX()][joueur.position.getY()] = '~';
+			System.out.println(this);
 			Cinematic.gameOver();
 		}
 		else if(changerTerrain) {
@@ -167,14 +169,13 @@ public class Terrain {
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
-							System.out.println("info.obtenir des informations sur votre personnage");
 							System.out.println("i.utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
 							System.out.println("a.discuter avec un pnj ou un marchand");
 							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
 							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
-											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur)\n");
+											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur / active le flash)\t flash : 0\n");
 																			break;
 			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;

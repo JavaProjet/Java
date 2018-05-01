@@ -31,4 +31,8 @@ public class Potion extends Objet {
 		t.objets.add(p);
 		return p;
 	}
+	
+	public Potion clone() {
+		return new Potion(nombreRegen);
+	}
 }

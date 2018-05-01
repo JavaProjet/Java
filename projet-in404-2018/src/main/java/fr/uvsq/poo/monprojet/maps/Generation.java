@@ -46,7 +46,7 @@ public class Generation {
 		carte.add(this.generationF());
 		this.connection();
 		joueur.pointDeVie.setFraction(20, 20);
-		Teleporteur.spawn(this.carte.get(2));
+		Teleporteur.spawn(this.carte.get(8));
 	}
 	
 	private void connection() {
@@ -282,7 +282,7 @@ public class Generation {
 		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = 'V';
 		t.personnage.get(0).setRepresentation('V');
 		Pioche.spawn(t,new Point2D(13,14));
-        Arme.spawn(t, "Epée en bois", '!', 1,new Point2D(7,14));
+        Arme.spawn(t, "Epée en bois", 1,new Point2D(7,14));
         joueur.position.setPosition(0, 14); 
         t.t[0][14] = joueur.getRepresentation();
 		return t;

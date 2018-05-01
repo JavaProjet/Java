@@ -7,7 +7,7 @@ import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public class Pioche extends Objet{
 	
-	private int durability = 100;
+	private int durability = 300;
 	
 	public Pioche() {
 		super("Pioche",'T');
@@ -42,7 +42,7 @@ public class Pioche extends Objet{
 			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.MUR) {
 				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
 				Random r = new Random();
-				Argent.spawn(t, t.joueur.devantLui, r.nextInt(5) + 1);
+				if(r.nextInt(100) < 40) Argent.spawn(t, t.joueur.devantLui, r.nextInt(5) + 1);
 				durability--;
 				System.out.println(t);
 			}
@@ -53,5 +53,11 @@ public class Pioche extends Objet{
 			System.out.println(t + "votre pioche s'est cassé");
 			t.joueur.inventory.remove(this);
 		}
+	}
+	
+	public Pioche clone() {
+		Pioche p = new Pioche();
+		p.durability = this.durability;
+		return p;
 	}
 }

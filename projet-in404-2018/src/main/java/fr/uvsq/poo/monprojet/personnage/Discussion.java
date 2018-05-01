@@ -9,16 +9,6 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 
 public interface Discussion {
 	
-	//il faut rajouter une disussion pour le vieux (je m'en occupe)
-	// cree une fonction qui fera appel a plusieurs autres fonctions qui elles permettent de discuter pour
-	//reduire la taille de la fonction
-	// comme ca on aura differentes discussions et elles varieront selon le terrain le numero varie entre 0 et 21,
-	//plus on va loin et plus les pnj donneront des indices sur la fin
-	// pour la fin soit on fais une teleportation en x = 42 et y = 42 dans la derniere salle pour finir le jeu
-	//et on met plein d'indice dans les discussions parce que 42 reponse a tout ;)
-	//sinon on fais un boss de fin et une salle de fin de jeu,
-	// t'en pense quoi ?
-	
 	public static void discussion(Terrain T) {
 		if(T.numero == 0) {
 			discussVieux(T);
@@ -29,26 +19,37 @@ public interface Discussion {
 					if(T.numero > 0 && T.numero <= 5) {// dans les 5 premieres salles
 						discuss1(T);
 					}
+					else if(T.numero > 5 && T.numero <= 10) {// dans les 5 premieres salles
+						discuss2(T);
+					}
+					else {//tamporaire
+						System.out.println("pas de discussion dans cette salle");
+					}
 				}
 			}
-			if(T.joueur.devantLui.equals(T.vendeur.position)) {
-				discussVendeur(T);
-			}
+			try {
+				if(T.joueur.devantLui.equals(T.vendeur.position)) {
+					discussVendeur(T);
+				}
+			} catch (java.lang.NullPointerException e) {}
 		}
 	}
 	
 	public static void discussVendeur(Terrain t) {
-		System.out.println("je n'ai rien à vendre");
+		t.vendeur.affiche_vente();
+		t.vendeur.transaction(t.joueur);
 	}
 
 	public static void discussVieux(Terrain t) {
 		if(t.sortie.autorisation == false) {
-			System.out.println("Laisse moi tranquille, j'ai pas envie de parler, prends plutôt la porte et fais gaffe, c'est dangereux.");
-			t.sortie.autorisation = true;
+			System.out.println("Que fais - tu ici ? Tu dois quitter cet endroit en prenant la porte mais attention, c'est dangereux !\n"
+							 + "Ah ! Et si ce n'est pas déjà fais prends la pioche et l'épée.\n"
+							 + "Si tu ne pas connais ce que tu vois, écris help dans le terminal, ceci t'aidera à le savoir");
+			t.sortie.autorisation = true; //la porte est désormais accessible
 		}
 		else {
-			System.out.println("je ne peut rien faire pour toi et tu ne peut rien faire non plus pour moi je suis aveugle,\n"
-							 + " alors prends la porte, et aussi, si ce n'est pas déjà fais prends la pioche et l'épée");
+			System.out.println("je ne peut rien faire pour toi et tu ne peut rien faire pour moi non plus je suis aveugle,\n"
+							 + " alors prends donc cette porte et ne reste pas ici.");
 		}
 		
 	}
@@ -133,18 +134,18 @@ public interface Discussion {
 				System.out.println("Ah ! Puisque tu es arrivé jusque là je peux t'en dire plus..");
 				System.out.println(".. les gens qui se trouvent à l'entrée de la grotte ne veulent jamais rien dire là dessus..");
 				System.out.println(".. en même temps ils ne savent rien non plus !");
-				System.out.println("Le téléporteur existe bien mais il est protégé par des gardiens assez... redoutables?");
+				System.out.println("Le téléporteur existe bien mais il est protégé par des gardiens assez... redoutables ?");
 			}
 		}
 		if(rand == 2){
-			System.out.println("Tu cherches le téléporteur?");
+			System.out.println("Tu cherches le téléporteur ?");
 			System.out.println("1- Ignorer ce personnage");
 			System.out.println("2- Non, qu'est ce que c'est?");
 			System.out.println("3- Oui! vous savez quelque chose?");
 			int reponse = -1; reponse = discute.nextInt();
 			if(reponse == 2){
 				System.out.println("Ah! Le téléporteur te permet de te déplacer dans la grotte comme tu le souhaite..");
-				System.out.println("Il a des pouvoirs assez fantastique !");
+				System.out.println("Il a des pouvoirs assez fantastiques !");
 			}
 			if(reponse == 3){
 				System.out.println("Le téléporteur existe bien mais il est protégé par des gardiens assez redoutables");

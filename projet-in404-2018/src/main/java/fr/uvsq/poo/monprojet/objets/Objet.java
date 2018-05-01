@@ -31,4 +31,9 @@ public abstract class Objet {
 	public void use(Terrain t) {
 		//pour faire du polymorphisme
 	}
+	
+	public Objet clone() {
+		return null;
+		//pour faire du polymorphisme
+	}
 }

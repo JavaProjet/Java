@@ -1,6 +1,7 @@
 package fr.uvsq.poo.monprojet.objets;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.maths.point.Point2D;
 
 public class Flash extends Objet{
 	
@@ -19,5 +20,16 @@ public class Flash extends Objet{
 			}
 		}
 		if(used == false) System.out.println("vous avez besoin d'une pile pour utiliser cet objet");
+	}
+	
+	public static void spawn(Terrain t, Point2D position) {
+		Flash a = new Flash();
+		a.position.setPosition(position);
+		t.objets.add(a);
+		t.t[position.getX()][position.getY()] = a.getRepresentation();
+	}
+	
+	public Flash clone() {
+		return new Flash();
 	}
 }
