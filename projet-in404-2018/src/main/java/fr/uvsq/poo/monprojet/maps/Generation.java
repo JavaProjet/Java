@@ -47,14 +47,17 @@ public class Generation {
 		this.connection();
 		joueur.pointDeVie.setFraction(20, 20);
 		Teleporteur.spawn(this.carte.get(8));
+		carte.get(nombreCarte).monstres.add(Monstre.spawn(carte.get(nombreCarte), 10));
+		carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).setRepresentation('&');
 	}
 	
 	private void connection() {
 		int i;
 		carte.get(0).entree.autorisation = false;
 		carte.get(0).sortie.autorisation = false;
+		carte.get(nombreCarte + 1).sortie.autorisation = false;
 		carte.get(nombreCarte).sortie.autorisation = false;
-		carte.get(nombreCarte).numero = nombreCarte;
+		carte.get(nombreCarte + 1).numero = nombreCarte + 1;
 		carte.get(0).numero = 0;
 		for(i = 1; i < nombreCarte; i++) {
 			carte.get(i).numero = i;

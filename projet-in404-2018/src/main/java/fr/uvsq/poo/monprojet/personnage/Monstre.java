@@ -5,6 +5,7 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Key;
 import fr.uvsq.poo.monprojet.objets.Pile;
 import fr.uvsq.poo.monprojet.objets.Potion;
 
@@ -167,25 +168,30 @@ public class Monstre extends Personnage{
 	}
 	
 	private void drop() {
-		Random r = new Random();
-		int val = ( r.nextInt(12 * 100) + 1 ) % 14;
-		if(val > -1 && val < 4)
-			Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
-		else if(val == 4)
-			Arme.spawn(t,"Epée de monstre", ((CasseMur == true)? distance - 3 : distance - 2) + 1,this.position);
-		else if(val > 4 && val < 7)
-			Potion.spawn(t,this.pointDeVie.getDenominateur()/2,this.position);
-		else if(val == 7)
-			Pile.spawn(t,this.position);
-		else ;
-		t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 20);
+		if(this.representation == '&') {
+			Key.spawn(t, position);
+		}
+		else {
+			Random r = new Random();
+			int val = ( r.nextInt(12 * 100) + 1 ) % 14;
+			if(val > -1 && val < 4)
+				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
+			else if(val == 4)
+				Arme.spawn(t,"Epée de monstre", ((CasseMur == true)? distance - 3 : distance - 2) + 1,position);
+			else if(val > 4 && val < 7)
+				Potion.spawn(t,pointDeVie.getDenominateur()/2,position);
+			else if(val == 7)
+				Pile.spawn(t,position);
+			else ;
+			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 20);
+		}
 	}
 	
 	public boolean setDamage(int damage) { //si le monstre meurt un drop de rubis peut apparaitre
 		boolean ret = super.setDamage(damage);
 		
 		if(ret == false) {// drop possible
-			t.t[this.position.getX()][this.position.getY()] = Terrain.SOL;
+			t.t[position.getX()][position.getY()] = Terrain.SOL;
 			t.monstres.remove(this);
 			drop();
 		}
