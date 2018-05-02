@@ -16,6 +16,8 @@ public class Flash extends Objet{
 			if(t.joueur.inventory.get(i).getClass() == Pile.class) {
 				used = true;
 				t.joueur.inventory.remove(i);
+				t.joueur.inventory.remove(this);
+				t.setSombre(false);
 				System.out.println(t + "une pile a été consommé et la carte s'éclaircit");
 			}
 		}

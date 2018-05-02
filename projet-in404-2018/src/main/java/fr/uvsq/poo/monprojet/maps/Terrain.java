@@ -58,7 +58,7 @@ public class Terrain {
 		info = "PV : " + joueur.pointDeVie + "\t" + "Rubis : " + joueur.getMonnaie() + "\t" + "XP : " + joueur.experience + "\n\n";
 		System.out.println("\n\n");
 		Terrain.clearScreen();
-		if(sombre) return this.toString2() + info;
+		if(isSombre()) return this.toString2() + info;
 		else return this.toString1() + info;
 	}
 	
@@ -184,8 +184,8 @@ public class Terrain {
 							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
-			case "-s"	:	sombre = !sombre; System.out.print(this);		break;
-			default 	: 	if(s.equals("stop") == false)
+			case "-s"	:	setSombre(!isSombre()); System.out.print(this);		break;
+			default 	: 	if(s.equals("stop") == false && s.length() != 42)
 								System.out.println("entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
 		}
@@ -290,5 +290,13 @@ public class Terrain {
 			if(vision == 'N' || vision == 'S' || vision == 'E' || vision == 'O')
 				this.deplacement(monstres.get(i),false,vision);
 		}
+	}
+
+	public boolean isSombre() {
+		return sombre;
+	}
+
+	public void setSombre(boolean sombre) {
+		this.sombre = sombre;
 	}
 }

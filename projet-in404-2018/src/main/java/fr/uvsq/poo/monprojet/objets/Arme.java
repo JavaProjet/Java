@@ -9,12 +9,14 @@ public class Arme extends Objet{
 	
 	public int damage;
 	public int durability;
-	
+	public String nomArme;
 	public Arme(String description, int niveau) {
 		super(description,'!');
+		nomArme = new String(description);
 		this.damage = 4 * niveau;
-		super.nomObjet +=" damages : " + damage;
 		durability = 20 * niveau;
+		super.nomObjet +=" " + damage + " damages, (" + durability + "use)";
+		
 	}
 	
 	public void use(Terrain t) {
@@ -32,6 +34,7 @@ public class Arme extends Objet{
 			System.out.println(t + "votre arme s'est cassé");
 			t.joueur.inventory.remove(this);
 		}
+		nomObjet = new String(nomArme + " " + damage + " damages, (" + durability + "use)");
 	}
 	
 	public static Arme spawn(Terrain t,String description, int niveau) {

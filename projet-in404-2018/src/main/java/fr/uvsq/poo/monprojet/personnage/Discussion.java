@@ -11,7 +11,9 @@ public interface Discussion {
 	
 	public static void discussion(Terrain T) {
 		if(T.numero == 0) {
-			discussVieux(T);
+			if(T.joueur.devantLui.equals(T.personnage.get(0).position))
+				discussVieux(T);
+			else System.out.println("*bruit de quelqu'un qui tousse*");
 		}
 		else {
 			for(int i = 0; i < T.personnage.size(); i++) {
@@ -36,7 +38,7 @@ public interface Discussion {
 	}
 	
 	public static void discussVendeur(Terrain t) {
-		t.vendeur.affiche_vente();
+		System.out.println(t.vendeur.affiche_vente());
 		t.vendeur.transaction(t.joueur);
 	}
 
@@ -44,7 +46,9 @@ public interface Discussion {
 		if(t.sortie.autorisation == false) {
 			System.out.println("Que fais - tu ici ? Tu dois quitter cet endroit en prenant la porte mais attention, c'est dangereux !\n"
 							 + "Ah ! Et si ce n'est pas déjà fais prends la pioche et l'épée.\n"
-							 + "Si tu ne pas connais ce que tu vois, écris help dans le terminal, ceci t'aidera à le savoir");
+							 + "Si tu ne connais pas ce que tu vois, écris help dans le terminal, ceci t'aidera à le savoir\n"
+							 + "Il me reste quelques rubis je te les offre, tu peut aussi en trouver dans les murs\n Vous avez reçu 3 rubis");
+			t.joueur.addMonnaie(3);
 			t.sortie.autorisation = true; //la porte est désormais accessible
 		}
 		else {

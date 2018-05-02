@@ -27,7 +27,7 @@ public class Marchand extends Personnage{
 	private static void addObjetVente(Terrain t, Marchand m) {
 		addVente(m,new Pile(),25);
 		addVente(m,new Flash(),15);
-		addVente(m,new Potion((t.numero / 4) * 10),25);
+		addVente(m,new Potion(10),15);
 		addVente(m,new Pioche(),60);
 		Random r = new Random();
 		int valeurAleatoire = 0;
@@ -49,7 +49,7 @@ public class Marchand extends Personnage{
 	}
 	
 	public String affiche_vente() {
-		String s = "Bonjour !\nVoici ce que j'ai à vendre, que souhaite - tu m'acheter ?";
+		String s = "Bonjour !\nVoici ce que j'ai à vendre, que souhaite - tu m'acheter ?\n";
 		for(int i = 0; i < vente.size(); i++) {
 			s += (i + 1) + ". " + vente.get(i).getNom() + "   prix : " + prix.get(i) + "\n"; 
 		}
@@ -67,6 +67,8 @@ public class Marchand extends Personnage{
 				if(joueur.getMonnaie() >= prix.get(val)) {
 					joueur.inventory.add(vente.get(val).clone());
 					joueur.payer(prix.get(val));
+					System.out.println("Voici ton objet : " + vente.get(val).getNom());
+					System.out.println("\nRubis restant : " + joueur.getMonnaie());
 				}
 				else System.out.println("vous n'avez pas assez d'argent, revenez plus tard avec au moins " + prix.get(val) + " rubis.");
 			}

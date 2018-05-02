@@ -10,7 +10,7 @@ public class Pioche extends Objet{
 	private int durability = 300;
 	
 	public Pioche() {
-		super("Pioche",'T');
+		super("Pioche (300 use)",'T');
 		
 	}
 	
@@ -44,7 +44,8 @@ public class Pioche extends Objet{
 				Random r = new Random();
 				if(r.nextInt(100) < 40) Argent.spawn(t, t.joueur.devantLui, r.nextInt(5) + 1);
 				durability--;
-				System.out.println(t);
+				this.nomObjet = new String("Pioche (" + durability + "use)"
+);				System.out.println(t);
 			}
 			else {
 				System.out.println(t + "Il n'y a pas de mur à casser devant vous");
