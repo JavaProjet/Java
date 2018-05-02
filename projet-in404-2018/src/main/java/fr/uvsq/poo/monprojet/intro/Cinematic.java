@@ -38,11 +38,14 @@ public interface Cinematic {
 		String s = "                                            \n"; //45
 		int k = 40;
 		clearScreen();
+		System.out.println("appuyez sur entrée pour commencer");
+		line.nextLine();
 		System.out.println("Vous êtes à la recherche d'un tresor");
 		sleep(1);
 		System.out.println("\nun trésor d'une valeur inestimable, on raconte qu'il permet de se téléporter, mais...");
 		sleep(2);
 		System.out.println("\nMalheureusement, personne à ce jour ne l'a trouvé et on dit de cette objet que ce n'est qu'une légende et qu'il serait gardé par une tribut inconnu de tous");
+		System.out.println("appuyez sur entrée pour continuer");
 		line.nextLine();
 		clearScreen();
 		sleep(1);
@@ -51,6 +54,7 @@ public interface Cinematic {
 		System.out.println("\nalors vous vous decidez à l'explorer, et partez à l'aventure");
 		sleep(3);
 		System.out.println("\nc'est ainsi que vous entrez dans cette mystérieuse grotte...");
+		System.out.println("appuyez sur entrée pour continuer");
 		line.nextLine();
 		clearScreen();
 		sleep(1);
@@ -84,6 +88,7 @@ public interface Cinematic {
 		clearScreen();
 		sleep(2);	
 		System.out.println("Mais ce caillou heurte votre tête, et vous assomme...\n\n vous vous reveillez dans une salle.");
+		System.out.println("appuyez sur entrée pour continuer");
 		line.nextLine();
 	}
 	

@@ -5,6 +5,7 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Key;
 import fr.uvsq.poo.monprojet.objets.Pile;
 import fr.uvsq.poo.monprojet.objets.Potion;
@@ -173,7 +174,7 @@ public class Monstre extends Personnage{
 		}
 		else {
 			Random r = new Random();
-			int val = ( r.nextInt(12 * 100) + 1 ) % 14;
+			int val = ( r.nextInt(12 * 100) + 1 ) % 19;
 			if(val > -1 && val < 4)
 				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
 			else if(val == 4)
@@ -182,8 +183,10 @@ public class Monstre extends Personnage{
 				Potion.spawn(t,pointDeVie.getDenominateur()/2,position);
 			else if(val == 7)
 				Pile.spawn(t,position);
+			else if(val == 8)
+				Flash.spawn(t,position);
 			else ;
-			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 20);
+			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 10);
 		}
 	}
 	

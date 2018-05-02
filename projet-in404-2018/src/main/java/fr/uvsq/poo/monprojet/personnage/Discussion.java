@@ -13,7 +13,20 @@ public interface Discussion {
 		if(T.numero == 0) {
 			if(T.joueur.devantLui.equals(T.personnage.get(0).position))
 				discussVieux(T);
-			else System.out.println("*bruit de quelqu'un qui tousse*");
+			else {
+				int alea = 0;
+				Random r = new Random(); 
+				if(T.sortie.autorisation == false)alea = r.nextInt(3);
+				if      (alea == 0)System.out.println(T + "*bruit de quelqu'un qui tousse*");
+				else if (alea == 1) {
+					if(T.sortie.autorisation == false)
+						System.out.println(T + "Voix d'un vieux : il y a quelqu'un ?");
+				}
+				else {
+					if(T.sortie.autorisation == false)
+						System.out.println(T + "Voix d'un vieux : hé oh ! Viens me viens me voir avant de prendre la porte");
+				}
+			}
 		}
 		else {
 			for(int i = 0; i < T.personnage.size(); i++) {
@@ -25,7 +38,7 @@ public interface Discussion {
 						discuss2(T);
 					}
 					else {//tamporaire
-						System.out.println("pas de discussion dans cette salle");
+						System.out.println(T + "pas de discussion dans cette salle");
 					}
 				}
 			}
@@ -39,14 +52,13 @@ public interface Discussion {
 	
 	public static void discussVendeur(Terrain t) {
 		System.out.println(t.vendeur.affiche_vente());
-		t.vendeur.transaction(t.joueur);
+		t.vendeur.transaction(t);
 	}
 
 	public static void discussVieux(Terrain t) {
 		if(t.sortie.autorisation == false) {
 			System.out.println("Que fais - tu ici ? Tu dois quitter cet endroit en prenant la porte mais attention, c'est dangereux !\n"
 							 + "Ah ! Et si ce n'est pas déjà fais prends la pioche et l'épée.\n"
-							 + "Si tu ne connais pas ce que tu vois, écris help dans le terminal, ceci t'aidera à le savoir\n"
 							 + "Il me reste quelques rubis je te les offre, tu peut aussi en trouver dans les murs\n Vous avez reçu 3 rubis");
 			t.joueur.addMonnaie(3);
 			t.sortie.autorisation = true; //la porte est désormais accessible

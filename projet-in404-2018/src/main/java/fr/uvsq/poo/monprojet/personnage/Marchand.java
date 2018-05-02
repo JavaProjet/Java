@@ -57,18 +57,18 @@ public class Marchand extends Personnage{
 		return s;
 	}
 	
-	public void transaction(Pj joueur) {
+	public void transaction(Terrain t) {
 		@SuppressWarnings("resource")
 		Scanner entree = new Scanner(System.in);
 		int val = 0;
 		try {
 			val = entree.nextInt(); val--;
 			if(val > -1 && val < vente.size()) {
-				if(joueur.getMonnaie() >= prix.get(val)) {
-					joueur.inventory.add(vente.get(val).clone());
-					joueur.payer(prix.get(val));
-					System.out.println("Voici ton objet : " + vente.get(val).getNom());
-					System.out.println("\nRubis restant : " + joueur.getMonnaie());
+				if(t.joueur.getMonnaie() >= prix.get(val)) {
+					t.joueur.inventory.add(vente.get(val).clone());
+					t.joueur.payer(prix.get(val));
+					System.out.println(t + "Voici ton objet : " + vente.get(val).getNom());
+					System.out.println("\nRubis restant : " + t.joueur.getMonnaie());
 				}
 				else System.out.println("vous n'avez pas assez d'argent, revenez plus tard avec au moins " + prix.get(val) + " rubis.");
 			}

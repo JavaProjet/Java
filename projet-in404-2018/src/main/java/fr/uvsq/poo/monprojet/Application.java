@@ -31,7 +31,7 @@ public enum Application {
         
         Generation g = new Generation();
         
-        //Cinematic.introduction();
+        Cinematic.introduction();
         g.carte.get(0).play();
         
        

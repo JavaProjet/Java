@@ -109,6 +109,23 @@ public class Terrain {
 		return hauteur;
 	}
 	
+
+	private int getSurface() {
+		int surface = 0,i,j;
+		for(i = 0; i < largeur; i++) {
+			for(j = 0; j < hauteur; j++) {
+				if(t[i][j] == SOL) surface ++;
+			}
+		}
+		return surface;
+	}
+	
+	void respawnMonstre(int surface) {
+		while(monstres.size() < surface / 100) {
+			monstres.add(Monstre.spawn(this, numero / 4));
+		}
+	}
+	
 	public boolean correctPosition(int x,int y) { //si la position x,y est dans le terrain
 		
 		if(y > -1 && y < hauteur) { // si la position x,y est incluse dans le terrain en Y
@@ -126,6 +143,7 @@ public class Terrain {
 	public void play() {
 		System.out.println(this);
 		changerTerrain = false;
+		if(numero != 0)respawnMonstre(getSurface());
 		Scanner entree = new Scanner(System.in);
 		String s = new String();
 		while(s.equals("stop") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
@@ -184,7 +202,8 @@ public class Terrain {
 							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
-			case "-s"	:	setSombre(!isSombre()); System.out.print(this);		break;
+			case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
+			case "hidden test" : joueur.addMonnaie(9999); 					break;
 			default 	: 	if(s.equals("stop") == false && s.length() != 42)
 								System.out.println("entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
