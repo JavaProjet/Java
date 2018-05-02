@@ -47,8 +47,10 @@ public class Generation {
 		this.connection();
 		joueur.pointDeVie.setFraction(20, 20);
 		Teleporteur.spawn(this.carte.get(8));
-		carte.get(nombreCarte).monstres.add(Monstre.spawn(carte.get(nombreCarte), 15));
+		Monstre.spawn(carte.get(nombreCarte), 15);
 		carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).setRepresentation('&');
+		carte.get(nombreCarte).t[carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).position.getX()]
+								[carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).position.getY()] = '&';
 	}
 	
 	private void connection() {
@@ -57,7 +59,7 @@ public class Generation {
 		carte.get(0).sortie.autorisation = false;
 		carte.get(nombreCarte + 1).sortie.autorisation = false;
 		carte.get(nombreCarte).sortie.autorisation = false;
-		for(i = 1; i < nombreCarte; i++) {
+		for(i = 1; i <= nombreCarte; i++) {
 			carte.get(i - 1).sortie.t = carte.get(i);
 			carte.get(i).entree.t = carte.get(i - 1);
 			carte.get(i).sortie.t = carte.get(i + 1);
@@ -139,7 +141,7 @@ public class Generation {
 	}
 	
 	private void addMarchand(Terrain t) {
-		if(i%2 == 1)t.vendeur = Marchand.spawn(t);
+		if(i%2 == 1)Marchand.spawn(t);
 	}
 	
 	private Terrain generation1V() {

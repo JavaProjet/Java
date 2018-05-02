@@ -16,7 +16,7 @@ public class Pnj extends Personnage{
 		representation = 'N';
 	}
 	
-	public static Pnj spawn(Terrain t) {
+	public static void spawn(Terrain t) {
 		Pnj p = new Pnj();
 		Random r1 = new Random();
 		int l,h;
@@ -29,7 +29,6 @@ public class Pnj extends Personnage{
 		p.pointDeVie.setFraction(10, 10);
 		t.t[l][h] = p.getRepresentation();
 		t.personnage.add(p);
-		return p;
 	}
 	
 	public boolean setDamage(int damage, Terrain t) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon

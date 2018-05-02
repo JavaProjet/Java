@@ -51,7 +51,7 @@ public interface Discussion {
 	}
 	
 	public static void discussVendeur(Terrain t) {
-		System.out.println(t.vendeur.affiche_vente());
+		System.out.println(t + t.vendeur.affiche_vente());
 		t.vendeur.transaction(t);
 	}
 

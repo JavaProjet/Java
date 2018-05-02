@@ -90,7 +90,7 @@ public class Pj extends Personnage {
 		experience.setNumerateur(experience.getNumerateur() + valeur);
 		int ret = experience.getDenominateur() - experience.getNumerateur();
 		if(ret <= 0) {
-			levelUp();
+			levelUp(-ret);
 		}
 	}
 	

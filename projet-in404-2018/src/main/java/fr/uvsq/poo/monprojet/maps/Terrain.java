@@ -2,7 +2,6 @@ package fr.uvsq.poo.monprojet.maps;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
@@ -122,7 +121,7 @@ public class Terrain {
 	
 	void respawnMonstre(int surface) {
 		while(monstres.size() < surface / 100) {
-			monstres.add(Monstre.spawn(this, numero / 4));
+			Monstre.spawn(this, numero / 4);
 		}
 	}
 	
@@ -141,20 +140,14 @@ public class Terrain {
 	//###//
 	
 	public void play() {
+		if(numero != 0)respawnMonstre(getSurface());
 		System.out.println(this);
 		changerTerrain = false;
-		if(numero != 0)respawnMonstre(getSurface());
 		Scanner entree = new Scanner(System.in);
 		String s = new String();
 		while(s.equals("stop") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
 			s = "";
-			try {
-				s += entree.nextLine();
-			}
-			catch (NoSuchElementException e) {
-				System.out.println("Standard Input not defined");
-				System.exit(1);
-			}
+			s += entree.nextLine();
 			this.action(s,entree);
 		}
 		
@@ -166,7 +159,6 @@ public class Terrain {
 		else if(changerTerrain) {
 			this.playNew();
 		}
-		entree.close();
 	}
 	
 	private void action(String s, Scanner entree) {
@@ -187,10 +179,10 @@ public class Terrain {
 																			break;
 			case "help" : 	System.out.println("\"commande\".\"informations de la commande\"");
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
-							System.out.println("i.utiliser un objet de l'inventaire");
+							System.out.println("i.afficher/utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
 							System.out.println("a.discuter avec un pnj ou un marchand");
-							System.out.println("u.raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
+							System.out.println("u.assigner un raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
 							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
 											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur / active le flash)\t flash : 0\n");
@@ -203,7 +195,9 @@ public class Terrain {
 																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
-			case "hidden test" : joueur.addMonnaie(9999); 					break;
+			case "hidden test" :	joueur.addMonnaie(9999); joueur.addXP(100000);
+									System.out.print(this);
+																			break;
 			default 	: 	if(s.equals("stop") == false && s.length() != 42)
 								System.out.println("entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
@@ -240,7 +234,7 @@ public class Terrain {
 		}
 		else {
 			joueur.afficherInventaire();
-			System.out.println("entrez le numéro de l'objet correspondant, ou une commande du jeu pour continuer");
+			System.out.println("entrez le numéro de l'objet choisit, ou une commande du jeu pour continuer");
 			int val;
 			try {
 				val = entree.nextInt(); val--;

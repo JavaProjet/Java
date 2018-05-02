@@ -6,7 +6,7 @@ import fr.uvsq.poo.monprojet.maths.point.Point2D;
 public class Key extends Objet{
 	
 	public Key() {
-		super("Clé menant à la salle finale", '\'');
+		super("Clé menant à la salle finale", 'y');
 	}
 	
 	public void use(Terrain t) {

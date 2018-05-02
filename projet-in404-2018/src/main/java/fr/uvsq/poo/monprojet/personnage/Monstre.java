@@ -4,7 +4,6 @@ import java.util.Random;
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
-import fr.uvsq.poo.monprojet.objets.Arme;
 import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Key;
 import fr.uvsq.poo.monprojet.objets.Pile;
@@ -148,7 +147,7 @@ public class Monstre extends Personnage{
 		return 'X';
 	}
 	
-	public static Monstre spawn(Terrain t, int niveau) {
+	public static void spawn(Terrain t, int niveau) {
 		Random r = new Random();
 		boolean casseMur = (r.nextInt(100)%2 == 0);
 		niveau -= r.nextInt(3);
@@ -161,11 +160,8 @@ public class Monstre extends Personnage{
 		}while(t.t[l][h] != Terrain.SOL);
 		m.position.setPosition(l,h);
 		m.setDevant();
-		m.pointDeVie.setFraction(10, 10);
 		t.t[l][h] = m.getRepresentation();
 		t.monstres.add(m);
-		
-		return m;
 	}
 	
 	private void drop() {
@@ -178,13 +174,11 @@ public class Monstre extends Personnage{
 			if(val > -1 && val < 4)
 				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
 			else if(val == 4)
-				Arme.spawn(t,"Epée de monstre", ((CasseMur == true)? distance - 3 : distance - 2) + 1,position);
+				Flash.spawn(t,position);
 			else if(val > 4 && val < 7)
 				Potion.spawn(t,pointDeVie.getDenominateur()/2,position);
 			else if(val == 7)
 				Pile.spawn(t,position);
-			else if(val == 8)
-				Flash.spawn(t,position);
 			else ;
 			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 10);
 		}
@@ -198,7 +192,6 @@ public class Monstre extends Personnage{
 			t.monstres.remove(this);
 			drop();
 		}
-		
 		return ret;
 	}
 }

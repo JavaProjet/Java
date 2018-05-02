@@ -1,5 +1,7 @@
 package fr.uvsq.poo.monprojet;
 
+import java.util.Scanner;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,16 +26,20 @@ public enum Application {
         Fenetre F = new Fenetre();
         boolean go = false;
 
-	do{
-		go = F.getGo();
-	}
-	while (go == false);
+		do{
+			go = F.getGo();
+		}
+		while (go == false);
         
+        
+		Scanner entree = new Scanner(System.in);
+        int s;
+        System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
+        s = entree.nextInt();
+        if(s != 1)Cinematic.introduction();
         Generation g = new Generation();
-        
-        Cinematic.introduction();
         g.carte.get(0).play();
-        
+        entree.close();
        
         
         logger.trace("Fin du programme");

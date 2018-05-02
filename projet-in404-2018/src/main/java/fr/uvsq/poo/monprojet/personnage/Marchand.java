@@ -53,7 +53,6 @@ public class Marchand extends Personnage{
 		for(int i = 0; i < vente.size(); i++) {
 			s += (i + 1) + ". " + vente.get(i).getNom() + "   prix : " + prix.get(i) + "\n"; 
 		}
-		
 		return s;
 	}
 	
@@ -75,10 +74,12 @@ public class Marchand extends Personnage{
 			else System.out.println("valeur incorrect");
 			entree.nextLine();
 		} 
-		catch (InputMismatchException e) {}
+		catch (InputMismatchException e) {
+			System.out.println(t + "Au revoir !");
+		}
 	}
 
-	public static Marchand spawn(Terrain t) {
+	public static void spawn(Terrain t) {
 		Marchand p = new Marchand();
 		Random r1 = new Random();
 		int l,h;
@@ -88,9 +89,8 @@ public class Marchand extends Personnage{
 		}while(t.t[l][h] != Terrain.SOL);
 		p.position.setPosition(l,h);
 		p.setDevant();
-		p.pointDeVie.setFraction(10, 10);
 		t.t[l][h] = p.getRepresentation();
 		addObjetVente(t,p);
-		return p;
+		t.vendeur = p;
 	}
 }
