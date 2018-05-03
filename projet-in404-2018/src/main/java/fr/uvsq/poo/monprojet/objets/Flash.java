@@ -34,4 +34,10 @@ public class Flash extends Objet{
 	public Flash clone() {
 		return new Flash();
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		return s;
+	}
 }

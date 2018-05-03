@@ -61,4 +61,11 @@ public class Pioche extends Objet{
 		p.durability = this.durability;
 		return p;
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		s += " " + durability;	
+		return s;
+	}
 }

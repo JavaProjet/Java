@@ -194,4 +194,9 @@ public class Monstre extends Personnage{
 		}
 		return ret;
 	}
+	
+	public int getNiveau() {
+		int niv = (CasseMur == true)? distance - 3 : distance - 2;
+		return niv;
+	}
 }

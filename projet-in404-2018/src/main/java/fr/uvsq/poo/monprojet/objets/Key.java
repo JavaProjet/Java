@@ -10,7 +10,7 @@ public class Key extends Objet{
 	}
 	
 	public void use(Terrain t) {
-		if(t.numero == 20) {
+		if(t.getNumero() == 20) {
 			if(t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] == Terrain.PORTE) {
 				if(t.joueur.devantLui.equals(t.sortie.position)) {
 					t.sortie.autorisation = true;
@@ -35,5 +35,11 @@ public class Key extends Objet{
 		t.t[position.getX()][position.getY()] = p.getRepresentation();
 		t.objets.add(p);
 		return p;
+	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();	
+		return s;
 	}
 }

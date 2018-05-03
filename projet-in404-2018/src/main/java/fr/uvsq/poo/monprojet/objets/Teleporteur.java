@@ -32,38 +32,41 @@ public class Teleporteur extends Objet{
 	public void use(Terrain t) {
 		super.use(t);
 		String s = new String();
-		if(durability == 0) s += "utilisez une pile pour le recharger";
-		@SuppressWarnings("resource")
-		Scanner entry = new Scanner(System.in);
-		int val[] = new int[2];
-		for(int i = 0; i < 2; i++) {
-			if(i == 0)	System.out.print("deplacement en x : ");
-			else 		System.out.print("deplacement en y : ");
-			
-			try {
-				val[i] = entry.nextInt();
-			}
-			catch(InputMismatchException e) {
-				System.out.println("invalid entry, number set to 0");
-				val[i] = 0;
-			}
+		if(durability == 0) {
+			System.out.println(t + "utilisez une pile pour le recharger");
 		}
-		val[0] += t.joueur.position.getX();
-		val[1] += t.joueur.position.getY();
-		s = "";
-		if(t.correctPosition(val[0], val[1])) {
-			if(t.t[val[0]][val[1]] == Terrain.SOL) {
-				s += "\n*téléportation*";
-				durability--;
-				t.t[t.joueur.position.getX()][t.joueur.position.getY()] = Terrain.SOL;
-				t.joueur.position.setPosition(val[0],val[1]);
-				t.t[t.joueur.position.getX()][t.joueur.position.getY()] = t.joueur.getRepresentation();
+		else {
+			@SuppressWarnings("resource")
+			Scanner entry = new Scanner(System.in);
+			int val[] = new int[2];
+			for(int i = 0; i < 2; i++) {
+				if(i == 0)	System.out.print("deplacement en x : ");
+				else 		System.out.print("deplacement en y : ");
+				
+				try {
+					val[i] = entry.nextInt();
+				}
+				catch(InputMismatchException e) {
+					System.out.println("invalid entry, number set to 0");
+					val[i] = 0;
+				}
 			}
+			val[0] += t.joueur.position.getX();
+			val[1] += t.joueur.position.getY();
+			s = "";
+			if(t.correctPosition(val[0], val[1])) {
+				if(t.t[val[0]][val[1]] == Terrain.SOL) {
+					s += "\n*téléportation*";
+					durability--;
+					t.t[t.joueur.position.getX()][t.joueur.position.getY()] = Terrain.SOL;
+					t.joueur.position.setPosition(val[0],val[1]);
+					t.t[t.joueur.position.getX()][t.joueur.position.getY()] = t.joueur.getRepresentation();
+				}
+			}
+			t.t[t.entree.position.getX()][t.entree.position.getY()] = Terrain.PORTE;
+			t.t[t.sortie.position.getX()][t.sortie.position.getY()] = Terrain.PORTE;
+			System.out.println(t + s);
 		}
-		t.t[t.entree.position.getX()][t.entree.position.getY()] = Terrain.PORTE;
-		t.t[t.sortie.position.getX()][t.sortie.position.getY()] = Terrain.PORTE;
-		System.out.println(t + s);
-		//entry.close();
 	}
 	
 	public void recharge() {
@@ -77,4 +80,10 @@ public class Teleporteur extends Objet{
 		return t;
 	}
 	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		s += " " + durability;
+		return s;
+	}
 }

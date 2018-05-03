@@ -21,10 +21,13 @@ public class Generation {
 	public Generation() {
 		carte = new ArrayList <Terrain> ();
 		joueur = new Pj();
+	}
+	
+	public void nouvelleCarte() {
 		Random r = new Random();
 		carte.add(this.generationD());
 		int last = 0;
-		for(i = 1; i <= nombreCarte; i++) {
+		for(i = 1; i < nombreCarte; i++) {
 			if(last == 0 || last == 4 || last == 2) {
 				last = r.nextInt(3);
 				if		(last == 0)	carte.add(this.generation1H());
@@ -51,6 +54,7 @@ public class Generation {
 		carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).setRepresentation('&');
 		carte.get(nombreCarte).t[carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).position.getX()]
 								[carte.get(nombreCarte).monstres.get(carte.get(nombreCarte).monstres.size() - 1).position.getY()] = '&';
+		joueur.setNumero(0);
 	}
 	
 	private void connection() {
@@ -133,10 +137,6 @@ public class Generation {
 	}
 	
 	public void addRandomMonstre(Terrain t, int niveau,int surface) {
-		/*surface = 1 * surface / 100;
-		for(int i = 0; i < surface; i++) {
-			Monstre.spawn(t,niveau);
-		}*/
 		t.respawnMonstre(surface);
 	}
 	
@@ -150,7 +150,7 @@ public class Generation {
 		int x = r1.nextInt(10) + 10;
 		int y = r1.nextInt(15) + 10;
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		// ajout des portes d'entrées et sorties
 		int h = r1.nextInt(x - 2) + 1;
 		int h2 = r1.nextInt(x - 2) + 1;
@@ -173,7 +173,7 @@ public class Generation {
 		int x = r.nextInt(30) + 15;
 		int y = r.nextInt(21) + 7; //min = 7 max = 27
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		// ajout des portes d'entrées et sorties
 		int h = r.nextInt(y - 2) + 1;
 		int h2 = r.nextInt(y - 2) + 1;
@@ -196,7 +196,7 @@ public class Generation {
 		int x = r1.nextInt(20) + 10;
 		int y = r1.nextInt(20) + 10;
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		int i,j;
 		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
 		int yt = r1.nextInt(y * 60 / 100) + (y * 20 / 100);
@@ -230,7 +230,7 @@ public class Generation {
 		int x = r1.nextInt(20) + 10;
 		int y = r1.nextInt(20) + 10;
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		int i,j;
 		int xt = r1.nextInt(x * 60 / 100) + (x * 20 / 100);
 		int yt = r1.nextInt(y * 60 / 100) + (y * 20 / 100);
@@ -260,7 +260,7 @@ public class Generation {
 		Terrain t;	
 		int x = 19,y = 15;
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		char [][] tab = 
 			{	{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
 				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
@@ -299,7 +299,7 @@ public class Generation {
 		Terrain t;	
 		int x = 19,y = 15;
 		t = new Terrain(x,y, joueur);
-		t.numero = i;
+		t.setNumero(i);
 		char [][] tab = {
 				{'.','.','.','.','.','#','.','P','.','#','.','.','.','.','.'},
 				{'.','.','.','.','.','#','.','.','.','#','.','.','.','.','.'},
@@ -338,7 +338,7 @@ public class Generation {
 		
 		Y = y1 + y2 + 3;
 		Terrain t = new Terrain(x,Y, joueur);//init avec le sol 
-		t.numero = this.i;
+		t.setNumero(this.i);
 		int surface = t.getHauteur() * t.getLargeur();
 		nombrevidedebut = r1.nextInt(4)+2;
 		i = 0;

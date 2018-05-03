@@ -10,7 +10,7 @@ import fr.uvsq.poo.monprojet.maps.Terrain;
 public interface Discussion {
 	
 	public static void discussion(Terrain T) {
-		if(T.numero == 0) {
+		if(T.getNumero() == 0) {
 			if(T.joueur.devantLui.equals(T.personnage.get(0).position))
 				discussVieux(T);
 			else {
@@ -31,10 +31,10 @@ public interface Discussion {
 		else {
 			for(int i = 0; i < T.personnage.size(); i++) {
 				if(T.joueur.devantLui.equals(T.personnage.get(i).position)) {
-					if(T.numero > 0 && T.numero <= 5) {// dans les 5 premieres salles
+					if(T.getNumero() > 0 && T.getNumero() <= 5) {// dans les 5 premieres salles
 						discuss1(T);
 					}
-					else if(T.numero > 5 && T.numero <= 10) {// dans les 5 premieres salles
+					else if(T.getNumero() > 5 && T.getNumero() <= 10) {// dans les 5 premieres salles
 						discuss2(T);
 					}
 					else {//tamporaire

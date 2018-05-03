@@ -36,4 +36,11 @@ public class Argent extends Objet{
 	public Argent clone() {
 		return new Argent(valeur);
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		s += " " + valeur;
+		return s;
+	}
 }

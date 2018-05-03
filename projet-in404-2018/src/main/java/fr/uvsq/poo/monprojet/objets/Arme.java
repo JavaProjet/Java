@@ -64,4 +64,11 @@ public class Arme extends Objet{
 		a.durability = durability;
 		return a;
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		s += " " + damage + " " + durability + " " + nomArme;
+		return s;
+	}
 }

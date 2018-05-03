@@ -30,4 +30,10 @@ public class Pile extends Objet{
 	public Pile clone() {
 		return new Pile();
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();	
+		return s;
+	}
 }

@@ -36,4 +36,8 @@ public abstract class Objet {
 		return null;
 		//pour faire du polymorphisme
 	}
+	
+	public String toString() {
+		return position + " " + nomObjet + " " + representation;
+	}
 }

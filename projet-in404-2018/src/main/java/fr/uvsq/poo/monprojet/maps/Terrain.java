@@ -15,7 +15,7 @@ import fr.uvsq.poo.monprojet.personnage.Pj;
 
 public class Terrain {
 	public char[][] t;
-	public int numero;
+	private int numero;
 	private int largeur,hauteur;
 	public ArrayList <Pnj> personnage;
 	public ArrayList <Monstre> monstres;
@@ -121,7 +121,7 @@ public class Terrain {
 	
 	void respawnMonstre(int surface) {
 		while(monstres.size() < surface / 100) {
-			Monstre.spawn(this, numero / 4);
+			Monstre.spawn(this, getNumero() / 4);
 		}
 	}
 	
@@ -140,7 +140,8 @@ public class Terrain {
 	//###//
 	
 	public void play() {
-		if(numero != 0)respawnMonstre(getSurface());
+		if(getNumero() != 0)respawnMonstre(getSurface());
+		joueur.setNumero(getNumero());
 		System.out.println(this);
 		changerTerrain = false;
 		Scanner entree = new Scanner(System.in);
@@ -291,7 +292,7 @@ public class Terrain {
 	
 	public void tour() {
 		int i;
-		if(this.numero != 0) {
+		if(this.getNumero() != 0) {
 			for(i = 0; i < personnage.size(); i++) {
 				char vision = Personnage.probaDeplacement(10);
 				if(vision == 'N' || vision == 'S' || vision == 'E' || vision == 'O')
@@ -311,5 +312,13 @@ public class Terrain {
 
 	public void setSombre(boolean sombre) {
 		this.sombre = sombre;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 }

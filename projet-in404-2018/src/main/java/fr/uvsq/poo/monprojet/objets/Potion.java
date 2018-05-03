@@ -35,4 +35,11 @@ public class Potion extends Objet {
 	public Potion clone() {
 		return new Potion(nombreRegen);
 	}
+	
+	public String toString() {
+		String s = this.getClass().getSimpleName();
+		s += " " + super.toString();
+		s += " " + nombreRegen;
+		return s;
+	}
 }

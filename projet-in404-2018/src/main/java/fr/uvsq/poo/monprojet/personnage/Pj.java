@@ -8,16 +8,16 @@ import fr.uvsq.poo.monprojet.objets.Objet;
 
 public class Pj extends Personnage {
 	public ArrayList <Objet> inventory;
-	private int monnaie;
+	private int monnaie = 0;
 	private int rapidUse = 0;
 	public Fraction experience;
 	private int level = 1;
+	private int numero;
 	
 	public Pj(int x, int y, int PointDeVie) {
 		super(x,y,PointDeVie);
 		inventory = new ArrayList <Objet> ();
 		representation = '>';
-		monnaie = 0;
 		experience = new Fraction(0,100);
 	}
 	
@@ -25,7 +25,6 @@ public class Pj extends Personnage {
 		super();
 		inventory = new ArrayList <Objet> ();
 		representation = '>';	
-		monnaie = 0;
 		experience = new Fraction(0,100);
 	}
 	
@@ -104,6 +103,14 @@ public class Pj extends Personnage {
 		if(ret <= 0) {
 			levelUp(-ret);
 		}
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 	
 }

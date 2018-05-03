@@ -42,12 +42,8 @@ public abstract class Personnage {
 		if(vision == 'E') devantLui.deplacementDroite(1);
 	}
 	
-	public String getVision() {
-		if(vision == 'N') return "Nord";
-		if(vision == 'S') return "Sud";
-		if(vision == 'O') return "Ouest";
-		if(vision == 'E') return "Est";
-		else return "erreur, vision inconnu : " + vision;
+	public char getVision() {
+		return vision;
 	}
 	
 	public void avance() {

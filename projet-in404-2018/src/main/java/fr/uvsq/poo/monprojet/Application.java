@@ -1,5 +1,6 @@
 package fr.uvsq.poo.monprojet;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -7,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.maps.Generation;
+import fr.uvsq.poo.monprojet.sauvegarde.Charger;
+import fr.uvsq.poo.monprojet.sauvegarde.Sauvegarder;
 
 /**
  * Cette classe est le programme principal du projet.
@@ -31,15 +34,18 @@ public enum Application {
 		}
 		while (go == false);
         
+		Generation g = Charger.nouvellePartie();
+		Sauvegarder.sauvegarderPartie(g);
+		
         
-		Scanner entree = new Scanner(System.in);
+		/*Scanner entree = new Scanner(System.in);
         int s;
         System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
         s = entree.nextInt();
         if(s != 1)Cinematic.introduction();
-        Generation g = new Generation();
+        
         g.carte.get(0).play();
-        entree.close();
+        entree.close();*/
        
         
         logger.trace("Fin du programme");
