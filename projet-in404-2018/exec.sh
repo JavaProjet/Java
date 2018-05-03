@@ -1,9 +1,3 @@
-rm -fr build/distributions
+cd build/distributions/projet-in404-2018/bin/
+./projet-in404-2018
 
-./gradlew build 
-
-cd build/distributions/
-
-unzip projet-in404-2018.zip
-
-projet-in404-2018/bin/projet-in404-2018
