@@ -39,8 +39,8 @@ public class Argent extends Objet{
 	
 	public String toString() {
 		String s = this.getClass().getSimpleName();
-		s += " " + super.toString();
-		s += " " + valeur;
+		s += ";" + super.toString();
+		s += ";" + valeur;
 		return s;
 	}
 }

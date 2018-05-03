@@ -38,6 +38,6 @@ public abstract class Objet {
 	}
 	
 	public String toString() {
-		return position + " " + nomObjet + " " + representation;
+		return position + ";" + nomObjet + ";" + representation;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Pnj;
 
@@ -49,8 +50,6 @@ public interface Sauvegarder {
 		}
 		
 	}
-	//g.carte.get(i).getLargeur() + " " + g.carte.get(i).getHauteur() + "\n" + g.carte.get(i).toString1()
-
 	static FileWriter ecrireTerrain(FileWriter fw, Terrain t) throws IOException {
 		fw.write(t.getLargeur() + " " + t.getHauteur() + "\n" + t.toString1());
 		fw.write(t.entree.autorisation + " " + t.sortie.autorisation + " " + t.isSombre() + " " + "\n\n#monstres " + t.monstres.size() + "\n");
@@ -62,18 +61,33 @@ public interface Sauvegarder {
 		for(i = 0; i < t.personnage.size(); i++) {
 			ecrirePnj(fw,t.personnage.get(i));
 		}
+		fw.write("\n\n#Objets " + t.objets.size() +"\n");
+		for(i = 0; i < t.objets.size(); i++) {
+			ecrireObjet(fw,t.objets.get(i));
+		}
+		fw.write("\n\n#Marchand ");
+		try {
+			fw.write("1\n" + t.vendeur.position.toString() + "\n");
+		}
+		catch(NullPointerException e) {
+			fw.write("0\n");
+		}
+		return fw;
+	}
+	
+	static void ecrireMonstre(FileWriter fw,Monstre m) throws IOException {
+		fw.write(m.getVision() + ";" + m.position + ";" + m.pointDeVie + ";" + m.getRepresentation() + ";"); //données d'un personnage
+		fw.write("<" + (int)m.getNiveau() + ">");
 		fw.write("\n");
-		return fw;
 	}
 	
-	static FileWriter ecrireMonstre(FileWriter fw,Monstre m) throws IOException {
-		fw.write(m.getVision() + " " + m.position + " " + m.pointDeVie + " " + m.getRepresentation() + " "); //données d'un personnage
-		fw.write(m.getNiveau());
-		return fw;
+	static void ecrirePnj(FileWriter fw,Pnj p) throws IOException {
+		fw.write(p.getVision() + ";" + p.position + ";" + p.pointDeVie); //données d'un personnage
+		fw.write("\n");
 	}
 	
-	static FileWriter ecrirePnj(FileWriter fw,Pnj p) throws IOException {
-		fw.write(p.getVision() + " " + p.position + " " + p.pointDeVie); //données d'un personnage
-		return fw;
+	static void ecrireObjet(FileWriter fw, Objet objet) throws IOException {
+		fw.write(objet.toString());
+		fw.write("\n");
 	}
 }

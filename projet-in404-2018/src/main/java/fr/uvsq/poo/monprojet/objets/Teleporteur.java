@@ -82,8 +82,8 @@ public class Teleporteur extends Objet{
 	
 	public String toString() {
 		String s = this.getClass().getSimpleName();
-		s += " " + super.toString();
-		s += " " + durability;
+		s += ";" + super.toString();
+		s += ";" + durability;
 		return s;
 	}
 }

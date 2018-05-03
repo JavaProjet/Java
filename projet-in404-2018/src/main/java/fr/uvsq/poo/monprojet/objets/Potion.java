@@ -38,8 +38,8 @@ public class Potion extends Objet {
 	
 	public String toString() {
 		String s = this.getClass().getSimpleName();
-		s += " " + super.toString();
-		s += " " + nombreRegen;
+		s += ";" + super.toString();
+		s += ";" + nombreRegen;
 		return s;
 	}
 }

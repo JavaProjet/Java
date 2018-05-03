@@ -67,8 +67,8 @@ public class Arme extends Objet{
 	
 	public String toString() {
 		String s = this.getClass().getSimpleName();
-		s += " " + super.toString();
-		s += " " + damage + " " + durability + " " + nomArme;
+		s += ";" + super.toString();
+		s += ";" + damage + ";" + durability + ";" + nomArme;
 		return s;
 	}
 }
