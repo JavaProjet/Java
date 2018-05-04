@@ -339,82 +339,105 @@ public class Generation {
 		Y = y1 + y2 + 3;
 		Terrain t = new Terrain(x,Y, joueur);//init avec le sol 
 		t.setNumero(this.i);
-		int surface = t.getHauteur() * t.getLargeur();
+		int surface=0;
 		nombrevidedebut = r1.nextInt(4)+2;
-		i = 0;
-		while (i<nombrevidedebut) {//initialise les vides du terrain haut
+		int ii = 0;
+		while (ii<nombrevidedebut) {//initialise les vides du terrain haut
 			rx = r1.nextInt(40);
 			ry = r1.nextInt(y1);
+			int ok=0;
+			while(t.t[rx][ry + y2 + 3] != Terrain.SOL ) {
+				rx = r1.nextInt(40);
+				ry = r1.nextInt(y1);
+			}
 			if (rx < 10 || rx > 30) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
-				i++;
-				surface--;
+				ii++;ok=1;
+				
 			}
 			else if (ry >= (y1 / 2)) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
-				i++;
-				surface--;
+				ii++;ok=1;
+				
+			}
+			
+			if (ok==1) {
+				ok=0;
+				for (i = 0; i < y1; i++) {
+					for(j = 0; j < x; j++) {
+						
+							if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {//verifie la case du bas
+								t.t[j][i + y2 + 3] = Terrain.VIDE;
+								
+							}	
+							if(t.correctPosition(j-1, i - 1 + y2 + 3)) {//celle du bas a gauche
+								if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+									t.t[j][i + y2 + 3] = Terrain.VIDE;
+									
+								}
+							}
+							if(t.correctPosition(j+1, i - 1 + y2 + 3)) {//celle de bas a droite
+								if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+									t.t[j][i + y2 + 3] = Terrain.VIDE;
+															}
+							}
+						
+					}
+				}
 			}
 			
 		}
-		i = 0;
-		while (i<nombrevidedebut) {//initialise les vides du terrain bas
+		ii = 0;
+		while (ii<nombrevidedebut) {//initialise les vides du terrain bas
 			rx = r1.nextInt(40);
 			ry = r1.nextInt(y2);
+			int ok=0;
+			int k;
+			while (t.t[rx][ry] != Terrain.SOL) {
+				rx = r1.nextInt(40);
+				ry = r1.nextInt(y2);
+			}
 			if (rx < 10|| rx > 30) {
-				t.t[rx][ry ] = Terrain.VIDE ;
-				i++;surface--;
+				t.t[rx][ry ] = Terrain.VIDE ;	
+				ii++;ok=1;
 			}
 			else if (ry <= (y2 / 2)) {
 				t.t[rx][ry] = Terrain.VIDE ;
-				i++;surface--;
+				ii++;ok=1;
 			}
 			
-		}
-		
-		//t.t[i][j] = Terrain.VIDE;
-		for (i = 0; i < y1; i++) {
-			for(j = 0; j < x; j++) {
-				
-					if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {//verifie la case du bas
-						t.t[j][i + y2 + 3] = Terrain.VIDE;
-						surface--;
-					}	
-					if(t.correctPosition(j-1, i - 1 + y2 + 3)) {//celle du bas a gauche
-						if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-							t.t[j][i + y2 + 3] = Terrain.VIDE;
+			if(ok==1) {
+				for (k=0;k<y2;k++) {	
+					for (i = 0; i < y2; i++) {//boucle du bas 
+						for(j = 0; j < x;j ++) {
 							
+							if (t.t[j][i+1] == Terrain.VIDE  ) {
+								t.t[j][i] = Terrain.VIDE;
+								
+							}
+							if(t.correctPosition(j-1, i + 1 )) {
+								if (t.t[j-1][i+1] == Terrain.VIDE  ) {
+									t.t[j][i] = Terrain.VIDE;
+									
+								}
+							}
+							if(t.correctPosition(j+1, i + 1)) {
+								if (t.t[j+1][i+1] == Terrain.VIDE  ) {
+									t.t[j][i] = Terrain.VIDE;
+									
+								}
+							}
 						}
 					}
-					if(t.correctPosition(j+1, i - 1 + y2 + 3)) {//celle de bas a droite
-						if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-							t.t[j][i + y2 + 3] = Terrain.VIDE;
-													}
-					}
-				
+				}
 			}
+				
 		}
-		int k;
-		for (k=0;k<y2;k++) {	
-			for (i = 0; i < y2; i++) {//boucle du bas 
-				for(j = 0; j < x;j ++) {
-					
-					if (t.t[j][i+1] == Terrain.VIDE  ) {
-						t.t[j][i] = Terrain.VIDE;
-						surface--;
-					}
-					if(t.correctPosition(j-1, i + 1 )) {
-						if (t.t[j-1][i+1] == Terrain.VIDE  ) {
-							t.t[j][i] = Terrain.VIDE;
-							
-						}
-					}
-					if(t.correctPosition(j+1, i + 1)) {
-						if (t.t[j+1][i+1] == Terrain.VIDE  ) {
-							t.t[j][i] = Terrain.VIDE;
-							
-						}
-					}
+
+		for (i=0;i<x;i++) {
+			for(j=0;j<Y;j++) {
+				if (t.t[i][j] ==Terrain.SOL ) {
+					surface+=1;
 				}
 			}
 		}
