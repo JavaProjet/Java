@@ -7,6 +7,7 @@ import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
+import fr.uvsq.poo.monprojet.personnage.Pj;
 import fr.uvsq.poo.monprojet.personnage.Pnj;
 
 public interface Sauvegarder {
@@ -32,22 +33,31 @@ public interface Sauvegarder {
 		@SuppressWarnings("resource")
 		Scanner s = new Scanner(System.in);
 		String name = new String();
+		FileWriter fw;
 		System.out.print("entrez un nom pour votre sauvegarde : \n => ");
 		name = s.nextLine();
 		f = new File("Saves/" + name); 
-		if(f.exists() == false) {
-			f.mkdirs();
+		while(f.exists() == true) {
+			System.out.print("une sauvegarde existe déjà à ce nom, choisissez en un autre : \n => ");
+			name = s.nextLine();
+			f = new File("Saves/" + name);
 		}
+		f.mkdirs();
 		for(i = 0; i < g.carte.size(); i++) {
 			openFile("Saves/" + name + "/Terrain" + i + ".txt"); // pour créer les fichiers
 			try {
-				FileWriter fw = new FileWriter("Saves/" + name + "/Terrain" + i + ".txt");
+				fw = new FileWriter("Saves/" + name + "/Terrain" + i + ".txt");
 				ecrireTerrain(fw,g.carte.get(i));
 				fw.write("\n###fin d'ecriture###\n");
 				fw.close();
-			} catch (IOException e) {}
-			
+			} catch (IOException e) {}	
 		}
+		openFile("Saves/" + name + "/joueur.txt"); // pour créer les fichiers
+		try {
+			fw = new FileWriter("Saves/" + name + "/joueur.txt");
+			ecrireJoueur(fw,g.joueur);
+			fw.close();
+		} catch (IOException e) {}
 		
 	}
 	static FileWriter ecrireTerrain(FileWriter fw, Terrain t) throws IOException {
@@ -76,8 +86,8 @@ public interface Sauvegarder {
 	}
 	
 	static void ecrireMonstre(FileWriter fw,Monstre m) throws IOException {
-		fw.write(m.getVision() + ";" + m.position + ";" + m.pointDeVie + ";" + m.getRepresentation() + ";"); //données d'un personnage
-		fw.write("<" + (int)m.getNiveau() + ">");
+		fw.write(m.getVision() + ";" + m.position + ";" + m.pointDeVie + ";" + m.getRepresentation()); //données d'un personnage
+		fw.write(";" + m.getNiveau());
 		fw.write("\n");
 	}
 	
@@ -86,8 +96,18 @@ public interface Sauvegarder {
 		fw.write("\n");
 	}
 	
-	static void ecrireObjet(FileWriter fw, Objet objet) throws IOException {
-		fw.write(objet.toString());
+	static void ecrireObjet(FileWriter fw, Objet o) throws IOException {
+		fw.write(o.toString());
+		fw.write("\n");
+	}
+	
+	static void ecrireJoueur(FileWriter fw, Pj joueur) throws IOException {
+		fw.write(joueur.getVision() + ";" + joueur.position + ";" + joueur.pointDeVie + ";" + joueur.getRepresentation() + ";");
+		fw.write(joueur.getMonnaie() + ";" + joueur.getRapidUse() + ";" + joueur.experience + ";" + joueur.getLevel() + ";" + joueur.getNumero());
+		fw.write("\n\n#Objet " + joueur.inventory.size() + "\n");
+		for(int i = 0; i < joueur.inventory.size(); i++) {
+			ecrireObjet(fw,joueur.inventory.get(i));
+		}
 		fw.write("\n");
 	}
 }

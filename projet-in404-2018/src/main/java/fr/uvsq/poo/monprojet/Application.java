@@ -34,18 +34,15 @@ public enum Application {
 		}
 		while (go == false);
         
-		Generation g = Charger.nouvellePartie();
-		Sauvegarder.sauvegarderPartie(g);
-		
         
-		/*Scanner entree = new Scanner(System.in);
+		Scanner entree = new Scanner(System.in);
         int s;
         System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
         s = entree.nextInt();
         if(s != 1)Cinematic.introduction();
-        
+        Generation g = Charger.nouvellePartie();
         g.carte.get(0).play();
-        entree.close();*/
+        entree.close();
        
         
         logger.trace("Fin du programme");
