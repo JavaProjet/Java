@@ -139,14 +139,14 @@ public class Terrain {
 	private boolean changerTerrain; //si l'on va dans une porte, ce booleen s'en souvient pour changer de terrain
 	//###//
 	
-	public void play() {
+	public int play() {
 		if(getNumero() != 0)respawnMonstre(getSurface());
 		joueur.setNumero(getNumero());
 		System.out.println(this);
 		changerTerrain = false;
 		Scanner entree = new Scanner(System.in);
 		String s = new String();
-		while(s.equals("stop") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
+		while(s.equals("stop") == false && s.equals("save") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
 			s = "";
 			s += entree.nextLine();
 			this.action(s,entree);
@@ -156,10 +156,15 @@ public class Terrain {
 			t[joueur.position.getX()][joueur.position.getY()] = '~';
 			System.out.println(this);
 			Cinematic.gameOver();
+			return 1;
 		}
 		else if(changerTerrain) {
-			this.playNew();
+			return this.playNew();
 		}
+		else if(s.equals("save")) {
+			return 2;
+		}
+		else return 0;
 	}
 	
 	private void action(String s, Scanner entree) {
@@ -196,6 +201,7 @@ public class Terrain {
 																			break;
 			case "r" 	: 	this.ramasser();								break;
 			case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
+			case "save" :	;break;
 			case "hidden test" :	joueur.addMonnaie(9999); joueur.addXP(100000);
 									System.out.print(this);
 																			break;
@@ -240,8 +246,8 @@ public class Terrain {
 			try {
 				val = entree.nextInt(); val--;
 				if(val > -1 && val < joueur.inventory.size()) {
-					if(s.equalsIgnoreCase("i"))joueur.inventory.get(val).use(this);
-					if(s.equalsIgnoreCase("u"))joueur.setRapidUse(val);
+					if(s.equals("i"))joueur.inventory.get(val).use(this);
+					if(s.equals("u"))joueur.setRapidUse(val);
 				}
 				else System.out.println("valeur incorrect");
 				entree.nextLine();
@@ -267,27 +273,28 @@ public class Terrain {
 		return false;
 	}
 	
-	private void playNew() {
+	private int playNew() {
 		if(this.sortie.position.equals(joueur.devantLui)) {
 			if (this.sortie.autorisation == true) {
 				joueur.initEntree(this.sortie.t);
-				this.sortie.t.play();
+				return this.sortie.t.play();
 			}
 			else {
 				this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
-				this.play();
+				return this.play();
 			}
 		}
 		else if(this.entree.position.equals(joueur.devantLui)) {
 			if (this.entree.autorisation == true) {
 				joueur.initSortie(this.entree.t);
-				this.entree.t.play();
+				return this.entree.t.play();
 			}
 			else {
 				this.t[joueur.position.getX()][joueur.position.getY()] = joueur.getRepresentation();
-				this.play();
+				return this.play();
 			}
 		}
+		else return -1;
 	}
 	
 	public void tour() {

@@ -41,7 +41,8 @@ public enum Application {
         s = entree.nextInt();
         if(s != 1)Cinematic.introduction();
         Generation g = Charger.nouvellePartie();
-        g.carte.get(0).play();
+        int ret = g.carte.get(0).play();
+        if(ret == 2)Sauvegarder.sauvegarderPartie(g);
         entree.close();
        
         
