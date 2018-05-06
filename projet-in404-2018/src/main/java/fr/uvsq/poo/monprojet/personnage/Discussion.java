@@ -16,14 +16,14 @@ public interface Discussion {
 			else {
 				int alea = 0;
 				Random r = new Random(); 
-				if(T.sortie.autorisation == false)alea = r.nextInt(3);
+				if(T.sortie.getAutorisation() == false)alea = r.nextInt(3);
 				if      (alea == 0)System.out.println(T + "*bruit de quelqu'un qui tousse*");
 				else if (alea == 1) {
-					if(T.sortie.autorisation == false)
+					if(T.sortie.getAutorisation() == false)
 						System.out.println(T + "Voix d'un vieux : il y a quelqu'un ?");
 				}
 				else {
-					if(T.sortie.autorisation == false)
+					if(T.sortie.getAutorisation() == false)
 						System.out.println(T + "Voix d'un vieux : hé oh ! Viens me viens me voir avant de prendre la porte");
 				}
 			}
@@ -56,12 +56,12 @@ public interface Discussion {
 	}
 
 	public static void discussVieux(Terrain t) {
-		if(t.sortie.autorisation == false) {
+		if(t.sortie.getAutorisation() == false) {
 			System.out.println("Que fais - tu ici ? Tu dois quitter cet endroit en prenant la porte mais attention, c'est dangereux !\n"
 							 + "Ah ! Et si ce n'est pas déjà fais prends la pioche et l'épée.\n"
 							 + "Il me reste quelques rubis je te les offre, tu peut aussi en trouver dans les murs\n Vous avez reçu 3 rubis");
 			t.joueur.addMonnaie(3);
-			t.sortie.autorisation = true; //la porte est désormais accessible
+			t.sortie.setAutorisation(true); //la porte est désormais accessible
 		}
 		else {
 			System.out.println("je ne peut rien faire pour toi et tu ne peut rien faire pour moi non plus je suis aveugle,\n"

@@ -7,11 +7,6 @@ public class Potion extends Objet {
 	
 	int nombreRegen;
 	
-	public Potion() {
-		super();
-		nombreRegen = 0;
-	}
-	
 	public Potion(int nombreRegen) {
 		super("Potion de soin (+" + nombreRegen + " PV)",'6');
 		this.nombreRegen = nombreRegen;
@@ -37,8 +32,7 @@ public class Potion extends Objet {
 	}
 	
 	public String toString() {
-		String s = this.getClass().getSimpleName();
-		s += ";" + super.toString();
+		String s = super.toString();
 		s += ";" + nombreRegen;
 		return s;
 	}

@@ -7,7 +7,7 @@ public class Point2D {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -31,6 +31,24 @@ public class Point2D {
 	
 	public String toString() {
 		return x + "," + y;
+	}
+	
+	public static Point2D parsePoint2D(String s) {
+		int i,j = -1;
+		String s1 = "", s2 = "";
+		for(i = 0; i < s.length(); i++) {
+			if(s.charAt(i) == ',') j = i;
+		}
+		if(j == -1) return null;
+		else {
+			for(i = 0; i < j; i++) {
+				s1 += s.charAt(i);
+			}
+			for(i = j + 1; i < s.length(); i++) {
+				s2 += s.charAt(i);
+			}
+			return new Point2D(Integer.parseInt(s1),Integer.parseInt(s2));
+		}
 	}
 	
 	public void deplacementHaut(int nombre) {

@@ -10,22 +10,18 @@ public abstract class Objet {
 	
 	public Objet(String NomObjet,char CaractereDeRepresentation) {
 		position = new Point2D(-1,-1);
-		nomObjet = NomObjet;
+		setNomObjet(NomObjet);
 		representation = CaractereDeRepresentation;
 	}
 	
 	public Objet() {
 		position = new Point2D(-1,-1);
-		nomObjet = "sans nom";
+		setNomObjet("sans nom");
 		representation = '?';
 	}
 	
 	public char getRepresentation() {
 		return representation;
-	}
-	
-	public String getNom() {
-		return nomObjet;
 	}
 	
 	public void use(Terrain t) {
@@ -38,6 +34,14 @@ public abstract class Objet {
 	}
 	
 	public String toString() {
-		return position + ";" + nomObjet + ";" + representation;
+		return position + ";" + getNomObjet() + ";" + representation;
+	}
+
+	public String getNomObjet() {
+		return nomObjet;
+	}
+
+	public void setNomObjet(String nomObjet) {
+		this.nomObjet = nomObjet;
 	}
 }

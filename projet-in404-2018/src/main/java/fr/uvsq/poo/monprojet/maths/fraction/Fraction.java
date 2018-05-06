@@ -30,6 +30,24 @@ public class Fraction {
 		return numerateur + "/" + denominateur;
 	}
 	
+	public static Fraction parseFraction(String s) {
+		int i,j = -1;
+		String s1 = "", s2 = "";
+		for(i = 0; i < s.length(); i++) {
+			if(s.charAt(i) == '/') j = i;
+		}
+		if(j == -1) return null;
+		else {
+			for(i = 0; i < j; i++) {
+				s1 += s.charAt(i);
+			}
+			for(i = j + 1; i < s.length(); i++) {
+				s2 += s.charAt(i);
+			}
+			return new Fraction(Integer.parseInt(s1),Integer.parseInt(s2));
+		}
+	}
+	
 	public boolean setFraction(int numerateur, int denominateur) {
 		if(denominateur != 0) {
 			this.numerateur = numerateur;
@@ -37,6 +55,11 @@ public class Fraction {
 			return true;
 		}
 		else return false;
+	}
+	
+	public void setFraction(Fraction f) {
+		this.numerateur = f.getDenominateur();
+		this.denominateur = f.getNumerateur();
 	}
 	
 	public int getNumerateur() {

@@ -5,12 +5,19 @@ import fr.uvsq.poo.monprojet.maths.point.Point2D;
 public class Porte {
 	public Point2D position;
 	public Terrain t;
-	public boolean autorisation; 
+	private boolean autorisation; 
 	
-	public Porte(Terrain t, int x, int y) {
-		this.t = t;
+	public Porte(int x, int y) {
 		position = new Point2D(x,y);
-		autorisation = true;
+		setAutorisation(true);
+	}
+
+	public boolean getAutorisation() {
+		return autorisation;
+	}
+
+	public void setAutorisation(boolean autorisation) {
+		this.autorisation = autorisation;
 	}
 	
 	

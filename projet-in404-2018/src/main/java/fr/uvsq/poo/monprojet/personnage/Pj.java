@@ -14,13 +14,6 @@ public class Pj extends Personnage {
 	private int level = 1;
 	private int numero;
 	
-	public Pj(int x, int y, int PointDeVie) {
-		super(x,y,PointDeVie);
-		inventory = new ArrayList <Objet> ();
-		representation = '>';
-		experience = new Fraction(0,100);
-	}
-	
 	public Pj() {
 		super();
 		inventory = new ArrayList <Objet> ();
@@ -46,7 +39,7 @@ public class Pj extends Personnage {
 	
 	public void afficherInventaire() {
 		for(int i = 1; i < inventory.size() + 1; i++) {
-			System.out.println(i + "." + inventory.get(i - 1).getNom());
+			System.out.println(i + "." + inventory.get(i - 1).getNomObjet());
 		}
 	}
 	
@@ -94,9 +87,9 @@ public class Pj extends Personnage {
 	}
 	
 	private void levelUp(int enTrop) {
-		setLevel(getLevel() + 1);
+		level = level + 1;
 		experience.setNumerateur(enTrop);
-		experience.setDenominateur(getLevel() * 50);
+		experience.setDenominateur(level * 50);
 		pointDeVie.setDenominateur(pointDeVie.getDenominateur() + 10);
 		pointDeVie.setNumerateur(pointDeVie.getDenominateur());
 		int ret = experience.getDenominateur() - experience.getNumerateur();
@@ -104,7 +97,16 @@ public class Pj extends Personnage {
 			levelUp(-ret);
 		}
 	}
+	
+	public int getLevel() {
+		return level;
+	}
 
+	public void setLevel(int level) {
+		this.level = level - 1;
+		levelUp(0);
+	}
+	
 	public int getNumero() {
 		return numero;
 	}
@@ -112,13 +114,4 @@ public class Pj extends Personnage {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	
 }

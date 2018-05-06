@@ -51,7 +51,7 @@ public class Marchand extends Personnage{
 	public String affiche_vente() {
 		String s = "Bonjour !\nVoici ce que j'ai à vendre, que souhaite - tu m'acheter ?\n";
 		for(int i = 0; i < vente.size(); i++) {
-			s += (i + 1) + ". " + vente.get(i).getNom() + "   prix : " + prix.get(i) + "\n"; 
+			s += (i + 1) + ". " + vente.get(i).getNomObjet() + "   prix : " + prix.get(i) + "\n"; 
 		}
 		return s;
 	}
@@ -66,7 +66,7 @@ public class Marchand extends Personnage{
 				if(t.joueur.getMonnaie() >= prix.get(val)) {
 					t.joueur.inventory.add(vente.get(val).clone());
 					t.joueur.payer(prix.get(val));
-					System.out.println(t + "Voici ton objet : " + vente.get(val).getNom());
+					System.out.println(t + "Voici ton objet : " + vente.get(val).getNomObjet());
 					System.out.println("\nRubis restant : " + t.joueur.getMonnaie());
 				}
 				else System.out.println("vous n'avez pas assez d'argent, revenez plus tard avec au moins " + prix.get(val) + " rubis.");

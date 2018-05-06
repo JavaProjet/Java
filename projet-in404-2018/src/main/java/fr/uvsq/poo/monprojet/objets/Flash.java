@@ -36,8 +36,7 @@ public class Flash extends Objet{
 	}
 	
 	public String toString() {
-		String s = this.getClass().getSimpleName();
-		s += ";" + super.toString();
+		String s = super.toString();
 		return s;
 	}
 }

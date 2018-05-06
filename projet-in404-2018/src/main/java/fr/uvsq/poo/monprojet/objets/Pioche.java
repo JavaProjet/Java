@@ -43,14 +43,14 @@ public class Pioche extends Objet{
 				t.t[t.joueur.devantLui.getX()][t.joueur.devantLui.getY()] = Terrain.SOL;
 				Random r = new Random();
 				if(r.nextInt(100) < 40) Argent.spawn(t, t.joueur.devantLui, r.nextInt(5) + 1);
-				durability--;
-				this.nomObjet = new String("Pioche (" + durability + "use)"
-);				System.out.println(t);
+				setDurability(getDurability() - 1);
+				this.setNomObjet(new String("Pioche (" + getDurability() + "use)"
+));				System.out.println(t);
 			}
 			else {
 				System.out.println(t + "Il n'y a pas de mur à casser devant vous");
 			}
-		if(durability == 0) {
+		if(getDurability() == 0) {
 			System.out.println(t + "votre pioche s'est cassé");
 			t.joueur.inventory.remove(this);
 		}
@@ -58,14 +58,22 @@ public class Pioche extends Objet{
 	
 	public Pioche clone() {
 		Pioche p = new Pioche();
-		p.durability = this.durability;
+		p.setDurability(this.getDurability());
 		return p;
 	}
 	
 	public String toString() {
-		String s = this.getClass().getSimpleName();
-		s += ";" + super.toString();
-		s += ";" + durability;	
+		String s = super.toString();
+		s += ";" + getDurability();	
 		return s;
 	}
+
+	public int getDurability() {
+		return durability;
+	}
+
+	public void setDurability(int durability) {
+		this.durability = durability;
+	}
+	
 }

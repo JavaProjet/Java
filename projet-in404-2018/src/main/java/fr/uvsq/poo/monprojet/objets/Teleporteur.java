@@ -12,7 +12,7 @@ public class Teleporteur extends Objet{
 	
 	public Teleporteur() {
 		super("Teleporteur", '%');
-		durability = 10;
+		setDurability(10);
 	}
 	
 	public static Teleporteur spawn(Terrain t) {
@@ -32,7 +32,7 @@ public class Teleporteur extends Objet{
 	public void use(Terrain t) {
 		super.use(t);
 		String s = new String();
-		if(durability == 0) {
+		if(getDurability() == 0) {
 			System.out.println(t + "utilisez une pile pour le recharger");
 		}
 		else {
@@ -57,7 +57,7 @@ public class Teleporteur extends Objet{
 			if(t.correctPosition(val[0], val[1])) {
 				if(t.t[val[0]][val[1]] == Terrain.SOL) {
 					s += "\n*téléportation*";
-					durability--;
+					setDurability(getDurability() - 1);
 					t.t[t.joueur.position.getX()][t.joueur.position.getY()] = Terrain.SOL;
 					t.joueur.position.setPosition(val[0],val[1]);
 					t.t[t.joueur.position.getX()][t.joueur.position.getY()] = t.joueur.getRepresentation();
@@ -70,20 +70,27 @@ public class Teleporteur extends Objet{
 	}
 	
 	public void recharge() {
-		durability += 10;
-		if(durability > 10) durability = 10;
+		setDurability(getDurability() + 10);
+		if(getDurability() > 10) setDurability(10);
 	}
 	
 	public Teleporteur clone() {
 		Teleporteur t = new Teleporteur();
-		t.durability = durability;
+		t.setDurability(durability);
 		return t;
 	}
 	
 	public String toString() {
-		String s = this.getClass().getSimpleName();
-		s += ";" + super.toString();
-		s += ";" + durability;
+		String s = super.toString();
+		s += ";" + getDurability();
 		return s;
+	}
+
+	public int getDurability() {
+		return durability;
+	}
+
+	public void setDurability(int durability) {
+		this.durability = durability;
 	}
 }

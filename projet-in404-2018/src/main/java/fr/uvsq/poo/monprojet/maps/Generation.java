@@ -13,7 +13,7 @@ import fr.uvsq.poo.monprojet.personnage.Pj;
 import fr.uvsq.poo.monprojet.personnage.Pnj;
 
 public class Generation {
-	private static final int nombreCarte = 20;
+	private int nombreCarte = 20;
 	public ArrayList <Terrain> carte;
 	public Pj joueur;
 	private int i = 0;
@@ -57,12 +57,12 @@ public class Generation {
 		joueur.setNumero(0);
 	}
 	
-	private void connection() {
+	public void connection() {
 		int i;
-		carte.get(0).entree.autorisation = false;
-		carte.get(0).sortie.autorisation = false;
-		carte.get(nombreCarte + 1).sortie.autorisation = false;
-		carte.get(nombreCarte).sortie.autorisation = false;
+		carte.get(0).entree.setAutorisation(false);
+		carte.get(0).sortie.setAutorisation(false);
+		carte.get(nombreCarte + 1).sortie.setAutorisation(false);
+		carte.get(nombreCarte).sortie.setAutorisation(false);
 		for(i = 1; i <= nombreCarte; i++) {
 			carte.get(i - 1).sortie.t = carte.get(i);
 			carte.get(i).entree.t = carte.get(i - 1);
@@ -156,8 +156,8 @@ public class Generation {
 		int h2 = r1.nextInt(x - 2) + 1;
 		t.t[h][0] = Terrain.PORTE;
 		t.t[h2][y - 1] = Terrain.PORTE;
-		t.entree = new Porte(null,h,0);
-		t.sortie = new Porte(null,h2,y - 1);
+		t.entree = new Porte(h,0);
+		t.sortie = new Porte(h2,y - 1);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
@@ -179,8 +179,8 @@ public class Generation {
 		int h2 = r.nextInt(y - 2) + 1;
 		t.t[0][h] = Terrain.PORTE;
 		t.t[x-1][h2] = Terrain.PORTE;
-		t.entree = new Porte(null,0,h);
-		t.sortie = new Porte(null,x-1,h2);
+		t.entree = new Porte(0,h);
+		t.sortie = new Porte(x-1,h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
@@ -212,8 +212,8 @@ public class Generation {
 		int h2 = r1.nextInt(y - 1 - yt);
 		t.t[0][h2] = Terrain.PORTE;
 		t.t[h][y - 1] = Terrain.PORTE;
-		t.entree = new Porte(null,0,h2);
-		t.sortie = new Porte(null,h,y - 1);
+		t.entree = new Porte(0,h2);
+		t.sortie = new Porte(h,y - 1);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
@@ -246,8 +246,8 @@ public class Generation {
 		int h2 = r1.nextInt(y - 1 - yt) + yt;
 		t.t[x - 1][h2] = Terrain.PORTE;
 		t.t[h][0] = Terrain.PORTE;
-		t.entree = new Porte(null,h,0);
-		t.sortie = new Porte(null,x - 1, h2);
+		t.entree = new Porte(h,0);
+		t.sortie = new Porte(x - 1, h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
@@ -282,8 +282,8 @@ public class Generation {
 				{'#','#','#','#','#','#','.','.','.','#','#','#','#','#','#'},
 				{'#','#','#','#','#','#','.','P','.','#','#','#','#','#','#'}};
 		t.t = tab;
-		t.entree = new Porte(null,x-1,7);
-		t.sortie = new Porte(null,x-1,7);
+		t.entree = new Porte(x-1,7);
+		t.sortie = new Porte(x-1,7);
 		Pnj.spawn(t);
 		t.t[t.personnage.get(0).position.getX()][t.personnage.get(0).position.getY()] = Terrain.SOL;
 		t.personnage.get(0).position.setPosition(15, 14);
@@ -321,8 +321,8 @@ public class Generation {
 				{'.','.','.','.','#','.','.','.','.','.','#','.','.','.','.'},
 				{'.','.','.','.','#','.','#','.','#','.','#','.','.','.','.'}};
 		t.t = tab;
-		t.entree = new Porte(null,0,7);
-		t.sortie = new Porte(null,0,7);
+		t.entree = new Porte(0,7);
+		t.sortie = new Porte(0,7);
 		
 		return t;
 	}
@@ -434,20 +434,14 @@ public class Generation {
 				
 		}
 
-		for (i=0;i<x;i++) {
-			for(j=0;j<Y;j++) {
-				if (t.t[i][j] ==Terrain.SOL ) {
-					surface+=1;
-				}
-			}
-		}
+		surface = t.getSurface();
 		// ajout des portes d'entrées et sorties
 		int h = r1.nextInt(3) + y2;
 		int h2 = r1.nextInt(3) + y2;
 		t.t[0][h] = Terrain.PORTE;
 		t.t[x-1][h2] = Terrain.PORTE;
-		t.entree = new Porte(null,0,h);
-		t.sortie = new Porte(null,x-1,h2);
+		t.entree = new Porte(0,h);
+		t.sortie = new Porte(x-1,h2);
 		
 		//ajout aléatoire des pnj/objets
 		addMur(t,(surface));

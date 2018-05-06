@@ -67,7 +67,7 @@ public class Terrain {
 		for(j = hauteur - 1; j >= 0; j--) {
 			for(i = 0; i < largeur; i++) {
 				s += t[i][j];
-				s += " ";
+				if(i < largeur - 1)s += " ";
 			}
 			s += "\n";
 		}
@@ -109,7 +109,7 @@ public class Terrain {
 	}
 	
 
-	private int getSurface() {
+	public int getSurface() {
 		int surface = 0,i,j;
 		for(i = 0; i < largeur; i++) {
 			for(j = 0; j < hauteur; j++) {
@@ -206,7 +206,7 @@ public class Terrain {
 									System.out.print(this);
 																			break;
 			default 	: 	if(s.equals("stop") == false && s.length() != 42)
-								System.out.println("entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
+								System.out.println(this + "entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
 		}
 		
@@ -263,7 +263,7 @@ public class Terrain {
 				joueur.inventory.add(objets.get(i));
 				this.t[joueur.devantLui.getX()][joueur.devantLui.getY()] = Terrain.SOL;
 				System.out.print(this);
-				System.out.println("vous avez ramassé : " + objets.get(i).getNom());
+				System.out.println("vous avez ramassé : " + objets.get(i).getNomObjet());
 				if(objets.get(i).getClass() == Argent.class) this.joueur.inventory.get(this.joueur.inventory.size() - 1).use(this);
 				objets.remove(i);
 				return true;
@@ -275,7 +275,7 @@ public class Terrain {
 	
 	private int playNew() {
 		if(this.sortie.position.equals(joueur.devantLui)) {
-			if (this.sortie.autorisation == true) {
+			if (this.sortie.getAutorisation() == true) {
 				joueur.initEntree(this.sortie.t);
 				return this.sortie.t.play();
 			}
@@ -285,7 +285,7 @@ public class Terrain {
 			}
 		}
 		else if(this.entree.position.equals(joueur.devantLui)) {
-			if (this.entree.autorisation == true) {
+			if (this.entree.getAutorisation() == true) {
 				joueur.initSortie(this.entree.t);
 				return this.entree.t.play();
 			}

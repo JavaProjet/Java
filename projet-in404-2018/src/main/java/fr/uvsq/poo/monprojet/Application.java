@@ -1,6 +1,7 @@
 package fr.uvsq.poo.monprojet;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,23 +27,38 @@ public enum Application {
 
     public void run(String[] args) {
         logger.trace("Début du programme");
-        Fenetre F = new Fenetre();
+       /* Fenetre F = new Fenetre();
         boolean go = false;
-
 		do{
 			go = F.getGo();
 		}
-		while (go == false);
+		while (go == false);*/
         
         
 		Scanner entree = new Scanner(System.in);
+		Cinematic.clearScreen();
+		System.out.print("1.nouvelle partie\n2.charger partie\n=> ");
         int s;
-        System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
-        s = entree.nextInt();
-        if(s != 1)Cinematic.introduction();
-        Generation g = Charger.nouvellePartie();
-        int ret = g.carte.get(0).play();
-        if(ret == 2)Sauvegarder.sauvegarderPartie(g);
+        int ret = -1;
+        try {
+     	   s = entree.nextInt();
+     	   if(s == 1) {
+     		   try {
+     			  System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
+     	    	  s = entree.nextInt();
+     	    	  if(s != 1)Cinematic.introduction();
+     		   }catch(InputMismatchException e) {}
+     		   
+     		   ret = Charger.nouvellePartie();
+     	   }
+     	   else if(s == 2) ret = Charger.chargerPartie();
+     	   
+     	   else System.out.println("reponse incorrect\n");
+        }catch(InputMismatchException e) {}
+        
+        
+        if(ret == 2)Sauvegarder.sauvegarderPartie(Charger.g);
+        else if(ret == -1) System.out.println("fermeture du programme suite à une erreur");
         entree.close();
        
         

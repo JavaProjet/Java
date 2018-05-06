@@ -34,35 +34,38 @@ public interface Sauvegarder {
 		Scanner s = new Scanner(System.in);
 		String name = new String();
 		FileWriter fw;
-		System.out.print("entrez un nom pour votre sauvegarde : \n => ");
+		System.out.print("entrez un nom pour votre sauvegarde (quitter pour annuler) : \n=> ");
 		name = s.nextLine();
 		f = new File("Saves/" + name); 
-		while(f.exists() == true) {
+		while(f.exists() == true && name.equals("quitter") == false) {
 			System.out.print("une sauvegarde existe déjà à ce nom, choisissez en un autre : \n => ");
 			name = s.nextLine();
 			f = new File("Saves/" + name);
 		}
-		f.mkdirs();
-		for(i = 0; i < g.carte.size(); i++) {
-			openFile("Saves/" + name + "/Terrain" + i + ".txt"); // pour créer les fichiers
+		if(name.equals("quitter") == false) {
+			f.mkdirs();
+			for(i = 0; i < g.carte.size(); i++) {
+				openFile("Saves/" + name + "/Terrain" + i + ".txt"); // pour créer les fichiers
+				try {
+					fw = new FileWriter("Saves/" + name + "/Terrain" + i + ".txt");
+					ecrireTerrain(fw,g.carte.get(i));
+					fw.write("\n#fin\n");
+					fw.close();
+				} catch (IOException e) {}	
+			}
+			openFile("Saves/" + name + "/joueur.txt"); // pour créer les fichiers
 			try {
-				fw = new FileWriter("Saves/" + name + "/Terrain" + i + ".txt");
-				ecrireTerrain(fw,g.carte.get(i));
-				fw.write("\n###fin d'ecriture###\n");
+				fw = new FileWriter("Saves/" + name + "/joueur.txt");
+				ecrireJoueur(fw,g.joueur);
 				fw.close();
-			} catch (IOException e) {}	
+			} catch (IOException e) {}
 		}
-		openFile("Saves/" + name + "/joueur.txt"); // pour créer les fichiers
-		try {
-			fw = new FileWriter("Saves/" + name + "/joueur.txt");
-			ecrireJoueur(fw,g.joueur);
-			fw.close();
-		} catch (IOException e) {}
-		
 	}
-	static FileWriter ecrireTerrain(FileWriter fw, Terrain t) throws IOException {
-		fw.write(t.getLargeur() + " " + t.getHauteur() + "\n" + t.toString1());
-		fw.write(t.entree.autorisation + " " + t.sortie.autorisation + " " + t.isSombre() + " " + "\n\n#monstres " + t.monstres.size() + "\n");
+	static void ecrireTerrain(FileWriter fw, Terrain t) throws IOException {
+		fw.write(t.getLargeur() + ";" + t.getHauteur() + "\n" + t.toString1());
+		fw.write(t.entree.getAutorisation() + ";" + t.entree.position + ";"
+				+ t.sortie.getAutorisation() + ";" + t.sortie.position + ";" 
+				+ t.isSombre() + "\n\n#Monstres " + t.monstres.size() + "\n");
 		int i;
 		for(i = 0; i < t.monstres.size();i++) {
 			ecrireMonstre(fw,t.monstres.get(i));
@@ -82,7 +85,6 @@ public interface Sauvegarder {
 		catch(NullPointerException e) {
 			fw.write("0\n");
 		}
-		return fw;
 	}
 	
 	static void ecrireMonstre(FileWriter fw,Monstre m) throws IOException {
@@ -102,8 +104,8 @@ public interface Sauvegarder {
 	}
 	
 	static void ecrireJoueur(FileWriter fw, Pj joueur) throws IOException {
-		fw.write(joueur.getVision() + ";" + joueur.position + ";" + joueur.pointDeVie + ";" + joueur.getRepresentation() + ";");
-		fw.write(joueur.getMonnaie() + ";" + joueur.getRapidUse() + ";" + joueur.experience + ";" + joueur.getLevel() + ";" + joueur.getNumero());
+		fw.write(joueur.getVision() + ";" + joueur.position + ";" + joueur.pointDeVie + ";");
+		fw.write(joueur.getMonnaie() + ";" + joueur.getRapidUse() + ";" + joueur.getLevel() + ";" + joueur.experience + ";" + joueur.getNumero());
 		fw.write("\n\n#Objet " + joueur.inventory.size() + "\n");
 		for(int i = 0; i < joueur.inventory.size(); i++) {
 			ecrireObjet(fw,joueur.inventory.get(i));
