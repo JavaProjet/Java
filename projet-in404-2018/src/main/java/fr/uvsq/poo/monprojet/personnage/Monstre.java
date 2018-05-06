@@ -4,6 +4,8 @@ import java.util.Random;
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
+import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Key;
 import fr.uvsq.poo.monprojet.objets.Pile;
@@ -170,15 +172,19 @@ public class Monstre extends Personnage{
 		}
 		else {
 			Random r = new Random();
-			int val = ( r.nextInt(12 * 100) + 1 ) % 19;
-			if(val > -1 && val < 4)
+			int val = ( r.nextInt(42 * 100) + 1 ) % 42;
+			if(val > 9 && val < 21)
 				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
-			else if(val == 4)
+			else if(val == 0 || val == 1)
 				Flash.spawn(t,position);
-			else if(val > 4 && val < 7)
+			else if(val > 3 && val < 10)
 				Potion.spawn(t,pointDeVie.getDenominateur()/2,position);
-			else if(val == 7)
+			else if(val == 2 || val == 3)
 				Pile.spawn(t,position);
+			else if(val == 41)
+				Arme.spawn(t,"Massue de Gardien", ((CasseMur == true)? distance - 3 : distance - 2) + 1, position);
+			else if(val == 40)
+				Bouclier.spawn(t,"Bouclier de Gardien", ((CasseMur == true)? distance - 3 : distance - 2), position);
 			else ;
 			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 10);
 		}

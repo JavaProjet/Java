@@ -187,11 +187,13 @@ public class Terrain {
 							System.out.println("(z,q,s,d).avancer respectivement en haut, à gauche, en bas et à droite");
 							System.out.println("i.afficher/utiliser un objet de l'inventaire");
 							System.out.println("r.ramasser un objet");
+							System.out.println("save.sauvegarder la partie");
+							System.out.println("j.jeter un objet devant vous");
 							System.out.println("a.discuter avec un pnj ou un marchand");
 							System.out.println("u.assigner un raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
-							System.out.println("P : Porte\tT : Pioche\tN : Pnj\t\t% : Téléporteur (10 utilisations, se recharge avec piles)\n@/G : Monstres\t6 : Potion\t"
-											 + "* : Rubis\t! : Arme\t- : Pile(recharge le téléporteur / active le flash)\t flash : 0\n");
+							System.out.println("P : Porte\tN : Pnj\t&/@/G : Monstres\tM : Marchand\t"
+											 + "*/!/D/0/y/-/T/6/% : objets à découvrir\n");
 																			break;
 			case "i" 	:	this.inventaire(entree,s); tour();				break;
 			case "u" 	:	this.inventaire(entree,s);						break;
@@ -200,7 +202,8 @@ public class Terrain {
 							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
-			case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
+			case "j" 	: 	this.jeter(entree, s);								break;
+			//case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
 			case "save" :	;break;
 			case "hidden test" :	joueur.addMonnaie(9999); joueur.addXP(100000);
 									System.out.print(this);
@@ -237,11 +240,11 @@ public class Terrain {
 	
 	private void inventaire(Scanner entree, String s) {
 		if(joueur.inventory.isEmpty()) {
-			System.out.println("inventaire vide");
+			System.out.println(this + "inventaire vide");
 		}
 		else {
+			System.out.println(this + "entrez le numéro de l'objet choisit, ou une commande du jeu pour continuer");
 			joueur.afficherInventaire();
-			System.out.println("entrez le numéro de l'objet choisit, ou une commande du jeu pour continuer");
 			int val;
 			try {
 				val = entree.nextInt(); val--;
@@ -249,7 +252,34 @@ public class Terrain {
 					if(s.equals("i"))joueur.inventory.get(val).use(this);
 					if(s.equals("u"))joueur.setRapidUse(val);
 				}
-				else System.out.println("valeur incorrect");
+				else System.out.println(this + "valeur incorrect");
+				entree.nextLine();
+			} 
+			catch (InputMismatchException e) {}
+		}
+	}
+	
+	private void jeter(Scanner entree, String s) {
+		if(joueur.inventory.isEmpty()) {
+			System.out.println(this + "inventaire vide");
+		}
+		else if(t[joueur.devantLui.getX()][joueur.devantLui.getY()] != SOL) {
+			System.out.println(this + "vous ne pouvez pas jeter d'objet devant vous");
+		}
+		else {
+			System.out.println(this + "entrez le numéro de l'objet à jeter, ou une commande du jeu pour continuer");
+			joueur.afficherInventaire();
+			int val;
+			try {
+				val = entree.nextInt(); val--;
+				if(val > -1 && val < joueur.inventory.size()) {
+					joueur.inventory.get(val).position.setPosition(joueur.devantLui);
+					t[joueur.devantLui.getX()][joueur.devantLui.getY()] = joueur.inventory.get(val).getRepresentation();
+					objets.add(joueur.inventory.get(val));
+					joueur.inventory.remove(val);
+					System.out.print(this);
+				}
+				else System.out.println(this + "valeur incorrect");
 				entree.nextLine();
 			} 
 			catch (InputMismatchException e) {}

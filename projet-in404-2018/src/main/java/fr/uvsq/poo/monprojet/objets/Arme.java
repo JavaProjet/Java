@@ -13,7 +13,6 @@ public class Arme extends Objet{
 	
 	public Arme(String description, int niveau) {
 		super(description,'!');
-		setNomArme(new String(description));
 		this.setDamage(4 * niveau);
 		setDurability(20 * niveau);
 		setNomObjet(getNomArme());
@@ -24,7 +23,7 @@ public class Arme extends Objet{
 		boolean frappe = false;
 		for(int i = 0; i < t.monstres.size(); i++) {
 			if(t.monstres.get(i).position.equals(t.joueur.devantLui)) {
-				t.monstres.get(i).setDamage(getDamage());
+				t.monstres.get(i).setDamage(damage);
 				System.out.println(t + "vous avez infligé " + getDamage() + " damages au monstre");
 				frappe = true;
 			}

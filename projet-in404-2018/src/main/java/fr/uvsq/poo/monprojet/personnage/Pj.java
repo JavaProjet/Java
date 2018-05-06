@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Objet;
 
 public class Pj extends Personnage {
@@ -13,12 +14,13 @@ public class Pj extends Personnage {
 	public Fraction experience;
 	private int level = 1;
 	private int numero;
+	public Bouclier protection = null;
 	
 	public Pj() {
 		super();
 		inventory = new ArrayList <Objet> ();
 		representation = '>';	
-		experience = new Fraction(0,100);
+		experience = new Fraction(0,50);
 	}
 	
 	public void initEntree(Terrain t) {
@@ -49,6 +51,23 @@ public class Pj extends Personnage {
 		if(direction == 'S') this.representation = 'v';
 		if(direction == 'O') this.representation = '<';
 		if(direction == 'E') this.representation = '>';
+	}
+	
+	public boolean setDamage(int damage) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
+		int res = this.pointDeVie.getNumerateur() - damage;
+		try {
+			res -= protection.getAbsoption();
+			protection.reduceDurability(this);
+		}catch(NullPointerException e) {}
+		
+		if(res <= 0 ) {
+			this.pointDeVie.setNumerateur(0);
+			return false;
+		}
+		else {
+			this.pointDeVie.setNumerateur(res);
+			return true;
+		}
 	}
 	
 	public void discuss(Terrain t) {
@@ -103,8 +122,7 @@ public class Pj extends Personnage {
 	}
 
 	public void setLevel(int level) {
-		this.level = level - 1;
-		levelUp(0);
+		this.level = level;
 	}
 	
 	public int getNumero() {

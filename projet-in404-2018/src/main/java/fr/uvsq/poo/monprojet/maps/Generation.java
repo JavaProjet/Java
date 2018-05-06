@@ -339,75 +339,69 @@ public class Generation {
 		Y = y1 + y2 + 3;
 		Terrain t = new Terrain(x,Y, joueur);//init avec le sol 
 		t.setNumero(this.i);
-		int surface=0;
+		int surface = 0;
 		nombrevidedebut = r1.nextInt(4)+2;
 		int ii = 0;
-		while (ii<nombrevidedebut) {//initialise les vides du terrain haut
+		boolean ok;
+		while (ii < nombrevidedebut) {//initialise les vides du terrain haut
 			rx = r1.nextInt(40);
 			ry = r1.nextInt(y1);
-			int ok=0;
+			ok = false;
 			while(t.t[rx][ry + y2 + 3] != Terrain.SOL ) {
 				rx = r1.nextInt(40);
 				ry = r1.nextInt(y1);
 			}
 			if (rx < 10 || rx > 30) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
-				ii++;ok=1;
+				ii++;ok = true;
 				
 			}
 			else if (ry >= (y1 / 2)) {
 				t.t[rx][ry + y2 + 3] = Terrain.VIDE ;
-				ii++;ok=1;
-				
+				ii++;ok = true;
 			}
 			
-			if (ok==1) {
-				ok=0;
+			if(ok) {
 				for (i = 0; i < y1; i++) {
 					for(j = 0; j < x; j++) {
-						
-							if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {//verifie la case du bas
+						if (t.t[j][i - 1 + y2 + 3] == Terrain.VIDE  ) {//verifie la case du bas
+							t.t[j][i + y2 + 3] = Terrain.VIDE;
+						}	
+						if(t.correctPosition(j-1, i - 1 + y2 + 3)) {//celle du bas a gauche
+							if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
+								t.t[j][i + y2 + 3] = Terrain.VIDE;	
+							}
+						}
+						if(t.correctPosition(j+1, i - 1 + y2 + 3)) {//celle de bas a droite
+							if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
 								t.t[j][i + y2 + 3] = Terrain.VIDE;
-								
-							}	
-							if(t.correctPosition(j-1, i - 1 + y2 + 3)) {//celle du bas a gauche
-								if (t.t[j-1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-									t.t[j][i + y2 + 3] = Terrain.VIDE;
-									
-								}
 							}
-							if(t.correctPosition(j+1, i - 1 + y2 + 3)) {//celle de bas a droite
-								if (t.t[j+1][i - 1 + y2 + 3] == Terrain.VIDE  ) {
-									t.t[j][i + y2 + 3] = Terrain.VIDE;
-															}
-							}
-						
+						}
 					}
 				}
 			}
-			
 		}
 		ii = 0;
-		while (ii<nombrevidedebut) {//initialise les vides du terrain bas
+		while (ii < nombrevidedebut) {//initialise les vides du terrain bas
 			rx = r1.nextInt(40);
 			ry = r1.nextInt(y2);
-			int ok=0;
+			ok = false;
 			int k;
 			while (t.t[rx][ry] != Terrain.SOL) {
 				rx = r1.nextInt(40);
 				ry = r1.nextInt(y2);
 			}
-			if (rx < 10|| rx > 30) {
-				t.t[rx][ry ] = Terrain.VIDE ;	
-				ii++;ok=1;
+			if (rx < 10 || rx > 30) {
+				t.t[rx][ry] = Terrain.VIDE ;	
+				ii++; ok = true;
 			}
 			else if (ry <= (y2 / 2)) {
 				t.t[rx][ry] = Terrain.VIDE ;
-				ii++;ok=1;
+				ii++; ok = true;
 			}
 			
-			if(ok==1) {
-				for (k=0;k<y2;k++) {	
+			if(ok) {
+				for (k = 0; k < y2; k++) {	
 					for (i = 0; i < y2; i++) {//boucle du bas 
 						for(j = 0; j < x;j ++) {
 							
@@ -430,8 +424,7 @@ public class Generation {
 						}
 					}
 				}
-			}
-				
+			}	
 		}
 
 		surface = t.getSurface();

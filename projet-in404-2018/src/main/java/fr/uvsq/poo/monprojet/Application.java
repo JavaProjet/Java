@@ -1,6 +1,5 @@
 package fr.uvsq.poo.monprojet;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -8,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.uvsq.poo.monprojet.intro.Cinematic;
-import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.sauvegarde.Charger;
 import fr.uvsq.poo.monprojet.sauvegarde.Sauvegarder;
 
@@ -39,14 +37,16 @@ public enum Application {
 		Cinematic.clearScreen();
 		System.out.print("1.nouvelle partie\n2.charger partie\n=> ");
         int s;
+        String s2 = "";
         int ret = -1;
         try {
      	   s = entree.nextInt();
+     	   entree.nextLine();
      	   if(s == 1) {
      		   try {
-     			  System.out.println("passer l'introduction ?  (taper \"1\" pour passer)");
-     	    	  s = entree.nextInt();
-     	    	  if(s != 1)Cinematic.introduction();
+     			  System.out.println("passer l'introduction ?  (taper \"passer\" pour passer)");
+     	    	  s2 = entree.nextLine();
+     	    	  if(s2.equals("passer") == false)Cinematic.introduction();
      		   }catch(InputMismatchException e) {}
      		   
      		   ret = Charger.nouvellePartie();

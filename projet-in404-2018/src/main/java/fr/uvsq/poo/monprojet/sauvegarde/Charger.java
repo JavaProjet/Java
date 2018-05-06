@@ -12,6 +12,7 @@ import fr.uvsq.poo.monprojet.maths.fraction.Fraction;
 import fr.uvsq.poo.monprojet.maths.point.Point2D;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Key;
 import fr.uvsq.poo.monprojet.objets.Objet;
@@ -80,7 +81,6 @@ public interface Charger {
 			lireJoueur(fr);
 			fr.close();
 		} catch (IOException e) {}
-		System.out.println("\nfin Lecture joueur");
 		while(new File("Saves/" + name + "/Terrain" + i + ".txt").exists()) {
 			try {
 				fr = new FileReader("Saves/" + name + "/Terrain" + i + ".txt");
@@ -109,7 +109,6 @@ public interface Charger {
 			s += c;
 			c = (char)fr.read();
 		}
-		System.out.println(s);
 		return s;
 	}
 	static int lireEntier(FileReader fr) throws IOException {
@@ -153,16 +152,16 @@ public interface Charger {
 		t.sortie.setAutorisation(lireBoolean(fr)); 
 		t.sortie.position = lirePoint2D(fr);
 		t.setSombre(lireBoolean(fr));
-		System.out.println("Lecture monstres");
+		
 		fr.read(new char["\n#Monstres ".length()], 0, "\n#Monstres ".length()); j = lireEntier(fr);	
 		for(i = 0; i < j; i++) t.monstres.add(lireMonstre(fr));
-		System.out.println("Lecture pnj");
+		
 		fr.read(new char["\n\n#Pnj ".length()], 0, "\n\n#Pnj ".length()); j = lireEntier(fr);
 		for(i = 0; i < j; i++) t.personnage.add(lirePnj(fr));
-		System.out.println("Lecture objet");
+		
 		fr.read(new char["\n\n#Objets ".length()], 0, "\n\n#Objets ".length()); j = lireEntier(fr);
 		for(i = 0; i < j; i++) t.objets.add(lireObjet(fr));
-		System.out.println("Lecture marchand");
+		
 		fr.read(new char["\n\n#Marchand ".length()], 0, "\n\n#Marchand ".length()); j = lireEntier(fr);
 		if(j == 1) {
 			t.vendeur = new Marchand();
@@ -176,9 +175,19 @@ public interface Charger {
 		Point2D position = lirePoint2D(fr); Fraction pointDeVie = lireFraction(fr);
 		char representation = (char)fr.read(); fr.read();
 		int niveau = lireEntier(fr);
-		Monstre m = new Monstre(representation == '@', g.carte.get(g.carte.size() - 1), niveau);
-		m.pointDeVie.setFraction(pointDeVie);
-		m.position.setPosition(position);
+		Monstre m;
+		if(representation == '&') {
+			m = new Monstre(true,g.carte.get(g.carte.size() - 1),niveau);
+			m.setRepresentation('&');
+		}
+		else if (representation == '@') {
+			m = new Monstre(true,g.carte.get(g.carte.size() - 1),niveau);
+		}
+		else {
+			m = new Monstre(false,g.carte.get(g.carte.size() - 1),niveau);
+		}
+		m.pointDeVie = pointDeVie;
+		m.position = position;
 		m.setVision(vision);
 		return m;
 	}
@@ -187,8 +196,8 @@ public interface Charger {
 		char vision = (char)fr.read(); fr.read();
 		Point2D position = lirePoint2D(fr); Fraction pointDeVie = lireFraction(fr);
 		Pnj n = new Pnj();
-		n.setVision(vision);
 		n.position.setPosition(position);
+		n.setVision(vision);
 		n.pointDeVie.setFraction(pointDeVie);
 		return n;
 	}
@@ -204,8 +213,14 @@ public interface Charger {
 		}
 		else if(representation == '!') {
 			Arme o = new Arme(nomObjet, 1);
-			o.position.setPosition(position); o.setNomObjet(nomObjet);
-			o.setDamage(lireEntier(fr)); o.setDurability(lireEntier(fr)); o.setNomArme(lireString(fr));
+			o.position.setPosition(position);
+			o.setDamage(lireEntier(fr)); o.setDurability(lireEntier(fr)); o.setNomObjet(lireString(fr));
+			return o;
+		}
+		else if(representation == 'D') {
+			Bouclier o = new Bouclier(nomObjet, 1);
+			o.position.setPosition(position);
+			o.setAbsorption(lireEntier(fr)); o.setDurability(lireEntier(fr)); o.setNomObjet(lireString(fr));
 			return o;
 		}
 		else if(representation == '0') {
@@ -247,17 +262,20 @@ public interface Charger {
 	static void lireJoueur(FileReader fr) throws IOException {
 		int j;
 		g.joueur = new Pj();
-		g.joueur.setVision((char) fr.read()); fr.read();
-		g.joueur.position.setPosition(lirePoint2D(fr));
-		g.joueur.pointDeVie.setFraction(lireFraction(fr));
+		char vision = (char) fr.read(); fr.read();
+		g.joueur.position = lirePoint2D(fr);
+		g.joueur.setVision(vision); 
+		g.joueur.pointDeVie = lireFraction(fr);
 		g.joueur.addMonnaie(lireEntier(fr));
 		g.joueur.setRapidUse(lireEntier(fr));
 		g.joueur.setLevel(lireEntier(fr));
-		g.joueur.experience.setFraction(lireFraction(fr));
+		g.joueur.experience = lireFraction(fr);
 		g.joueur.setNumero(lireEntier(fr));
-		fr.read(new char[8], 0, 8); j = lireEntier(fr);
+		fr.read(new char["\n#Objets ".length()], 0, "\n#Objets ".length()); j = lireEntier(fr);
 		for(int i = 0; i < j; i++) {
-			lireObjet(fr);
+			g.joueur.addObjet(lireObjet(fr));
 		}
+		fr.read(new char["\n\n#Bouclier ".length()], 0, "\n\n#Bouclier ".length()); j = lireEntier(fr);
+		if(j != -1) g.joueur.protection = (Bouclier) g.joueur.inventory.get(j);
 	}
 }

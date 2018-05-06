@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.maps.Generation;
 import fr.uvsq.poo.monprojet.maps.Terrain;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Pj;
@@ -106,10 +107,16 @@ public interface Sauvegarder {
 	static void ecrireJoueur(FileWriter fw, Pj joueur) throws IOException {
 		fw.write(joueur.getVision() + ";" + joueur.position + ";" + joueur.pointDeVie + ";");
 		fw.write(joueur.getMonnaie() + ";" + joueur.getRapidUse() + ";" + joueur.getLevel() + ";" + joueur.experience + ";" + joueur.getNumero());
-		fw.write("\n\n#Objet " + joueur.inventory.size() + "\n");
+		fw.write("\n\n#Objets " + joueur.inventory.size() + "\n");
+		int j = -1;
 		for(int i = 0; i < joueur.inventory.size(); i++) {
 			ecrireObjet(fw,joueur.inventory.get(i));
+			try {
+				if(joueur.inventory.get(i).getClass() == Bouclier.class) 
+					if(joueur.protection == joueur.inventory.get(i))
+						j = i;
+			}catch(NullPointerException e) {}
 		}
-		fw.write("\n");
+		fw.write("\n\n#Bouclier " + j + "\n");
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.maps.Terrain;
 import fr.uvsq.poo.monprojet.objets.Arme;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Flash;
 import fr.uvsq.poo.monprojet.objets.Objet;
 import fr.uvsq.poo.monprojet.objets.Pile;
@@ -34,13 +35,17 @@ public class Marchand extends Personnage{
 		valeurAleatoire = r.nextInt(2) + 1;
 		addVente(m,new Arme("épée en bois", valeurAleatoire), 20);
 		valeurAleatoire = r.nextInt(2) + 3;
-		addVente(m,new Arme("épée en Fer", valeurAleatoire), 40);
+		addVente(m,new Arme("épée en Fer", valeurAleatoire), 50);
 		valeurAleatoire = r.nextInt(2) + 5;
-		addVente(m,new Arme("épée en Or", valeurAleatoire), 60);
-		valeurAleatoire = r.nextInt(2) + 10;
-		addVente(m,new Arme("épée en Diamand", valeurAleatoire), 120);
+		addVente(m,new Arme("épée en Or", valeurAleatoire), 80);
 		valeurAleatoire = r.nextInt(2) + 7;
-		addVente(m,new Arme("épée en Rubis", valeurAleatoire), 80);
+		addVente(m,new Arme("épée en Rubis", valeurAleatoire), 120);
+		valeurAleatoire = r.nextInt(2) + 10;
+		addVente(m,new Arme("épée en Diamand", valeurAleatoire), 200);
+		addVente(m,new Bouclier("bouclier en bois",2),40);
+		addVente(m,new Bouclier("bouclier en fer",5),80);
+		addVente(m,new Bouclier("bouclier en or",10),200);
+		addVente(m,new Bouclier("bouclier en diamand",20),350);
 	}
 	
 	private static void addVente(Marchand m,Objet o, int prix) {
