@@ -23,8 +23,14 @@ public class Arme extends Objet{
 		boolean frappe = false;
 		for(int i = 0; i < t.monstres.size(); i++) {
 			if(t.monstres.get(i).position.equals(t.joueur.devantLui)) {
-				t.monstres.get(i).setDamage(damage);
-				System.out.println(t + "vous avez infligé " + getDamage() + " damages au monstre");
+				boolean ret = t.monstres.get(i).setDamage(damage);
+				if(ret == false) {
+					t.t[t.monstres.get(i).position.getX()][t.monstres.get(i).position.getY()] = Terrain.SOL;
+					t.monstres.remove(t.monstres.get(i));
+					System.out.println(t + "Monstre : *meurt*");
+				}
+				else 
+					System.out.println(t + "points de vie du monstres : " + t.monstres.get(i).pointDeVie.toString());
 				frappe = true;
 			}
 		}

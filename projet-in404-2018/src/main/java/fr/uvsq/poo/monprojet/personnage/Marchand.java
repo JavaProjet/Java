@@ -25,32 +25,32 @@ public class Marchand extends Personnage{
 		representation = 'M';
 	}
 	
-	private static void addObjetVente(Terrain t, Marchand m) {
-		addVente(m,new Pile(),25);
-		addVente(m,new Flash(),15);
-		addVente(m,new Potion(10),15);
-		addVente(m,new Pioche(),60);
+	public void addObjetVente() {
+		addVente(new Pile(),25);
+		addVente(new Flash(),15);
+		addVente(new Potion(10),15);
+		addVente(new Pioche(),60);
 		Random r = new Random();
 		int valeurAleatoire = 0;
 		valeurAleatoire = r.nextInt(2) + 1;
-		addVente(m,new Arme("épée en bois", valeurAleatoire), 20);
+		addVente(new Arme("épée en bois", valeurAleatoire), 20);
 		valeurAleatoire = r.nextInt(2) + 3;
-		addVente(m,new Arme("épée en Fer", valeurAleatoire), 50);
+		addVente(new Arme("épée en Fer", valeurAleatoire), 50);
 		valeurAleatoire = r.nextInt(2) + 5;
-		addVente(m,new Arme("épée en Or", valeurAleatoire), 80);
+		addVente(new Arme("épée en Or", valeurAleatoire), 80);
 		valeurAleatoire = r.nextInt(2) + 7;
-		addVente(m,new Arme("épée en Rubis", valeurAleatoire), 120);
+		addVente(new Arme("épée en Rubis", valeurAleatoire), 120);
 		valeurAleatoire = r.nextInt(2) + 10;
-		addVente(m,new Arme("épée en Diamand", valeurAleatoire), 200);
-		addVente(m,new Bouclier("bouclier en bois",2),40);
-		addVente(m,new Bouclier("bouclier en fer",5),80);
-		addVente(m,new Bouclier("bouclier en or",10),200);
-		addVente(m,new Bouclier("bouclier en diamand",20),350);
+		addVente(new Arme("épée en Diamand", valeurAleatoire), 200);
+		addVente(new Bouclier("bouclier en bois",2),40);
+		addVente(new Bouclier("bouclier en fer",5),80);
+		addVente(new Bouclier("bouclier en or",10),200);
+		addVente(new Bouclier("bouclier en diamand",20),350);
 	}
 	
-	private static void addVente(Marchand m,Objet o, int prix) {
-		m.vente.add(o);
-		m.prix.add(prix);
+	private void addVente(Objet o, int prix) {
+		vente.add(o);
+		this.prix.add(prix);
 	}
 	
 	public String affiche_vente() {
@@ -95,7 +95,7 @@ public class Marchand extends Personnage{
 		p.position.setPosition(l,h);
 		p.setDevant();
 		t.t[l][h] = p.getRepresentation();
-		addObjetVente(t,p);
+		p.addObjetVente();
 		t.vendeur = p;
 	}
 }

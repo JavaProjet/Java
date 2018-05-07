@@ -165,6 +165,7 @@ public interface Charger {
 		fr.read(new char["\n\n#Marchand ".length()], 0, "\n\n#Marchand ".length()); j = lireEntier(fr);
 		if(j == 1) {
 			t.vendeur = new Marchand();
+			t.vendeur.addObjetVente();
 			t.vendeur.position.setPosition(lirePoint2D(fr));
 		}
 		return t;
@@ -189,6 +190,8 @@ public interface Charger {
 		m.pointDeVie = pointDeVie;
 		m.position = position;
 		m.setVision(vision);
+		m.setDamages(lireEntier(fr));
+		m.setDistance(lireEntier(fr));
 		return m;
 	}
 

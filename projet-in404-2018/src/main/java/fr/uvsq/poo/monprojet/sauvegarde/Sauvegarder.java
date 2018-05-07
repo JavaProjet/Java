@@ -90,7 +90,7 @@ public interface Sauvegarder {
 	
 	static void ecrireMonstre(FileWriter fw,Monstre m) throws IOException {
 		fw.write(m.getVision() + ";" + m.position + ";" + m.pointDeVie + ";" + m.getRepresentation()); //données d'un personnage
-		fw.write(";" + m.getNiveau());
+		fw.write(";" + m.getNiveau() + ";" + m.getDistance() + ";" + m.getDamages());
 		fw.write("\n");
 	}
 	

@@ -13,27 +13,24 @@ import fr.uvsq.poo.monprojet.objets.Potion;
 
 public class Monstre extends Personnage{
 	private int damage;
-	private boolean CasseMur;
 	private int distance;
 	private Terrain t;
 	
 	
 	public Monstre(boolean CasseMur,Terrain t, int niveau) {
-		this.CasseMur = CasseMur;
 		this.t = t;
-		if(this.CasseMur) {
+		if(CasseMur) {
 			this.pointDeVie.setFraction(12 * niveau, 12 * niveau);
 			damage = 3 * niveau; 
 			representation = '@';
-			distance = 3;
+			setDistance(3 + niveau);
 		}
 		else {
 			this.pointDeVie.setFraction(10 * niveau, 10 * niveau);
 			damage = 2 * niveau;
 			representation = 'G';
-			distance = 2;
+			setDistance(2 + niveau);
 		}
-		distance += niveau;
 		
 	}
 	
@@ -60,10 +57,10 @@ public class Monstre extends Personnage{
 	public char radar() {
 		if(attaque() > 0) return 'X'; //sinon il regarde si le joueur est dans son champs de vision et se deplace vers lui
 		int i, i2, j, j2;
-		i = this.position.getX() - distance; if(this.vision == 'E') i += distance - 1;
-		i2 = this.position.getX() + distance;if(this.vision == 'O') i2 -= distance + 1;
-		j = this.position.getY() - distance; if(this.vision == 'N') j += distance - 1;
-		j2 = this.position.getY() + distance;if(this.vision == 'S') j2 -= distance + 1;
+		i  = this.position.getX() - distance; if(this.vision == 'E')	i  += distance - 1;
+		i2 = this.position.getX() + distance; if(this.vision == 'O') 	i2 -= distance + 1;
+		j  = this.position.getY() - distance; if(this.vision == 'N')	j  += distance - 1;
+		j2 = this.position.getY() + distance; if(this.vision == 'S') 	j2 -= distance + 1;
 		int k = i,l = j;
 		boolean x = false, y = false;
 		Point2D p = new Point2D(0,0);
@@ -106,7 +103,7 @@ public class Monstre extends Personnage{
 			setVision('O');
 			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'O';
-				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+				else if(representation == '@' && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
 					return '#';
 				}
@@ -116,7 +113,7 @@ public class Monstre extends Personnage{
 			setVision('E');
 			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'E';
-				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+				else if(representation == '@' && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
 					return '#';
 				}
@@ -130,7 +127,7 @@ public class Monstre extends Personnage{
 			setVision('S');
 			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'S';
-				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+				else if(representation == '@' && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
 					return '#';
 				}
@@ -140,7 +137,7 @@ public class Monstre extends Personnage{
 			setVision('N');
 			if(t.correctPosition(devantLui.getX(), devantLui.getY())) {
 				if(t.t[devantLui.getX()][devantLui.getY()] == Terrain.SOL) return 'N';
-				else if(CasseMur == true && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
+				else if(this.getRepresentation() == '@' && t.t[devantLui.getX()][devantLui.getY()] == Terrain.MUR) {
 					t.t[devantLui.getX()][devantLui.getY()] = Terrain.SOL;
 					return '#';
 				}
@@ -152,8 +149,6 @@ public class Monstre extends Personnage{
 	public static void spawn(Terrain t, int niveau) {
 		Random r = new Random();
 		boolean casseMur = (r.nextInt(100)%2 == 0);
-		niveau -= r.nextInt(3);
-		if(niveau < 1) niveau = 1;
 		Monstre m = new Monstre(casseMur,t,niveau);
 		int l,h;
 		do{
@@ -182,27 +177,41 @@ public class Monstre extends Personnage{
 			else if(val == 2 || val == 3)
 				Pile.spawn(t,position);
 			else if(val == 41)
-				Arme.spawn(t,"Massue de Gardien", ((CasseMur == true)? distance - 3 : distance - 2) + 1, position);
+				Arme.spawn(t,"Massue de Gardien", ((representation == '@')? distance - 3 : distance - 2) + 1, position);
 			else if(val == 40)
-				Bouclier.spawn(t,"Bouclier de Gardien", ((CasseMur == true)? distance - 3 : distance - 2), position);
+				Bouclier.spawn(t,"Bouclier de Gardien", ((representation == '@')? distance - 3 : distance - 2), position);
 			else ;
-			t.joueur.addXP(((CasseMur == true)? distance - 3 : distance - 2) * 10);
+			t.joueur.addXP(((representation == '@')? distance - 3 : distance - 2) * 10);
 		}
 	}
 	
-	public boolean setDamage(int damage) { //si le monstre meurt un drop de rubis peut apparaitre
+	public boolean setDamage(int damage) { //si le monstre meurt un drop apparaitre
 		boolean ret = super.setDamage(damage);
 		
 		if(ret == false) {// drop possible
-			t.t[position.getX()][position.getY()] = Terrain.SOL;
-			t.monstres.remove(this);
 			drop();
 		}
 		return ret;
 	}
 	
 	public int getNiveau() {
-		if(CasseMur == true) return (distance - 3);
-		else 				 return (distance - 2);
+		if(representation == '@') return (distance - 3);
+		else 				 	  return (distance - 2);
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public int getDamages() {
+		return damage;
+	}
+
+	public void setDamages(int damage) {
+		this.damage = damage;
 	}
 }
