@@ -338,7 +338,6 @@ public class Terrain {
 		}
 		for(i = 0; i < monstres.size(); i++) {
 			char vision = monstres.get(i).radar();
-			System.out.println("return : " + vision);
 			if(vision == 'N' || vision == 'S' || vision == 'E' || vision == 'O')
 				this.deplacement(monstres.get(i),false,vision);
 		}

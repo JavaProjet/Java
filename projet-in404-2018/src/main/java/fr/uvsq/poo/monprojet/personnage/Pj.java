@@ -56,7 +56,9 @@ public class Pj extends Personnage {
 	public boolean setDamage(int damage) { //return false si le personnage est mort parce qu'il n'a plus de points de vie, true sinon
 		int res = this.pointDeVie.getNumerateur() - damage;
 		try {
-			res -= protection.getAbsoption();
+			res += protection.getAbsoption();
+			if(protection.getAbsorption() >= damage) 
+				res = this.pointDeVie.getNumerateur();
 			protection.reduceDurability(this);
 		}catch(NullPointerException e) {}
 		
@@ -64,6 +66,12 @@ public class Pj extends Personnage {
 			this.pointDeVie.setNumerateur(0);
 			return false;
 		}
+		
+		else if(res > pointDeVie.getDenominateur()) {
+			res = pointDeVie.getDenominateur();
+			return true;
+		}
+		
 		else {
 			this.pointDeVie.setNumerateur(res);
 			return true;

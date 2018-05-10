@@ -120,7 +120,6 @@ public interface Charger {
 		if(s.equals("true")) return true;
 		else if(s.equals("false")) return false;
 		else {
-			System.out.println("is not boolean : " + s);
 			System.exit(123);
 			return false;
 		}
@@ -134,7 +133,6 @@ public interface Charger {
 		return p;
 	}
 	static Terrain lireTerrain(FileReader fr) throws IOException {
-		System.out.println("Lecture Terrain");
 		int largeur = lireEntier(fr); int hauteur = lireEntier(fr);
 		Terrain t = new Terrain(largeur,hauteur,g.joueur);
 		int i,j; char c;
@@ -145,7 +143,6 @@ public interface Charger {
 				c = (char)fr.read(); //pour lire l'espace ou le \n entre chaque caractere du terrain dans le fichier
 			}
 		}
-		System.out.println("Lecture booleen");
 		t.entree = new Porte(0,0); t.sortie = new Porte(0,0);
 		t.entree.setAutorisation(lireBoolean(fr)); 
 		t.entree.position = lirePoint2D(fr); 
