@@ -121,7 +121,7 @@ public class Terrain {
 	
 	void respawnMonstre(int surface) {
 		while(monstres.size() < surface / 100) {
-			Monstre.spawn(this, getNumero() / 4);
+			Monstre.spawn(this, numero/4 + 1);
 		}
 	}
 	

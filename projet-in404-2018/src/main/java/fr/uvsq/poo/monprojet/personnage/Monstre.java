@@ -23,13 +23,13 @@ public class Monstre extends Personnage{
 			this.pointDeVie.setFraction(12 * niveau, 12 * niveau);
 			damage = 3 * niveau; 
 			representation = '@';
-			setDistance(3 + niveau);
+			distance = 3 + niveau;
 		}
 		else {
 			this.pointDeVie.setFraction(10 * niveau, 10 * niveau);
 			damage = 2 * niveau;
 			representation = 'G';
-			setDistance(2 + niveau);
+			distance = 2 + niveau;
 		}
 		
 	}
@@ -149,6 +149,7 @@ public class Monstre extends Personnage{
 	public static void spawn(Terrain t, int niveau) {
 		Random r = new Random();
 		boolean casseMur = (r.nextInt(100)%2 == 0);
+		if(niveau <= 0) niveau = 1;
 		Monstre m = new Monstre(casseMur,t,niveau);
 		int l,h;
 		do{

@@ -136,7 +136,7 @@ public class Generation {
 		}
 	}
 	
-	public void addRandomMonstre(Terrain t, int niveau,int surface) {
+	public void addRandomMonstre(Terrain t,int surface) {
 		t.respawnMonstre(surface);
 	}
 	
@@ -162,7 +162,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
 		addRandomPnj(t); addMarchand(t);
-		addRandomMonstre(t,i/4 + 1,(t.getHauteur() * t.getLargeur()));
+		addRandomMonstre(t,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
@@ -185,7 +185,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,(t.getHauteur() * t.getLargeur()));
 		addRandomPnj(t); addMarchand(t);
-		addRandomMonstre(t,i/4 + 1,(t.getHauteur() * t.getLargeur()));
+		addRandomMonstre(t,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
@@ -219,7 +219,7 @@ public class Generation {
 		addMur(t,surface);
 		addRandomPnj(t);
 		addMarchand(t);
-		addRandomMonstre(t,this.i/4 + 1,surface);
+		addRandomMonstre(t,surface);
 		//##//
 		return t;
 	}
@@ -252,7 +252,7 @@ public class Generation {
 		//ajout aléatoire des pnj/objets
 		addMur(t,surface);
 		addRandomPnj(t); if(i%2 == 0)addMarchand(t);
-		addRandomMonstre(t,this.i/4 + 1,surface);
+		addRandomMonstre(t,surface);
 		//##//
 		return t;
 	}
@@ -440,7 +440,7 @@ public class Generation {
 		addMur(t,(surface));
 		addRandomPnj(t);
 		addMarchand(t);
-		addRandomMonstre(t,this.i/4 + 1,(t.getHauteur() * t.getLargeur()));
+		addRandomMonstre(t,(t.getHauteur() * t.getLargeur()));
 		//##//
 		return t;
 	}
