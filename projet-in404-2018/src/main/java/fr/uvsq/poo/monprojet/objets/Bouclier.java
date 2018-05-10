@@ -16,6 +16,13 @@ public class Bouclier extends Objet{
 		setNomObjet(name);
 	}
 	
+	public Bouclier(String name, int absorption, int durability) {
+		super(name,'D');
+		this.absorption = absorption;
+		this.durability = durability;
+		setNomObjet(name);
+	}
+	
 	public static void spawn(Terrain t,String name, int niveau, Point2D position) {
 		Bouclier a = new Bouclier(name, niveau);
 		a.position.setPosition(position);
@@ -41,6 +48,7 @@ public class Bouclier extends Objet{
 		if(durability == 0) {
 			joueur.protection = null;
 			joueur.inventory.remove(this);
+			
 		}
 	}
 	
@@ -70,10 +78,7 @@ public class Bouclier extends Objet{
 	}
 	
 	public Bouclier clone() {
-		Bouclier b = new Bouclier(" ",1);
-		b.setNomObjet(nomBouclier);
-		b.setAbsorption(absorption);
-		b.setDurability(durability);
+		Bouclier b = new Bouclier(new String(nomBouclier),absorption,durability);
 		return b;
 	}
 	
