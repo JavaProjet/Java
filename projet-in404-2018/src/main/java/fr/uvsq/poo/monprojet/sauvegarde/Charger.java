@@ -80,6 +80,7 @@ public interface Charger {
 			fr = new FileReader("Saves/" + name + "/joueur.txt");
 			lireJoueur(fr);
 			fr.close();
+			new File("Saves/" + name + "/joueur.txt").delete();
 		} catch (IOException e) {}
 		while(new File("Saves/" + name + "/Terrain" + i + ".txt").exists()) {
 			try {
@@ -87,10 +88,12 @@ public interface Charger {
 				g.carte.add(lireTerrain(fr));
 				g.carte.get(i).setNumero(i);
 				fr.close();
+				new File("Saves/" + name + "/Terrain" + i + ".txt").delete();
 				i++;
 			} catch (IOException e) {}	
 		}
 		g.connection();
+		(new File("Saves/" + name)).delete();
 	}
 	
 	public static int chargerPartie() {

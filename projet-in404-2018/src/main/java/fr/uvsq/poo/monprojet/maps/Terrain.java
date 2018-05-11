@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
+import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.objets.Argent;
 import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Objet;
@@ -158,6 +159,7 @@ public class Terrain {
 		if(joueur.pointDeVie.getNumerateur() == 0) {
 			t[joueur.position.getX()][joueur.position.getY()] = '~';
 			System.out.println(this);
+			Cinematic.gameOver();
 			return 1;
 		}
 		else if(changerTerrain) {
@@ -166,7 +168,10 @@ public class Terrain {
 		else if(s.equals("save")) {
 			return 2;
 		}
-		else return 0;
+		else if(fin == true) {
+			Cinematic.fin();
+		}
+		return 0;
 	}
 	
 	private void action(String s, Scanner entree) {
