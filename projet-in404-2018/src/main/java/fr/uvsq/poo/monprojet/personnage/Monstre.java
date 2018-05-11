@@ -168,7 +168,7 @@ public class Monstre extends Personnage{
 		}
 		else {
 			Random r = new Random();
-			int val = r.nextInt(23);
+			int val = r.nextInt(23 * 2);
 			if(val > 9 && val < 21)
 				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
 			else if(val == 0 || val == 1)

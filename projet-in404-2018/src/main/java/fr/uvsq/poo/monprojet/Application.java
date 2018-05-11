@@ -25,7 +25,8 @@ public enum Application {
 
     public void run(String[] args) {
         logger.trace("Début du programme");
-       /* Fenetre F = new Fenetre();
+      
+        /* Fenetre F = new Fenetre();
         boolean go = false;
 		do{
 			go = F.getGo();
@@ -59,6 +60,8 @@ public enum Application {
         
         if(ret == 2)Sauvegarder.sauvegarderPartie(Charger.g);
         else if(ret == -1) System.out.println("fermeture du programme suite à une erreur");
+        else if(ret == 0) Cinematic.fin();
+        else if(ret == 1) Cinematic.gameOver();
         entree.close();
        
         

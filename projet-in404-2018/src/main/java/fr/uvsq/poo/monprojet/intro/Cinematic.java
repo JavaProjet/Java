@@ -100,5 +100,23 @@ public interface Cinematic {
 		String s5 = "|_____| |_|  |_| |_|     |_| |______|     |_______|   \\____/   |______| |_| \\_\\   \n";
 		System.out.println( s1 + s2 + s3 + s4 + s5);
 	}
+
+	public static void fin() {
+		clearScreen();
+		@SuppressWarnings("resource")
+		Scanner line = new Scanner(System.in);
+		System.out.println("vous remarquez la présence d'une sorte de réceptacle et vous vous apercevez que le téléporteur réagit.\nVous le sortez et le posez dessus"
+						+  ", celui-ci se met à briller et vous aveugle. Quelques secondes plus tard, vous vous retrouvez dehors, avec le téléporteur...\n"
+						+  "Appuyez sur entrée pour continuer");
+		line.nextLine();
+		clearScreen();
+		
+		String s1 = " ______   _______   ___    _\n";
+		String s2 = "|  ____| |__   __| |   \\  | |\n";
+		String s3 = "| |__|      | |    | |\\ \\ | |\n";
+		String s4 = "| |       __| |__  | | \\ \\| |\n";
+		String s5 = "|_|      |_______| |_|  \\___|\n";
+		System.out.println( s1 + s2 + s3 + s4 + s5);
+	}
 	
 }

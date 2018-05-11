@@ -44,6 +44,7 @@ public class Bouclier extends Objet{
 	
 	public void reduceDurability(Pj joueur) {
 		durability--;
+		setNomObjet(nomBouclier);
 		if(durability == 0) {
 			joueur.protection = null;
 			joueur.inventory.remove(this);

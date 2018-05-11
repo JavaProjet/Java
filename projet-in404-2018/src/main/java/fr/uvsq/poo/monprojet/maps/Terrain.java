@@ -5,9 +5,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import fr.uvsq.poo.monprojet.personnage.Pnj;
-import fr.uvsq.poo.monprojet.intro.Cinematic;
 import fr.uvsq.poo.monprojet.objets.Argent;
+import fr.uvsq.poo.monprojet.objets.Bouclier;
 import fr.uvsq.poo.monprojet.objets.Objet;
+import fr.uvsq.poo.monprojet.objets.Teleporteur;
 import fr.uvsq.poo.monprojet.personnage.Marchand;
 import fr.uvsq.poo.monprojet.personnage.Monstre;
 import fr.uvsq.poo.monprojet.personnage.Personnage;
@@ -137,16 +138,18 @@ public class Terrain {
 	
 	//variables utilisées pour la méthode play() et les autres methodes qu'elle appelle.
 	private boolean changerTerrain; //si l'on va dans une porte, ce booleen s'en souvient pour changer de terrain
+	private static boolean fin = false;
 	//###//
 	
 	public int play() {
-		if(getNumero() != 0)respawnMonstre(getSurface());
-		joueur.setNumero(getNumero());
+		if(numero != 0 && numero != 21)respawnMonstre(getSurface());
+		joueur.setNumero(numero);
 		System.out.println(this);
 		changerTerrain = false;
 		Scanner entree = new Scanner(System.in);
 		String s = new String();
-		while(s.equals("stop") == false && s.equals("save") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0) {
+		
+		while(s.equals("stop") == false && s.equals("save") == false && changerTerrain == false && joueur.pointDeVie.getNumerateur() != 0 && fin == false) {
 			s = "";
 			s += entree.nextLine();
 			this.action(s,entree);
@@ -155,7 +158,6 @@ public class Terrain {
 		if(joueur.pointDeVie.getNumerateur() == 0) {
 			t[joueur.position.getX()][joueur.position.getY()] = '~';
 			System.out.println(this);
-			Cinematic.gameOver();
 			return 1;
 		}
 		else if(changerTerrain) {
@@ -206,14 +208,24 @@ public class Terrain {
 			case "r" 	: 	this.ramasser();								break;
 			case "j" 	: 	this.jeter(entree, s);							break;
 			case "wait" :	tour(); System.out.print(this);					break;
-			//case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
 			case "save" :	;break;
-			case "hidden test" :	joueur.addMonnaie(10039); joueur.addXP(100000);
+			case "hidden test" :	joueur.addMonnaie(10039); 
+									joueur.addXP(100000);
 									System.out.print(this);
 																			break;
 			default 	: 	if(s.equals("stop") == false && s.length() != 42)
 								System.out.println(this + "entrez help pour obtenir des informations et les commandes\n elle a la réponse à tout ;)");
 																			break;	
+		}
+		
+		if(correctPosition(joueur.devantLui.getX(),joueur.devantLui.getY())) {
+			if(t[joueur.devantLui.getX()][joueur.devantLui.getY()] == ']') {
+				for(int i = 0; i < joueur.inventory.size(); i++) {
+					if(joueur.inventory.get(i).getClass() == Teleporteur.class) {
+						fin = true;
+					}
+				}	
+			}
 		}
 		
 		if(s.length() == 42) {
@@ -277,8 +289,12 @@ public class Terrain {
 				val = entree.nextInt(); val--;
 				if(val > -1 && val < joueur.inventory.size()) {
 					joueur.inventory.get(val).position.setPosition(joueur.devantLui);
-					t[joueur.devantLui.getX()][joueur.devantLui.getY()] = joueur.inventory.get(val).getRepresentation();
-					objets.add(joueur.inventory.get(val));
+					addObjet(joueur.inventory.get(val));
+					if(joueur.inventory.get(val).getClass() == Bouclier.class) {//si le bouclier protège le joueur on l'enlève de l'équipement
+						if(joueur.inventory.get(val) == joueur.protection) {
+							joueur.protection = null;
+						}
+					}
 					joueur.inventory.remove(val);
 					System.out.print(this);
 				}

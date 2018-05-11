@@ -15,6 +15,7 @@ public class Key extends Objet{
 				if(t.joueur.devantLui.equals(t.sortie.position)) {
 					t.sortie.setAutorisation(true);
 					t.joueur.inventory.remove(this);
+					System.out.println(t + "La porte menant au temple est désormais ouverte");
 				}
 				else {
 					System.out.println(t + "Cette porte est déjà ouverte");
