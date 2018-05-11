@@ -23,8 +23,7 @@ public class Pile extends Objet{
 	public static void spawn(Terrain t, Point2D position) {
 		Pile a = new Pile();
 		a.position.setPosition(position);
-		t.objets.add(a);
-		t.t[position.getX()][position.getY()] = a.getRepresentation();
+		t.addObjet(a);
 	}
 	
 	public Pile clone() {

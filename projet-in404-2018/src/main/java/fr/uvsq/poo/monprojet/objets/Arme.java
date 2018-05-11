@@ -25,7 +25,9 @@ public class Arme extends Objet{
 			if(t.monstres.get(i).position.equals(t.joueur.devantLui)) {
 				boolean ret = t.monstres.get(i).setDamage(damage);
 				if(ret == false) {
-					t.t[t.monstres.get(i).position.getX()][t.monstres.get(i).position.getY()] = Terrain.SOL;
+					if(t.t[t.monstres.get(i).position.getX()][t.monstres.get(i).position.getY()] == t.monstres.get(i).getRepresentation()) {
+						t.t[t.monstres.get(i).position.getX()][t.monstres.get(i).position.getY()] = Terrain.SOL;
+					}
 					t.monstres.remove(t.monstres.get(i));
 					System.out.println(t + "Monstre : *meurt*");
 				}
@@ -43,7 +45,7 @@ public class Arme extends Objet{
 		nomObjet = new String(getNomArme() + " " + getDamage() + " damages, (" + getDurability() + "use)");
 	}
 	
-	public static Arme spawn(Terrain t,String description, int niveau) {
+	public static void spawn(Terrain t,String description, int niveau) {
 		Random r1 = new Random();
 		Arme a = new Arme(description, niveau);
 		int l,h;
@@ -51,18 +53,13 @@ public class Arme extends Objet{
 			l = r1.nextInt(t.getLargeur());
 			h = r1.nextInt(t.getHauteur());
 		}while(t.t[l][h] != Terrain.SOL);
-		a.position.setPosition(l,h);
-		t.t[l][h] = a.getRepresentation();
-		t.objets.add(a);
-		return a;
+		t.addObjet(a);
 	}
 	
-	public static Arme spawn(Terrain t,String description, int niveau, Point2D position) {
+	public static void spawn(Terrain t,String description, int niveau, Point2D position) {
 		Arme a = new Arme(description,niveau);
 		a.position.setPosition(position);
-		t.t[position.getX()][position.getY()] = a.getRepresentation();
-		t.objets.add(a);
-		return a;
+		t.addObjet(a);
 	}
 	
 	public Arme clone() {

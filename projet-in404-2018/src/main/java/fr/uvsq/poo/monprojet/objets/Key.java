@@ -29,12 +29,10 @@ public class Key extends Objet{
 		}
 	}
 	
-	public static Key spawn(Terrain t, Point2D position) {
+	public static void spawn(Terrain t, Point2D position) {
 		Key p = new Key();
 		p.position.setPosition(position);
-		t.t[position.getX()][position.getY()] = p.getRepresentation();
-		t.objets.add(p);
-		return p;
+		t.addObjet(p);
 	}
 	
 	public String toString() {

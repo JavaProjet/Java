@@ -15,7 +15,7 @@ public class Teleporteur extends Objet{
 		setDurability(10);
 	}
 	
-	public static Teleporteur spawn(Terrain t) {
+	public static void spawn(Terrain t) {
 		Random r1 = new Random();
 		Teleporteur o = new Teleporteur();
 		int l,h;
@@ -24,9 +24,7 @@ public class Teleporteur extends Objet{
 			h = r1.nextInt(t.getHauteur());
 		}while(t.t[l][h] != Terrain.SOL);
 		o.position.setPosition(l,h);
-		t.t[l][h] = o.getRepresentation();
-		t.objets.add(o);
-		return o;
+		t.addObjet(o);
 	}
 	
 	public void use(Terrain t) {

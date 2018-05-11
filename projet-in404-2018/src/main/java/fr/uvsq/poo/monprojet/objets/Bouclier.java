@@ -26,8 +26,7 @@ public class Bouclier extends Objet{
 	public static void spawn(Terrain t,String name, int niveau, Point2D position) {
 		Bouclier a = new Bouclier(name, niveau);
 		a.position.setPosition(position);
-		t.objets.add(a);
-		t.t[position.getX()][position.getY()] = a.getRepresentation();
+		t.addObjet(a);
 	}
 	
 	public void use(Terrain t) {

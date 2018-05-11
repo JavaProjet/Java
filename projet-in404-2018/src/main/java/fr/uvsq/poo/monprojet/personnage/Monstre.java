@@ -168,7 +168,7 @@ public class Monstre extends Personnage{
 		}
 		else {
 			Random r = new Random();
-			int val = ( r.nextInt(42 * 100) + 1 ) % 42;
+			int val = r.nextInt(23);
 			if(val > 9 && val < 21)
 				Argent.spawn(t, this.position, this.pointDeVie.getDenominateur());
 			else if(val == 0 || val == 1)
@@ -177,9 +177,9 @@ public class Monstre extends Personnage{
 				Potion.spawn(t,pointDeVie.getDenominateur()/2,position);
 			else if(val == 2 || val == 3)
 				Pile.spawn(t,position);
-			else if(val == 41)
+			else if(val == 22)
 				Arme.spawn(t,"Massue de Gardien", ((representation == '@')? distance - 3 : distance - 2) + 1, position);
-			else if(val == 40)
+			else if(val == 21)
 				Bouclier.spawn(t,"Bouclier de Gardien", ((representation == '@')? distance - 3 : distance - 2), position);
 			else ;
 			t.joueur.addXP(((representation == '@')? distance - 3 : distance - 2) * 10);

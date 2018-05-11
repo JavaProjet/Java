@@ -28,12 +28,10 @@ public class Pioche extends Objet{
 		return p;
 	}
 	
-	public static Pioche spawn(Terrain t,Point2D position) {
+	public static void spawn(Terrain t,Point2D position) {
 		Pioche p = new Pioche();
 		p.position.setPosition(position);
-		t.t[position.getX()][position.getY()] = p.getRepresentation();
-		t.objets.add(p);
-		return p;
+		t.addObjet(p);
 	}
 	
 	public void use(Terrain t) {

@@ -192,6 +192,8 @@ public class Terrain {
 							System.out.println("a.discuter avec un pnj ou un marchand");
 							System.out.println("u.assigner un raccourci vers un Nième objet de l'inventaire, N -> votre choix   (1 au départ)");
 							System.out.println("e.utiliser l'objet à l'emplacement N de votre inventaire");
+							System.out.println("save.sauvegarder");
+							System.out.println("wait.faire passer un tour et ne rien faire");
 							System.out.println("P : Porte\tN : Pnj\t&/@/G : Monstres\tM : Marchand\t"
 											 + "*/!/D/0/y/-/T/6/% : objets à découvrir\n");
 																			break;
@@ -202,10 +204,11 @@ public class Terrain {
 							tour();
 																			break;
 			case "r" 	: 	this.ramasser();								break;
-			case "j" 	: 	this.jeter(entree, s);								break;
+			case "j" 	: 	this.jeter(entree, s);							break;
+			case "wait" :	tour(); System.out.print(this);					break;
 			//case "-s"	:	setSombre(!isSombre()); System.out.print(this);	break;
 			case "save" :	;break;
-			case "hidden test" :	joueur.addMonnaie(9999); joueur.addXP(100000);
+			case "hidden test" :	joueur.addMonnaie(10039); joueur.addXP(100000);
 									System.out.print(this);
 																			break;
 			default 	: 	if(s.equals("stop") == false && s.length() != 42)
@@ -357,5 +360,10 @@ public class Terrain {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+	
+	public void addObjet(Objet o) {
+		objets.add(o);
+		t[o.position.getX()][o.position.getY()] = o.getRepresentation();
 	}
 }

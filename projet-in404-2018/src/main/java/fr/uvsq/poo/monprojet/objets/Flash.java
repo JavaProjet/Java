@@ -27,8 +27,7 @@ public class Flash extends Objet{
 	public static void spawn(Terrain t, Point2D position) {
 		Flash a = new Flash();
 		a.position.setPosition(position);
-		t.objets.add(a);
-		t.t[position.getX()][position.getY()] = a.getRepresentation();
+		t.addObjet(a);
 	}
 	
 	public Flash clone() {

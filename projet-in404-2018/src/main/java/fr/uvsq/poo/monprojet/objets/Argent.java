@@ -18,8 +18,7 @@ public class Argent extends Objet{
 	public static void spawn(Terrain t, Point2D position, int valeur) {
 		Argent a = new Argent(valeur);
 		a.position.setPosition(position);
-		t.objets.add(a);
-		t.t[position.getX()][position.getY()] = a.getRepresentation();
+		t.addObjet(a);
 	}
 	
 	public void use(Terrain t) {

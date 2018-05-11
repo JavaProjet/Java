@@ -19,12 +19,10 @@ public class Potion extends Objet {
 		System.out.println(t + "vos points de vies ont été régénérés");
 	}
 	
-	public static Potion spawn(Terrain t, int PV, Point2D position) {
+	public static void spawn(Terrain t, int PV, Point2D position) {
 		Potion p = new Potion(PV);
 		p.position.setPosition(position);
-		t.t[position.getX()][position.getY()] = p.getRepresentation();
-		t.objets.add(p);
-		return p;
+		t.addObjet(p);
 	}
 	
 	public Potion clone() {
