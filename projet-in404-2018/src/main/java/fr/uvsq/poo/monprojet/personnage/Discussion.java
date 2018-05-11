@@ -70,7 +70,7 @@ public interface Discussion {
 		
 	}
 
-	public static void discuss1(Terrain T) throws InputMismatchException{ //met les accents, ils s'affichent sur le terminal ;)
+	public static void discuss1(Terrain T) throws InputMismatchException{ //salles jusqu'à 5
 		@SuppressWarnings("resource")
 		Scanner discute = new Scanner(System.in);
 		Random r = new Random();
@@ -127,7 +127,7 @@ public interface Discussion {
 			}
 		}
 	}
-	public static void discuss2(Terrain T) throws InputMismatchException {
+	public static void discuss2(Terrain T) throws InputMismatchException { //salles 5à10
 		@SuppressWarnings("resource")
 		Scanner discute = new Scanner(System.in);
 		Random r = new Random();
@@ -169,6 +169,54 @@ public interface Discussion {
 			}
 		}
 	}
+	
+	public static void discuss3(Terrain T) { //Salles 10à15
+		@SuppressWarnings("resource")
+		Scanner discute = new Scanner(System.in);
+		Random r = new Random();
+		int rand = -1; rand = r.nextInt(4);
+		if(rand == 0){
+			System.out.println("Rares sont les aventuriers arriv고jusqu'ici.");
+		}
+		if(rand == 1) {
+			System.out.println("La route pour percer le secret de cette grotte est encore longue.");
+		}
+		if(rand == 2) {
+			System.out.println("Bonjour !");
+		}
+		if(rand == 3) {
+			System.out.println("Bonjour aventurier ! As-tu trouv顬e tꭩporteur?");
+			System.out.println("1- Oui !");
+			System.out.println("2- Non, je suis ࡳa recherche..");
+			int reponse = discute.nextInt();
+			if(reponse == 1) {
+				System.out.println("Cet outil est formidable");
+			}
+			else if(reponse == 2) {
+				System.out.println("On dit qu'il faut avoir le tꭩporteur pour sortir de cette grotte... ");
+			}
+		}
+		if(rand == 4) {
+			System.out.println("Je pense qu'il y a peu de chances que tu trouves le tꭩporteur apr鳠cette salle"
+					+ "mais ce n'est que mon avis.");
+		}
+		
+	}
+	
+	public static void discuss4(Terrain T) { //Salles 15à20
+		Random r = new Random();
+		int rand = -1; rand = r.nextInt(3);
+		if(rand == 0){
+			System.out.println("Bien joué! Tu es presque arrivé à ton but");
+		}
+		if(rand == 1) {
+			System.out.println("Tiens ! ça fait un moment que je n'ai pas vu autre chose que des monstres par ici!");
+		}
+		if(rand == 2) {
+			System.out.println("La fin de la grotte n'est plus très loin d'ici.");
+		}
+	}
+	
 }
 
 
