@@ -296,9 +296,11 @@ public class Terrain {
 					joueur.inventory.get(val).position.setPosition(joueur.devantLui);
 					addObjet(joueur.inventory.get(val));
 					if(joueur.inventory.get(val).getClass() == Bouclier.class) {//si le bouclier protège le joueur on l'enlève de l'équipement
-						if(joueur.inventory.get(val) == joueur.protection) {
-							joueur.protection = null;
-						}
+						try{
+							if(joueur.inventory.get(val) == joueur.protection) {
+								joueur.protection = null;
+							}
+						}catch(NullPointerException e) {}
 					}
 					joueur.inventory.remove(val);
 					System.out.print(this);
